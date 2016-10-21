@@ -1,14 +1,5 @@
-`define ZeroNum 16'b0
-`define ZeroAddr 16'b0
-`define INST_NOP 16'b0000100000000000
-`define ZeroInst INST_NOP
-
-`define InstAddrBus 16:0
-`define InstMemNum 131071
-`define InstMemLog2 17
-
 `define RstEnable 1'b1
-`defime RstDisable 0'b1
+`define RstDisable 1'b0
 
 `define WriteEnable 1'b1
 `define WriteDisable 1'b0
@@ -16,12 +7,48 @@
 `define ReadEnable 1'b1
 `define ReadDisable 1'b1
 
-`define InstValid 1'b0
-`define InstInvalid 1'b1
-
 `define ChipEnable 1'b1
 `define ChipDisable 1'b0
 
+//word
+`define WordLength 16
+`define WordBus `WordLength-1:0
+`define ZeroWord `WordLength-1'b0
+
+//data
+`define DataAddrBus `WordBus
+`define DataBus `WordBus
+`define ZeroData `ZeroWord
+`define ZeroDataAddr `ZeroWord
+
+//inst_mem
+`define InstValid 1'b0
+`define InstInvalid 1'b1
+`define InstAddrBus `WordBus
+`define InstBus `WordBus
+`define InstMemNum 32767
+`define InstMemNumLog2 15
+`define ZeroInst `ZeroWord
+`define ZeroInstAddr `ZeroWord
+
+//regs 
+//R0-R7 000-111
+`define RegNum 8
+`define RegNumLog2 3
+`define RegAddrBus `RegNumLog2-1:0
+//`define RegBus `RegNum-1:0
+
+//ex
+`define AluOpBus 3:0
+`define AluSelBus 3:0 
+
+`define EXE_OP_NOP 4'b0000
+`define EXE_OP_ADD 4'b0001
+
+`define EXE_SEL_NOP 4'b0000
+`define EXE_SEL_ADD 4'b0001
+
+//ops
 `define OP_ADDSP3	00000
 `define OP_NOP		00001
 `define OP_B		00010

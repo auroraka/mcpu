@@ -17,8 +17,10 @@ end
 
 always @ (posedge clk) begin
 	if (ce <= `ChipDisable) begin
-		pc<=`ZeroWord;
+		pc<=`ZeroInst;
 	end else begin
 		pc<=pc+4'h2;
 	end
 end
+
+endmodule

@@ -1,6 +1,0 @@
-<NotepadPlus>
-    <Project name="misledom">
-        <File name="defines.v" />
-        <File name="inst_rom.v" />
-    </Project>
-</NotepadPlus>

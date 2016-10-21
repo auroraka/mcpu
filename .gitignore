@@ -1,0 +1,4 @@
+src/work/**
+*.cr.mti
+*.mpf
+*.wlf
