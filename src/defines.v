@@ -38,17 +38,73 @@
 `define RegAddrBus `RegNumLog2-1:0
 //`define RegBus `RegNum-1:0
 
-//ex
+//ops id send to ex
 `define AluOpBus 3:0
 `define AluSelBus 3:0 
+//nop
+`define EXE_OP_NOP		3'b000
+`define EXE_OP_NOP		3'b001
+//reg
+`define EXE_OP_LI		3'b000
+`define EXE_OP_MFIH		3'b001
+`define EXE_OP_MFPC		3'b010
+`define EXE_OP_MOVE		3'b011
+`define EXE_OP_MTIH		3'b100
+`define EXE_OP_MTSP		3'b101
+//jump
+`define EXE_OP_B		3'b000
+`define EXE_OP_BEQZ		3'b001
+`define EXE_OP_BNEZ		3'b010
+`define EXE_OP_BTEQZ	3'b011
+`define EXE_OP_BTNEQ	3'b100
+`define EXE_OP_JALR		3'b101
+`define EXE_OP_JR		3'b110
+`define EXE_OP_JRRA		3'b111
+//lw
+`define EXE_OP_LW		3'b000
+`define EXE_OP_LW_SP	3'b001
+`define EXE_OP_SW		3'b010
+`define EXE_OP_SW_RS	3'b011
+`define EXE_OP_SW_SP	3'b100
+//cmp
+`define EXE_OP_CMP		3'b000
+`define EXE_OP_CMPI		3'b001
+`define EXE_OP_SLT		3'b010
+`define EXE_OP_SLTI		3'b011
+`define EXE_OP_SLTU		3'b101
+`define EXE_OP_SLTUI	3'b110
+//logic
+`define EXE_OP_AND		3'b000
+`define EXE_OP_NEG		3'b001
+`define EXE_OP_NOT		3'b010
+`define EXE_OP_OR		3'b011
+`define EXE_OP_XOR		3'b100
+//shift
+`define EXE_OP_SLL		3'b000
+`define EXE_OP_SLLV		3'b001
+`define EXE_OP_SRA		3'b010
+`define EXE_OP_SRAV		3'b011
+`define EXE_OP_SRL		3'b101
+`define EXE_OP_SRLV		3'b110
+//arith
+`define EXE_OP_SUBU		3'b000
+`define EXE_OP_ADDIU	3'b001
+`define EXE_OP_ADDIU3	3'b010
+`define EXE_OP_ADDSP3	3'b011
+`define EXE_OP_ADDSP	3'b100
+`define EXE_OP_ADDU		3'b101
 
-`define EXE_OP_NOP 4'b0000
-`define EXE_OP_ADD 4'b0001
+//sels id send to ex
+`define EXE_SEL_SPECIAL	3'b000
+`define EXE_SEL_REG		3'b001
+`define EXE_SEL_JUMP	3'b010
+`define EXE_SEL_LW		3'b011
+`define EXE_SEL_CMP		3'b100
+`define EXE_SEL_LOGIC	3'b101
+`define EXE_SEL_SHIFT	3'b110
+`define EXE_SEL_ARITH	3'b111
 
-`define EXE_SEL_NOP 4'b0000
-`define EXE_SEL_ADD 4'b0001
-
-//ops
+//mips16 instrcution sets( split into op0123)
 `define OP_ADDSP3	00000
 `define OP_NOP		00001
 `define OP_B		00010
