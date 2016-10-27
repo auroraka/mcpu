@@ -1,0 +1,2 @@
+在inst.s中写汇编指令
+运行make生成mcpu使用的rom_inst_MSB.data二进制指令文件
