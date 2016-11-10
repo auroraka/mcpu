@@ -36,7 +36,7 @@
 `define RegNum 8
 `define RegNumLog2 3
 `define RegAddrBus `RegNumLog2-1:0
-//`define RegBus `RegNum-1:0
+`define ZeroRegAddr `RegNumLog2-1'b0
 
 //ops id send to ex
 `define AluOpBus 3:0
@@ -159,14 +159,15 @@
 `define OP1_ADDSP	011
 `define OP1_MTSP	100
 
-`define OP3_ADDU 01
-`define OP3_SUBU 11
+`define OP4_ADDU 01
+`define OP4_SUBU 11
 
 `define OP2_JR 		000
 `define OP2_JRRA 	001
 `define OP2_MFPC	010
 `define OP2_JALR	110
 
+`define OP3_JR		00000
 `define OP3_SLT		00010
 `define OP3_SLTU	00011
 `define OP3_SLLV	00100
