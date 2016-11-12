@@ -2,3 +2,4 @@ src/work/**
 *.cr.mti
 *.mpf
 *.wlf
+.DS_Store
