@@ -23,6 +23,10 @@ constant ReadDisable : STD_lOGIC := '1' ;
 constant ChipEnable : STD_lOGIC := '0' ;
 constant ChipDisable : STD_lOGIC := '1' ;
 
+-- stallreq stall or not stsll ;
+constant StallYes : STD_lOGIC := '0' ; 
+constant StallNo : STD_lOGIC := '1' ;
+
 --word
 subtype Word is STD_lOGIC_VECTOR (15 downto 0) ;
 subtype WordBus is STD_lOGIC_VECTOR(15 downto 0) ;
