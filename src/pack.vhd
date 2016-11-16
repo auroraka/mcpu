@@ -57,6 +57,18 @@ constant ZeroInstAddr : Word := "0000000000000000" ;
 --constant RegNumLog2 : INTEGER := 4 ;
 subtype RegAddrBus is STD_lOGIC_VECTOR (3 downto 0) ;
 constant ZeroRegAddr : RegAddrBus := "0000" ;
+constant Reg0_Addr : RegAddrBus := "0000" ;
+constant Reg1_Addr : RegAddrBus := "0001" ;
+constant Reg2_Addr : RegAddrBus := "0010" ;
+constant Reg3_Addr : RegAddrBus := "0011" ;
+constant Reg4_Addr : RegAddrBus := "0100" ;
+constant Reg5_Addr : RegAddrBus := "0101" ;
+constant Reg6_Addr : RegAddrBus := "0110" ;
+constant Reg7_Addr : RegAddrBus := "0111" ;
+constant SP_Addr : RegAddrBus := "1000" ;
+constant PC_Addr : RegAddrBus := "1001" ;
+constant IH_Addr : RegAddrBus := "1010" ;
+constant T_Addr : RegAddrBus := "1011" ;
 
 --ops id send to ex
 subtype AluOpBus is STD_lOGIC_VECTOR(3 downto 0) ;
@@ -88,6 +100,7 @@ constant EXE_OP_LW	: EXE_OP := "000" ;
 constant EXE_OP_LW_SP : EXE_OP := "001" ;
 constant EXE_OP_SW	: EXE_OP := "010" ;
 constant EXE_OP_SW_SP : EXE_OP := "011" ;
+constant EXE_OP_OTHER : EXE_OP := "111" ;
 
 --cmp
 constant EXE_OP_CMP	: EXE_OP := "000" ;
