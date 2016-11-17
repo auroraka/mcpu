@@ -23,9 +23,12 @@ constant ReadDisable : STD_lOGIC := '1' ;
 constant ChipEnable : STD_lOGIC := '0' ;
 constant ChipDisable : STD_lOGIC := '1' ;
 
--- stallreq stall or not stsll ;
+-- added ;
 constant StallYes : STD_lOGIC := '0' ; 
 constant StallNo : STD_lOGIC := '1' ;
+
+constant BranchFlagDown : STD_lOGIC := '0' ;
+constant BranchFlagUp : STD_lOGIC := '1' ; 
 
 --word
 subtype Word is STD_lOGIC_VECTOR (15 downto 0) ;
@@ -41,7 +44,7 @@ constant ZeroDataAddr : Word := "0000000000000000" ;
 --inst_mem
 constant InstValid : STD_lOGIC := '0' ;
 constant InstInvalid :STD_lOGIC := '1' ;
-subtype InstAddrBus is STD_lOGIC_VECTOR (15 downto 0) ;
+subtype InstAddrBus is STD_LOGIC_VECTOR (15 downto 0) ;
 subtype InstBus is STD_lOGIC_VECTOR (15 downto 0) ;
 --constant InstMemNum : INTEGER := 32767 ;
 --constant InstMemNumLog2 : INTEGER := 15 ;

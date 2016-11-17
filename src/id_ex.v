@@ -1,5 +1,4 @@
 `include "defines.v"
-`include "pack.vhd"
 
 module id_ex(
 	input wire rst,
@@ -21,19 +20,19 @@ module id_ex(
 );
 
 always @ (posedge clk) begin
-	if (stall == `StallNo)
+	if (rst == `RstEnable) 
 	begin
-		if (rst == `RstEnable) begin
-			ex_aluop<=`EXE_OP_NOP;
-			ex_alusel<=`EXE_SEL_NOP;
-			ex_waddr<=`ZeroDataAddr;
-			ex_we<=`WriteDisable;
-		end else begin
-			ex_aluop<=id_aluop;
-			ex_alusel<=id_alusel;
-			ex_waddr<=id_waddr;
-			ex_we<=id_we;
-		end
+		ex_aluop<=`EXE_OP_NOP;
+		ex_alusel<=`EXE_SEL_NOP;
+		ex_waddr<=`ZeroDataAddr;
+		ex_we<=`WriteDisable;
+	end
+	else if (stall == `StallNo)
+	begin
+		ex_aluop<=id_aluop;
+		ex_alusel<=id_alusel;
+		ex_waddr<=id_waddr;
+		ex_we<=id_we;
 	end
 end 
 

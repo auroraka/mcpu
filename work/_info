@@ -1,0 +1,141 @@
+m255
+K3
+13
+cModel Technology
+Z0 dF:\2016FALL\JY\hw\prj3\ram_uart
+vex_mem
+Z1 !s100 [KCFFgVNEeE8<hgeC6:1I2
+Z2 IjPZl?Q6TQbjGA9za@nXKA2
+Z3 VMQXWb9`3>V>cQMMRUCMoZ0
+Z4 dF:\2016FALL\JY\cpu\mcpu
+Z5 w1479384602
+Z6 8F:/2016FALL/JY/cpu/mcpu/src/ex_mem.v
+Z7 FF:/2016FALL/JY/cpu/mcpu/src/ex_mem.v
+L0 3
+Z8 OL;L;10.1c;51
+r1
+31
+Z9 !s90 -reportprogress|300|-work|work|-vopt|+incdir+F:/2016FALL/JY/cpu/mcpu/src|F:/2016FALL/JY/cpu/mcpu/src/ex_mem.v|
+Z10 o-work work -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF
+Z11 !s92 -work work +incdir+F:/2016FALL/JY/cpu/mcpu/src -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF
+Z12 !s108 1479384690.172000
+Z13 !s107 F:/2016FALL/JY/cpu/mcpu/src/defines.v|F:/2016FALL/JY/cpu/mcpu/src/ex_mem.v|
+!i10b 1
+!s85 0
+vid_ex
+Z14 IWi]C4QdaA8?N`Km;k=fEf3
+Z15 VcX8l3ZjSZ:SFR@_KBF38=3
+R4
+Z16 w1479384510
+Z17 8F:/2016FALL/JY/cpu/mcpu/src/id_ex.v
+Z18 FF:/2016FALL/JY/cpu/mcpu/src/id_ex.v
+L0 3
+R8
+r1
+31
+R10
+R11
+!i10b 1
+Z19 !s100 I]`^ASBb;VMWo_^z2ezjW3
+!s85 0
+Z20 !s108 1479384690.504000
+Z21 !s107 F:/2016FALL/JY/cpu/mcpu/src/defines.v|F:/2016FALL/JY/cpu/mcpu/src/id_ex.v|
+Z22 !s90 -reportprogress|300|-work|work|-vopt|+incdir+F:/2016FALL/JY/cpu/mcpu/src|F:/2016FALL/JY/cpu/mcpu/src/id_ex.v|
+vif_id
+Z23 IiPXom38OG8o33KO^8UjXV0
+Z24 V10cQ4Y>GEZT4>Y_@`nHPW2
+R4
+Z25 w1479384435
+Z26 8F:/2016FALL/JY/cpu/mcpu/src/if_id.v
+Z27 FF:/2016FALL/JY/cpu/mcpu/src/if_id.v
+L0 3
+R8
+r1
+31
+Z28 !s90 -reportprogress|300|-work|work|-vopt|-v|F:/2016FALL/JY/cpu/mcpu/src/defines.v|+incdir+F:/2016FALL/JY/cpu/mcpu/src|F:/2016FALL/JY/cpu/mcpu/src/if_id.v|
+R10
+Z29 !s92 -work work -v F:/2016FALL/JY/cpu/mcpu/src/defines.v +incdir+F:/2016FALL/JY/cpu/mcpu/src -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF
+Z30 !s100 RR66CSocM@S_?;zF:?JCd0
+Z31 !s108 1479384444.825000
+Z32 !s107 F:/2016FALL/JY/cpu/mcpu/src/defines.v|F:/2016FALL/JY/cpu/mcpu/src/if_id.v|
+!i10b 1
+!s85 0
+vmem_wb
+!i10b 1
+Z33 !s100 :PEcLVd65<G:S5X6>]^0o1
+Z34 IY4YHljkXPd8XFZ4^a;[hb2
+Z35 VZ<3z;ihAWhl8:D91;lJKK2
+R4
+Z36 w1479384638
+Z37 8F:/2016FALL/JY/cpu/mcpu/src/mem_wb.v
+Z38 FF:/2016FALL/JY/cpu/mcpu/src/mem_wb.v
+L0 3
+R8
+r1
+!s85 0
+31
+!s108 1479384690.829000
+!s107 F:/2016FALL/JY/cpu/mcpu/src/defines.v|F:/2016FALL/JY/cpu/mcpu/src/mem_wb.v|
+Z39 !s90 -reportprogress|300|-work|work|-vopt|+incdir+F:/2016FALL/JY/cpu/mcpu/src|F:/2016FALL/JY/cpu/mcpu/src/mem_wb.v|
+R10
+R11
+Ppack
+Z40 DPx3 std 6 textio 0 22 5>J:;AW>W0[[dW0I6EN1Q0
+Z41 DPx4 ieee 14 std_logic_1164 0 22 5=aWaoGZSMWIcH0i^f`XF1
+Z42 w1479383618
+R4
+Z43 8F:/2016FALL/JY/cpu/mcpu/src/pack.vhd
+Z44 FF:/2016FALL/JY/cpu/mcpu/src/pack.vhd
+l0
+L13
+Z45 VZjHTfXJl@fBbZfbW7PR>K3
+Z46 OL;C;10.1c;51
+32
+Z47 o-work work -2002 -explicit
+Z48 tExplicit 1
+Z49 !s100 ATo<Q:7LMJemP9z6>czg;3
+Z50 !s108 1479384305.975000
+Z51 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|F:/2016FALL/JY/cpu/mcpu/src/pack.vhd|
+Z52 !s107 F:/2016FALL/JY/cpu/mcpu/src/pack.vhd|
+!i10b 1
+Epc
+Z53 w1479384301
+Z54 DPx4 work 4 pack 0 22 ZjHTfXJl@fBbZfbW7PR>K3
+Z55 DPx4 ieee 18 std_logic_unsigned 0 22 RYmj;=TK`k=k>D@Cz`zoB3
+Z56 DPx4 ieee 15 std_logic_arith 0 22 4`Y?g_lkdn;7UL9IiJck01
+R40
+R41
+R4
+Z57 8F:/2016FALL/JY/cpu/mcpu/src/pc.vhd
+Z58 FF:/2016FALL/JY/cpu/mcpu/src/pc.vhd
+l0
+L8
+Z59 VNRJ2i<YIF]F<Kl8;TEEmN0
+R46
+32
+Z60 !s108 1479384306.421000
+Z61 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|F:/2016FALL/JY/cpu/mcpu/src/pc.vhd|
+Z62 !s107 F:/2016FALL/JY/cpu/mcpu/src/pc.vhd|
+R47
+R48
+Z63 !s100 i6i5_;81HJDPQKc8GY>HL3
+!i10b 1
+Abehavioral
+R54
+R55
+R56
+R40
+R41
+Z64 DEx4 work 2 pc 0 22 NRJ2i<YIF]F<Kl8;TEEmN0
+l21
+L19
+Z65 VbLkfX:z1E9BeLLO:[^gkk2
+R46
+32
+R60
+R61
+R62
+R47
+R48
+Z66 !s100 >`9OBl5JHl^A<@cP9@84;1
+!i10b 1

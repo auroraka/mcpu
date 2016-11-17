@@ -10,6 +10,12 @@
 `define ChipEnable 1'b1
 `define ChipDisable 1'b0
 
+`define StallYes 1'b0 
+`define StallNo  1'b1
+
+`define BranchFlagDown  1'b0
+`define BranchFlagUp  1'b1 
+
 //word
 `define WordLength 16
 `define WordBus `WordLength-1:0
@@ -43,7 +49,7 @@
 `define AluSelBus 3:0 
 //nop
 `define EXE_OP_NOP		3'b000
-`define EXE_OP_NOP		3'b001
+`define EXE_SEL_NOP		3'b001
 //reg
 `define EXE_OP_LI		3'b000
 `define EXE_OP_MFIH		3'b001
