@@ -62,6 +62,13 @@
 `define IH_Addr `RegNumLog2'b1010
 `define T_Addr `RegNumLog2'b1011
 
+//mem
+`define MemRWBus 1:0
+`define MemRWLength 2
+`define MemRW_Idle	`MemRWLength'b00
+`define MemRW_Read	`MemRWLength'b01
+`define MemRW_Write	`MemRWLength'b10
+
 //ops id send to ex
 `define AluOpBus 3:0
 `define AluSelBus 3:0 
