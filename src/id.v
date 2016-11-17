@@ -120,24 +120,53 @@ always @ (*) begin
 						alusel_o<=`EXE_SEL_SHIFT;
 						aluop_o<=`EXE_OP_SLL;
 						reg0_o<=reg0_data_i;
-						reg1_o<=reg1_data_i;
+						reg1_o<=immsu;
 						reg0_re_o<=`ReadEnable;
-						reg1_re_o<=`ReadEnable;
-						reg0_addr_o<=rx;
-						reg1_addr_o<=ry;
+						reg0_addr_o<=ry;
 						we_o<=`WriteEnable;
 						waddr_o<=rx;
 					end
 					`OP4_SRL:begin
+						alusel_o<=`EXE_SEL_SHIFT;
+						aluop_o<=`EXE_OP_SRL;
+						reg0_o<=reg0_data_i;
+						reg1_o<=immsu;
+						reg0_re_o<=`ReadEnable;
+						reg0_addr_o<=ry;
+						we_o<=`WriteEnable;
+						waddr_o<=rx;
 					end
 					`OP4_SRA:begin
-						
+						alusel_o<=`EXE_SEL_SHIFT;
+						aluop_o<=`EXE_OP_SRL;
+						reg0_o<=reg0_data_i;
+						reg1_o<=immsu;
+						reg0_re_o<=`ReadEnable;
+						reg0_addr_o<=ry;
+						we_o<=`WriteEnable;
+						waddr_o<=rx;
 					end
 				endcase
 			end
 			`OP_ADDIU3:begin 
+				alusel_o<=`EXE_SEL_ARITH;
+				aluop_o<=`EXE_OP_ADDIU3;
+				reg0_o<=reg0_data_i;
+				reg0_re_o<=`ReadEnable;
+				reg0_addr_o<=rx;
+				reg0_addr_o<=imms;
+				we_o<=`WriteEnable;
+				waddr_o<=ry;						
 			end
 			`OP_ADDIU:begin
+				alusel_o<=`EXE_SEL_ARITH;
+				aluop_o<=`EXE_OP_ADDIU;
+				reg0_o<=reg0_data_i;
+				reg0_re_o<=`ReadEnable;
+				reg0_addr_o<=rx;
+				reg0_addr_o<=imml;
+				we_o<=`WriteEnable;
+				waddr_o<=rx;						
 			end
 			`OP_SLTI:begin
 			end
@@ -158,6 +187,14 @@ always @ (*) begin
 					`OP1_SW_RS:begin
 					end
 					`OP1_ADDSP:begin
+						alusel_o<=`EXE_SEL_ARITH;
+						aluop_o<=`EXE_OP_ADDIU3;
+						reg0_o<=reg0_data_i;
+						reg0_re_o<=`ReadEnable;
+						reg0_addr_o<=`SP_Addr;
+						reg0_addr_o<=imml;
+						we_o<=`WriteEnable;
+						waddr_o<=rx;						
 					end
 					`OP1_MTSP:begin
 						alusel_o<=`EXE_SEL_REG;
@@ -233,8 +270,28 @@ always @ (*) begin
 			`OP_ADDU:begin
 				case (op4)
 					`OP4_ADDU:begin
+						alusel_o<=`EXE_SEL_ARITH;
+						aluop_o<=`EXE_OP_SUBU;
+						reg0_o<=reg0_data_i;
+						reg1_o<=reg1_data_i;
+						reg0_re_o<=`ReadEnable;
+						reg1_re_o<=`ReadEnable;
+						reg0_addr_o<=rx;
+						reg0_addr_o<=ry;
+						we_o<=`WriteEnable;
+						waddr_o<=rz;						
 					end
 					`OP4_SUBU:begin
+						alusel_o<=`EXE_SEL_ARITH;
+						aluop_o<=`EXE_OP_SUBU;
+						reg0_o<=reg0_data_i;
+						reg1_o<=reg1_data_i;
+						reg0_re_o<=`ReadEnable;
+						reg1_re_o<=`ReadEnable;
+						reg0_addr_o<=rx;
+						reg0_addr_o<=ry;
+						we_o<=`WriteEnable;
+						waddr_o<=rz;						
 					end
 				endcase	
 			end
@@ -268,6 +325,16 @@ always @ (*) begin
 					`OP3_SLTU:begin
 					end
 					`OP3_SLLV:begin
+						alusel_o<=`EXE_SEL_SHIFT;
+						aluop_o<=`EXE_OP_SLLV;
+						reg0_o<=reg0_data_i;
+						reg1_o<=reg1_data_i;
+						reg0_re_o<=`ReadEnable;
+						reg1_re_o<=`ReadEnable;
+						reg0_addr_o<=rx;
+						reg0_addr_o<=ry;
+						we_o<=`WriteEnable;
+						waddr_o<=ry;						
 					end
 					`OP3_SRLV:begin
 					end
