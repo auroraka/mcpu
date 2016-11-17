@@ -11,6 +11,8 @@ entity RegisterFile is
 		we : in STD_LOGIC ;
 		waddr : in RegAddrBus ;
 		wdata : in DataBus ;
+		rst : in STD_LOGIC ;
+		clk : in STD_LOGIC ;
 		--aluop : in EXE_OP ;
 		
 		rdata0 : out DataBus ;
@@ -33,12 +35,11 @@ signal IH : DataBus := ZeroData ;
 signal T : DataBus := ZeroData ;
 
 begin
-	process(re_0, re_1, raddr0, raddr1) -- read register
+	process(re_0, re_1, raddr0, raddr1, we) -- read register
 	variable tmp0 : DataBus := ZeroData ;
 	variable tmp1 : DataBus := ZeroData ;
-	begin
-		
-		if(re_0 = ReadEnable) then
+	begin	
+		if(re_0 = ReadEnable ) then
 			case raddr0 is
 				when Reg0_Addr => tmp0 := R0 ;
 				when Reg1_Addr => tmp0 := R1 ;
