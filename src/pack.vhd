@@ -24,6 +24,9 @@ constant ChipEnable : STD_lOGIC := '0' ;
 constant ChipDisable : STD_lOGIC := '1' ;
 
 -- added ;
+constant RamEnable : STD_lOGIC := '1' ;
+constant RamDisable : STD_lOGIC := '0' ;
+
 constant StallYes : STD_lOGIC := '0' ; 
 constant StallNo : STD_lOGIC := '1' ;
 

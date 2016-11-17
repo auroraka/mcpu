@@ -16,7 +16,6 @@ always @ (*) begin
 	end else begin
 		inst<=inst_mem[addr[`InstMemNumLog2:1]];
 	end
-
 end
 
 endmodule

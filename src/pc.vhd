@@ -31,7 +31,7 @@ begin
 			end if;
 			if rst = RstEnable then
 				ce <= ChipDisable;
-				pc_v <= ZeroInstAddr + 1;
+				pc_v <= ZeroInstAddr;
 			else
 				ce <= ChipEnable;
 			end if;

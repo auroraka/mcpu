@@ -8,5 +8,44 @@
 <!-- Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.    -->
 
 <messages>
+<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;F:/2016FALL/JY/cpu/mcpu/rom_tb.vhd&quot; into library work</arg>
+</msg>
+
+<msg type="error" file="ProjectMgmt" num="806" >&quot;<arg fmt="%s" index="1">F:/2016FALL/JY/cpu/mcpu/rom_tb.vhd</arg>&quot; Line <arg fmt="%d" index="2">54</arg>. <arg fmt="%s" index="3">Syntax error near &quot;&lt;&quot;.</arg>
+</msg>
+
+<msg type="error" file="ProjectMgmt" num="806" >&quot;<arg fmt="%s" index="1">F:/2016FALL/JY/cpu/mcpu/rom_tb.vhd</arg>&quot; Line <arg fmt="%d" index="2">64</arg>. <arg fmt="%s" index="3">Syntax error near &quot;&lt;&quot;.</arg>
+</msg>
+
+<msg type="error" file="ProjectMgmt" num="806" >&quot;<arg fmt="%s" index="1">F:/2016FALL/JY/cpu/mcpu/rom_tb.vhd</arg>&quot; Line <arg fmt="%d" index="2">66</arg>. <arg fmt="%s" index="3">Syntax error near &quot;&lt;&quot;.</arg>
+</msg>
+
+<msg type="error" file="ProjectMgmt" num="806" >&quot;<arg fmt="%s" index="1">F:/2016FALL/JY/cpu/mcpu/rom_tb.vhd</arg>&quot; Line <arg fmt="%d" index="2">79</arg>. <arg fmt="%s" index="3">Syntax error near &quot;&lt;&quot;.</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;F:/2016FALL/JY/cpu/mcpu/rom_tf.v&quot; into library work</arg>
+</msg>
+
+<msg type="error" file="ProjectMgmt" num="281" >&quot;<arg fmt="%s" index="1">F:/2016FALL/JY/cpu/mcpu/rom_tf.v</arg>&quot; Line <arg fmt="%d" index="2">2</arg>. <arg fmt="%s" index="3">Cannot open include file &quot;defines.v&quot;.</arg>
+</msg>
+
+<msg type="error" file="ProjectMgmt" num="870" >&quot;<arg fmt="%s" index="1">F:/2016FALL/JY/cpu/mcpu/rom_tf.v</arg>&quot; Line <arg fmt="%d" index="2">29</arg>. <arg fmt="%s" index="3">Macro &lt;InstAddrBus&gt; is not defined.</arg>
+</msg>
+
+<msg type="error" file="ProjectMgmt" num="870" >&quot;<arg fmt="%s" index="1">F:/2016FALL/JY/cpu/mcpu/rom_tf.v</arg>&quot; Line <arg fmt="%d" index="2">31</arg>. <arg fmt="%s" index="3">Macro &lt;InstBus&gt; is not defined.</arg>
+</msg>
+
+<msg type="error" file="ProjectMgmt" num="870" >&quot;<arg fmt="%s" index="1">F:/2016FALL/JY/cpu/mcpu/rom_tf.v</arg>&quot; Line <arg fmt="%d" index="2">41</arg>. <arg fmt="%s" index="3">Macro &lt;ChipDisable&gt; is not defined.</arg>
+</msg>
+
+<msg type="error" file="ProjectMgmt" num="806" >&quot;<arg fmt="%s" index="1">F:/2016FALL/JY/cpu/mcpu/rom_tf.v</arg>&quot; Line <arg fmt="%d" index="2">41</arg>. <arg fmt="%s" index="3">Syntax error near &quot;;&quot;.</arg>
+</msg>
+
+<msg type="error" file="ProjectMgmt" num="870" >&quot;<arg fmt="%s" index="1">F:/2016FALL/JY/cpu/mcpu/rom_tf.v</arg>&quot; Line <arg fmt="%d" index="2">45</arg>. <arg fmt="%s" index="3">Macro &lt;ChipEnable&gt; is not defined.</arg>
+</msg>
+
+<msg type="error" file="ProjectMgmt" num="806" >&quot;<arg fmt="%s" index="1">F:/2016FALL/JY/cpu/mcpu/rom_tf.v</arg>&quot; Line <arg fmt="%d" index="2">45</arg>. <arg fmt="%s" index="3">Syntax error near &quot;;&quot;.</arg>
+</msg>
+
 </messages>
 

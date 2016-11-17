@@ -4,6 +4,9 @@
 `define WriteEnable 1'b1
 `define WriteDisable 1'b0
 
+`define RamEnable 1'b0
+`define RamDisable 1'b1
+
 `define ReadEnable 1'b1
 `define ReadDisable 1'b1
 
