@@ -54,7 +54,7 @@ begin
 						when EXE_OP_AND =>
 							ans := reg0_i and reg1_i ;
 						when EXE_OP_NEG =>
-							ans := ZeroData - reg1_i ;
+							ans := ZeroData - reg0_i ;
 						when EXE_OP_OR =>
 							ans := reg0_i or reg1_i ;
 						when others =>
@@ -111,11 +111,11 @@ begin
 						when EXE_OP_MFPC =>
 							ans := reg0_i ;
 						when EXE_OP_MOVE =>
-							ans := reg1_i ;
+							ans := reg0_i ;
 						when EXE_OP_MTIH =>
 							ans := reg0_i ;
 						when EXE_OP_MTSP =>
-							ans := reg1_i ;
+							ans := reg0_i ;
 						when others =>null ;
 					end case ;
 				when EXE_SEL_LW =>

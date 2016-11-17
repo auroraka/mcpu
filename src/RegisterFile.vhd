@@ -14,7 +14,7 @@ entity RegisterFile is
 		--aluop : in EXE_OP ;
 		
 		rdata0 : out DataBus ;
-		rdata1 : out DataBus ;
+		rdata1 : out DataBus 
 	) ;
 end RegisterFile ;
 
@@ -37,6 +37,7 @@ begin
 	variable tmp0 : DataBus := ZeroData ;
 	variable tmp1 : DataBus := ZeroData ;
 	begin
+		
 		if(re_0 = ReadEnable) then
 			case raddr0 is
 				when Reg0_Addr => tmp0 := R0 ;
@@ -73,7 +74,7 @@ begin
 		rdata1 <= tmp1 ;
 	end process ;
 	
-	process(we, waddr, wdata, aluop)
+	process(we, waddr, wdata)
 	begin
 		if(we = WriteEnable) then
 			case waddr is 
