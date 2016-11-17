@@ -47,28 +47,23 @@ wire[1:0] op4=inst_i[1:0];
 wire[2:0] rx=op1;
 wire[2:0] ry=op2;
 wire[2:0] rz=inst_i[4:2];
-wire[15:0] immlu = {8'b0 , inst_i[7:0]};                                 //inst[7:0] -> unsigned extended imm
-wire[15:0] imml = inst_i[7]? {8{1'b1}, inst_i[7:0]}:{8'b0 , inst_i[7:0]};//inst[7:0] ->   signed extended imm
-wire[15:0] immsu={11'b0 , op3};                                          //inst[4:0] -> unsigned extended imm
-wire[15:0] imms=op3[4]? {11{1'b1}, op3}:{11'b0 , op3};                   //inst[4:0] ->   signed extended imm
 
-	output reg[`AluSelBus] alusel_o,
-	output reg[`AluOpBus] aluop_o,
-	output reg reg0_re_o,
-	output reg reg1_re_o,
-	output reg we_o,
-	output reg[`RegAddrBus] waddr_o,	
+//inst[7:0] -> unsigned extended imm
+wire[15:0] immlu = {8'b0 , inst_i[7:0]};                                 
 
-	output reg[`RegAddrBus] reg0_addr_o,
-	output reg[`RegAddrBus] reg1_addr_o
-	output reg[`DataBus] reg0_o,
-	output reg[`DataBus] reg1_o,
+//inst[7:0] ->   signed extended imm
+wire[15:0] imml = inst_i[7]? {8{1'b1}, inst_i[7:0]}:{8'b0 , inst_i[7:0]};
 
-	output reg stall_req,
-	output reg branch_flag_o,
-	output reg[`InstAddrBus] branch_addr_o
+//inst[4:0] -> unsigned extended imm
+wire[15:0] immsu={11'b0 , op3};                                         
 
+//inst[4:0] ->   signed extended imm
+wire[15:0] imms=op3[4]? {11{1'b1}, op3}:{11'b0 , op3};                   
 
+//inst[10:0] -> b imm
+wire[15:0] immb = inst_i[10]? {5{1'b1}, inst_i[10:0]}:{5'b0 , inst_i[10:0]};
+wire reg0_eq_zero = (reg0_data_i == 0);
+wire reg1_eq_zero = (reg1_data_i == 0);
 
 always @ (*) begin
 	if (rst == `RstEnable) begin
@@ -85,21 +80,39 @@ always @ (*) begin
 		reg0_o<=`ZeroData;
 		reg1_o<=`ZeroData;
 
-		stall_req<=`StallNo
+		stall_req<=`StallNo;
+		branch_flag_o<=`BranchFlagDown;
+		branch_addr_o<=`ZeroInstAddr;
 
 	end else begin
 		case (op)
 			`OP_ADDSP3:begin
-							
+					
 			end
 			`OP_NOP:begin
 				//default nop	
 			end
 			`OP_B:begin
+				alusel_o<=`EXE_SEL_JUMP;
+				aluop_o<=`EXE_OP_B;
+				branch_addr_o<=pc+immb;
+				branch_flag_o<=`BranchFlagUp;	
 			end
 			`OP_BEQZ:begin
+				alusel_o<=`EXE_SEL_JUMP;
+				aluop_o<=`EXE_OP_BEQZ;
+				reg0_re_o<=`ReadEnable;
+				reg0_addr_o<=rx;
+				branch_addr_o<=pc+imml;
+				branch_flag_o<=reg0_eq_zero;	
 			end
 			`OP_BNEZ:begin
+				alusel_o<=`EXE_SEL_JUMP;
+				aluop_o<=`EXE_OP_BNEZ;
+				reg0_re_o<=`ReadEnable;
+				reg0_addr_o<=rx;
+				branch_addr_o<=pc+imml;
+				branch_flag_o<=~reg0_eq_zero;	
 			end
 			`OP_SLL:begin
 				case (op4)
@@ -123,6 +136,12 @@ always @ (*) begin
 			`OP_BTEQZ:begin
 				case (op1)
 					`OP1_BTEQZ:begin
+						alusel_o<=`EXE_SEL_JUMP;
+						aluop_o<=`EXE_OP_BTEQZ;
+						reg0_re_o<=`ReadEnable;
+						reg0_addr_o<=`RegAddr_T;
+						branch_addr_o<=pc+imml;
+						branch_flag_o<=reg0_eq_zero;	
 					end
 					`OP1_BTNEZ:begin
 					end
@@ -131,12 +150,19 @@ always @ (*) begin
 					`OP1_ADDSP:begin
 					end
 					`OP1_MTSP:begin
+						alusel_o<=`EXE_SEL_REG;
+						aluop_o<=`EXE_OP_MTSP;
+						reg0_re_o<=`ReadEnable;
+						reg0_addr_o<=rx;
+						we_o<=`WriteEnable;
+						waddr_o<=`RegAddr_SP;
 					end
 				endcase
 			end
 			`OP_LI:begin
 				alusel_o<=`EXE_SEL_REG;
 				aluop_o<=`EXE_OP_LI;
+				reg0_re_o<=`ReadEnable;
 				reg0_o<=immlu;
 				we_o<=`WriteEnable;
 				waddr_o<=rx;
@@ -144,10 +170,28 @@ always @ (*) begin
 			`OP_CMPI:begin
 			end
 			`OP_MOVE:begin
+				alusel_o<=`EXE_SEL_REG;
+				aluop_o<=`EXE_OP_MOVE;
+				reg0_re_o<=`ReadEnable;
+				reg0_addr_o<=ry;
+				we_o<=`WriteEnable;
+				waddr_o<=rx;
 			end
 			`OP_LW_SP:begin
+				alusel_o<=`EXE_SEL_LW;
+				aluop_o<=`EXE_OP_LW_SP;
+				reg0_o<=pc_i+imml;
+				we_o<=`WriteEnable;
+				waddr_o<=rx;
 			end
 			`OP_LW:begin
+				alusel_o<=`EXE_SEL_LW;
+				aluop_o<=`EXE_OP_LW;
+				reg0_re_o<=`ReadEnable;
+				reg0_addr_o<=rx;
+				reg0_o<=reg0_data_i+imms;
+				we_o<=`WriteEnable;
+				waddr_o<=ry;
 			end
 			`OP_SW_SP:begin
 			end
@@ -166,10 +210,21 @@ always @ (*) begin
 					`OP3_JR:begin
 						case (op2)
 							`OP2_JR:begin
+								alusel_o<=`EXE_SEL_JUMP;
+								aluop_o<=`EXE_OP_JR;
+								reg0_re_o<=`ReadEnable;
+								reg0_addr_o<=rx;
+								branch_addr_o<=reg0_data_i;
+								branch_flag_o<=`BranchFlagUp;	
 							end
 							`OP2_JRRA:begin
 							end
 							`OP2_MFPC:begin
+								alusel_o<=`EXE_SEL_REG;
+								aluop_o<=`EXE_OP_MFPC;
+								we_o<=`WriteEnable;
+								waddr_o<=rx;
+								reg0_o<=pc_i;	
 							end
 							`OP2_JALR:begin
 							end
@@ -205,15 +260,25 @@ always @ (*) begin
 			`OP_MFIH:begin
 				case (op3)
 					`OP3_MFIH:begin
-						
+						alusel_o<=`EXE_SEL_REG;
+						aluop_o<=`EXE_OP_MFIH;
+						reg0_re_o<=`ReadEnable;
+						we_o<=`WriteEnable;
+						waddr_o<=rx;
+						reg0_addr_o<=`RegAddr_IH;	
 					end
 					`OP3_MTIH:begin
-						
+						alusel_o<=`EXE_SEL_REG;
+						aluop_o<=`EXE_OP_MTIH;
+						reg0_re_o<=`ReadEnable;
+						we_o<=`WriteEnable;
+						waddr_o<=`RegAddr_IH;
+						reg0_addr_o<=rx;	
 					end
 				endcase	
 			end	
 			`OP_INT:begin
-				
+				//not finished
 			end
 		endcase
 	end
