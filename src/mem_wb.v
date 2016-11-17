@@ -3,6 +3,7 @@
 module mem_wb(
 	input wire clk,
 	input wire rst,
+	input wire stall,
 	input wire[`DataBus] mem_wdata,
 	input wire[`RegAddrBus] mem_waddr,
 	input wire mem_we,
@@ -13,16 +14,18 @@ module mem_wb(
 );
 
 always @ (posedge clk) begin
-	if (rst == `RstEnable) begin
-		wb_wdata<=`ZeroData;
-		wb_waddr<=`ZeroDataAddr;
-		wb_we<=`WriteDisable;
-	end else begin
-		wb_waddr<=mem_waddr;
-		wb_wdata<=mem_wdata;
-		wb_we<=mem_we;
+	if (stall == `StallNo)
+	begin
+		if (rst == `RstEnable) begin
+			wb_wdata<=`ZeroData;
+			wb_waddr<=`ZeroDataAddr;
+			wb_we<=`WriteDisable;
+		end else begin
+			wb_waddr<=mem_waddr;
+			wb_wdata<=mem_wdata;
+			wb_we<=mem_we;
+		end
 	end
-
 end
 
 endmodule

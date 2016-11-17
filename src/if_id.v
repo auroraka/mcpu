@@ -1,9 +1,10 @@
 `include "defines.v"
+`include "pack.vhd"
 
 module if_id(
 	input wire rst,
 	input wire clk,
-
+	input wire stall,
 	input wire[`InstAddrBus] if_pc,
 	input wire[`InstBus] if_inst,
 
@@ -12,12 +13,15 @@ module if_id(
 );
 
 always @ (posedge clk) begin
-	if (rst == `RstEnable) begin
-		id_pc<=`ZeroInstAddr;
-		id_inst<=`ZeroInst;
-	end else begin
-		id_pc<=if_pc;
-		id_inst<=if_inst;
+	if (stall == `StallNo)
+	begin
+		if (rst == `RstEnable) begin
+			id_pc<=`ZeroInstAddr;
+			id_inst<=`ZeroInst;
+		end else begin
+			id_pc<=if_pc;
+			id_inst<=if_inst;
+		end
 	end
 end
 

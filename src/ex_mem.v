@@ -1,8 +1,10 @@
 `include "defines.v"
+`include "pack.vhd"
 
 module ex_mem(
 	input wire clk,
 	input wire rst,
+	input wire stall,
 	input wire[`DataBus] ex_wdata,
 	input wire[`RegAddrBus] ex_waddr,
 	input wire ex_we,
@@ -13,16 +15,18 @@ module ex_mem(
 );
 
 always @ (posedge clk) begin
-	if (rst == `RstEnable) begin
-		mem_wdata<=`ZeroData;
-		mem_waddr<=`ZeroDataAddr;
-		mem_we<=`WriteDisable;
-	end else begin
-		mem_waddr<=ex_waddr;
-		mem_wdata<=ex_wdata;
-		mem_we<=ex_we;
+	if (stall == `StallNo)
+	begin
+		if (rst == `RstEnable) begin
+			mem_wdata<=`ZeroData;
+			mem_waddr<=`ZeroDataAddr;
+			mem_we<=`WriteDisable;
+		end else begin
+			mem_waddr<=ex_waddr;
+			mem_wdata<=ex_wdata;
+			mem_we<=ex_we;
+		end
 	end
-
 end
 
 endmodule
