@@ -14,8 +14,11 @@ entity exe is
 		waddr_i : in RegAddrBus ;
 		we_i : in STD_LOGIC ;
 		stallreq : in STD_LOGIC ;
+		rst : in STD_LOGIC ;
 		
-		aluop_o : out EXE_OP ;
+		--aluop_o : out EXE_OP ;
+		memrw_o : out MemRWBus ;
+		memaddr_o : out DataAddress ;
 		we_o : out STD_LOGIC ;
 		waddr_o : out RegAddrBus ;
 		wdata_o : out DataBus 
@@ -24,15 +27,17 @@ end exe ;
 
 architecture Behavioral of exe is
 begin
-	aluop_o <= aluop_i ;
+	--aluop_o <= aluop_i ;
 	we_o <= we_i ;
 	waddr_o <= waddr_i ;
 	--wdata_o <= ZeroData ;
 	
-	process(alusel_i, aluop_i, reg0_i, reg1_i, stallreq)
+	process(alusel_i, aluop_i, reg0_i, reg1_i, stallreq, rst)
 	variable ans : DataBus := ZeroData ;
+	variable rw : MemRWBus := MemRW_Idle ;
+	variable memaddr : DataAddress := ZeroInstAddr ;
 	begin
-		if(stallreq = StallNo) then
+		if(stallreq = StallNo and rst = RstDisable) then
 			case alusel_i is 
 				when EXE_SEL_ARITH =>
 					case aluop_i is
@@ -54,7 +59,7 @@ begin
 						when EXE_OP_AND =>
 							ans := reg0_i and reg1_i ;
 						when EXE_OP_NEG =>
-							ans := ZeroData - reg1_i ;
+							ans := ZeroData - reg0_i ;
 						when EXE_OP_OR =>
 							ans := reg0_i or reg1_i ;
 						when others =>
@@ -111,23 +116,27 @@ begin
 						when EXE_OP_MFPC =>
 							ans := reg0_i ;
 						when EXE_OP_MOVE =>
-							ans := reg1_i ;
+							ans := reg0_i ;
 						when EXE_OP_MTIH =>
 							ans := reg0_i ;
 						when EXE_OP_MTSP =>
-							ans := reg1_i ;
+							ans := reg0_i ;
 						when others =>null ;
 					end case ;
 				when EXE_SEL_LW =>
 					case aluop_i is
 						when EXE_OP_LW =>
-							ans := reg0_i + reg1_i ;
+							memaddr := reg0_i + reg1_i ;
+							rw := MemRW_Read ;
 						when EXE_OP_LW_SP =>
-							ans := reg0_i + reg1_i ;
+							memaddr := reg0_i + reg1_i ;
+							rw := MemRW_Read ;
 						when EXE_OP_SW =>
-							ans := reg0_i + reg1_i ;
+							memaddr := reg0_i + reg1_i ;
+							rw := MemRW_Write ;
 						when EXE_OP_SW_SP => 
-							ans := reg0_i + reg1_i ;
+							memaddr := reg0_i + reg1_i ;
+							rw := MemRW_Write ;
 						when others =>
 							null ;
 					end case ;
@@ -137,6 +146,8 @@ begin
 			null ;
 		end if ;
 		wdata_o <= ans ;
+		memaddr_o <= memaddr ;
+		memrw_o <= rw ;
 	end process ;
 	
 	

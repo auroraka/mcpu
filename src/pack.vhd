@@ -73,6 +73,12 @@ constant PC_Addr : RegAddrBus := "1001" ;
 constant IH_Addr : RegAddrBus := "1010" ;
 constant T_Addr : RegAddrBus := "1011" ;
 
+-- mem
+subtype MemRWBus is STD_lOGIC_VECTOR (1 downto 0) ;
+constant MemRW_Idle : MemRWBus := "00" ;
+constant MemRW_Read : MemRWBus := "01" ;
+constant MemRW_Write : MemRWBus := "10" ;
+
 --ops id send to ex
 subtype AluOpBus is STD_lOGIC_VECTOR(3 downto 0) ;
 subtype AluSelBus is STD_lOGIC_VECTOR(3 downto 0) ; 

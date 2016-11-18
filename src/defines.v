@@ -1,17 +1,17 @@
-`define RstEnable 1'b1
-`define RstDisable 1'b0
+`define RstEnable 1'b0
+`define RstDisable 1'b1
 
-`define WriteEnable 1'b1
-`define WriteDisable 1'b0
+`define WriteEnable 1'b0
+`define WriteDisable 1'b1
 
 `define RamEnable 1'b0
 `define RamDisable 1'b1
 
-`define ReadEnable 1'b1
+`define ReadEnable 1'b0
 `define ReadDisable 1'b1
 
-`define ChipEnable 1'b1
-`define ChipDisable 1'b0
+`define ChipEnable 1'b0
+`define ChipDisable 1'b1
 
 `define StallYes 1'b0 
 `define StallNo  1'b1
@@ -42,10 +42,32 @@
 
 //regs 
 //R0-R7 000-111
-`define RegNum 8
-`define RegNumLog2 3
+`define RegNum 16
+`define RegNumLog2 4
 `define RegAddrBus `RegNumLog2-1:0
 `define ZeroRegAddr `RegNumLog2-1'b0
+//[REG_ADDR_R0 - REG_ADDR_R7] = 0000-0111
+//REG_PC = 1000 is not in regfile
+
+`define Reg0_Addr `RegNumLog2'b0000
+`define Reg1_Addr `RegNumLog2'b0001
+`define Reg2_Addr `RegNumLog2'b0010
+`define Reg3_Addr `RegNumLog2'b0011
+`define Reg4_Addr `RegNumLog2'b0100
+`define Reg5_Addr `RegNumLog2'b0101
+`define Reg6_Addr `RegNumLog2'b0110
+`define Reg7_Addr `RegNumLog2'b0111
+`define SP_Addr `RegNumLog2'b1000
+`define PC_Addr `RegNumLog2'b1001
+`define IH_Addr `RegNumLog2'b1010
+`define T_Addr `RegNumLog2'b1011
+
+//mem
+`define MemRWBus 1:0
+`define MemRWLength 2
+`define MemRW_Idle	`MemRWLength'b00
+`define MemRW_Read	`MemRWLength'b01
+`define MemRW_Write	`MemRWLength'b10
 
 //ops id send to ex
 `define AluOpBus 3:0
@@ -65,7 +87,7 @@
 `define EXE_OP_BEQZ		3'b001
 `define EXE_OP_BNEZ		3'b010
 `define EXE_OP_BTEQZ	3'b011
-`define EXE_OP_BTNEQ	3'b100
+`define EXE_OP_BTNEZ	3'b100
 `define EXE_OP_JALR		3'b101
 `define EXE_OP_JR		3'b110
 `define EXE_OP_JRRA		3'b111
