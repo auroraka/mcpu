@@ -35,8 +35,11 @@ begin
 	process(alusel_i, aluop_i, reg0_i, reg1_i, stallreq, rst)
 	variable ans : DataBus := ZeroData ;
 	variable rw : MemRWBus := MemRW_Idle ;
-	variable memaddr : DataAddress := ZeroInstAddr ;
+	variable memaddr : DataAddress := ZeroDataAddr ;
 	begin
+		ans := ZeroData ;
+		rw := MemRW_Idle ;
+		memaddr := ZeroDataAddr ;
 		if(stallreq = StallNo and rst = RstDisable) then
 			case alusel_i is 
 				when EXE_SEL_ARITH =>
@@ -149,6 +152,5 @@ begin
 		memaddr_o <= memaddr ;
 		memrw_o <= rw ;
 	end process ;
-	
-	
+		
 end Behavioral ;

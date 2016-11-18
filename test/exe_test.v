@@ -9,12 +9,15 @@ reg [15:0] reg1_i ;
 reg [3:0] waddr_i ;
 reg we_i ;
 reg stallreq ;
+reg rst ;
 
 //output
-wire [2:0] aluop_o ;
+//wire [2:0] aluop_o ;
 wire we_o ;
 wire [3:0] waddr_o ;
 wire [15:0] wdata_o ;
+wire [1:0] memrw_o ;
+wire [15:0]	memaddr_o ;
 
 // Instantiate the Unit Under Test (UUT)
 exe uut(
@@ -25,10 +28,12 @@ exe uut(
 	.waddr_i(waddr_i),
 	.we_i(we_i),
 	.stallreq(stallreq),
-	.aluop_o(aluop_o),
+	.rst(rst),
 	.we_o(we_o),
 	.waddr_o(waddr_o),
-	.wdata_o(wdata_o)
+	.wdata_o(wdata_o),
+	.memrw_o(memrw_o),
+	.memaddr_o(memaddr_o)
 ) ;
 
 initial begin
@@ -39,10 +44,11 @@ initial begin
 	waddr_i = 1 ;
 	we_i = 1 ;
 	stallreq = 0 ;
+	rst = 1 ;
 	
 	#10 ;
 	stallreq = 1 ;
-	alusel_i = 3'b111 ;
+	alusel_i = 3'b011 ;
 	aluop_i = 3'b000 ;
 	reg0_i = 8 ;
 	reg1_i = 1 ;
@@ -66,7 +72,7 @@ initial begin
 	aluop_i = 3'b001 ;
 	# 20 ;
 	reg0_i = 8 ; */
-	#10 ;
+/*	#10 ;
 	alusel_i = 3'b110 ;
 	reg1_i = #5 0 ;
 	#10 ;
@@ -85,7 +91,13 @@ initial begin
 	alusel_i = 3'b011 ;
 	aluop_i = 3'b000 ;
 	#10 ;
-	alusel_i = 3'b001 ;
+	alusel_i = 3'b001 ;*/
+	aluop_i = #5 3'b001 ;
+	aluop_i = #5 3'b010 ;
+	aluop_i = #5 3'b011 ;
+	aluop_i = #5 3'b100 ;
+//	aluop_i = #5 3'b101 ;
+	rst = #10 0 ;
 	#10 ;
 end
 
