@@ -21,22 +21,23 @@ entity mem is port(
 		wdata_o : 	out DataBus ;
 		stall_req : out STD_LOGIC
 		--ram 2
-		ram_data_i : 	in DataBus ;
-		ram_re_o :		out STD_LOGIC ;
-		ram_we_o :		out STD_LOGIC ;
-		ram_addr_o : 	out DataAddrBus ;
-		ram_data_o : 	out DataBus ;
-		ram_ce_o :		out STD_LOGIC
+		ram2_data_i : 	inout DataBus ;
+		ram2_re_o :		out STD_LOGIC ;
+		ram2_we_o :		out STD_LOGIC ;
+		ram2_addr_o : 	out DataAddrBus ;
+		ram2_data_o : 	out DataBus ;
+		ram2_ce_o :		out STD_LOGIC;
+		--ram 1
+		ram1_data_i : 	inout DataBus ;
+		ram1_re_o :		out STD_LOGIC ;
+		ram1_we_o :		out STD_LOGIC ;
+		ram1_addr_o : 	out DataAddrBus ;
+		ram1_data_o : 	out DataBus ;
+		ram1_ce_o :		out STD_LOGIC	
 	) ;
 end mem ;
 
 architecture Behavioral of mem is
-		ram_data_i : 	in DataBus ;
-		ram_re_o :		out STD_LOGIC ;
-		ram_we_o :		out STD_LOGIC ;
-		ram_addr_o : 	out DataAddrBus ;
-		ram_data_o : 	out DataBus ;
-		ram_ce_o :		out STD_LOGIC
 begin
 	ram_addr_o <= memaddr_i;
 	--warnings : no wait
