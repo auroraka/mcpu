@@ -7,23 +7,38 @@ T_opt
 VZOPfz1kz>Zoh3Cgm^NJ0k2
 04 5 8 work pc_tb behavior 1
 =1-28d244e8e264-582dbaeb-3a6-2d28
-o-quiet -auto_acc_if_foreign -work work
+Z1 o-quiet -auto_acc_if_foreign -work work
 n@_opt
-OL;O;10.1c;51
-Z1 dF:\2016FALL\JY\hw\prj3\ram_uart
+Z2 OL;O;10.1c;51
+Z3 dF:\2016FALL\JY\hw\prj3\ram_uart
+T_opt1
+VnQOdKj8<=ZIOV9[C>gBlY3
+04 6 4 work mem_wb fast 0
+=1-28d244e8e264-58300f2c-302-52bc
+R1
+n@_opt1
+R2
+R3
+T_opt2
+ViHIEHh9dbTi0KH10cOU0l1
+04 6 8 work mem_tb behavior 1
+=1-28d244e8e264-583011bd-1f-48a4
+R1
+n@_opt2
+R2
 vex_mem
 IjPZl?Q6TQbjGA9za@nXKA2
 VMQXWb9`3>V>cQMMRUCMoZ0
-Z2 dF:\2016FALL\JY\cpu\mcpu
+Z4 dF:\2016FALL\JY\cpu\mcpu
 w1479384602
 8F:/2016FALL/JY/cpu/mcpu/src/ex_mem.v
 FF:/2016FALL/JY/cpu/mcpu/src/ex_mem.v
 L0 3
-Z3 OL;L;10.1c;51
+Z5 OL;L;10.1c;51
 r1
 31
-Z4 o-work work -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF
-Z5 !s92 -work work +incdir+F:/2016FALL/JY/cpu/mcpu/src -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF
+Z6 o-work work -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF
+Z7 !s92 -work work +incdir+F:/2016FALL/JY/cpu/mcpu/src -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF
 !s100 [KCFFgVNEeE8<hgeC6:1I2
 !s90 -reportprogress|300|-work|work|-vopt|+incdir+F:/2016FALL/JY/cpu/mcpu/src|F:/2016FALL/JY/cpu/mcpu/src/ex_mem.v|
 !s108 1479384690.172000
@@ -33,16 +48,16 @@ Z5 !s92 -work work +incdir+F:/2016FALL/JY/cpu/mcpu/src -L mtiAvm -L mtiOvm -L mt
 vid_ex
 IWi]C4QdaA8?N`Km;k=fEf3
 VcX8l3ZjSZ:SFR@_KBF38=3
-R2
+R4
 w1479384510
 8F:/2016FALL/JY/cpu/mcpu/src/id_ex.v
 FF:/2016FALL/JY/cpu/mcpu/src/id_ex.v
 L0 3
-R3
+R5
 r1
 31
-R4
-R5
+R6
+R7
 !s100 I]`^ASBb;VMWo_^z2ezjW3
 !s108 1479384690.504000
 !s107 F:/2016FALL/JY/cpu/mcpu/src/defines.v|F:/2016FALL/JY/cpu/mcpu/src/id_ex.v|
@@ -52,15 +67,15 @@ R5
 vif_id
 IiPXom38OG8o33KO^8UjXV0
 V10cQ4Y>GEZT4>Y_@`nHPW2
-R2
+R4
 w1479384435
 8F:/2016FALL/JY/cpu/mcpu/src/if_id.v
 FF:/2016FALL/JY/cpu/mcpu/src/if_id.v
 L0 3
-R3
+R5
 r1
 31
-R4
+R6
 !s90 -reportprogress|300|-work|work|-vopt|-v|F:/2016FALL/JY/cpu/mcpu/src/defines.v|+incdir+F:/2016FALL/JY/cpu/mcpu/src|F:/2016FALL/JY/cpu/mcpu/src/if_id.v|
 !s92 -work work -v F:/2016FALL/JY/cpu/mcpu/src/defines.v +incdir+F:/2016FALL/JY/cpu/mcpu/src -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF
 !s100 RR66CSocM@S_?;zF:?JCd0
@@ -71,16 +86,16 @@ R4
 vinst_rom
 I>Z:GkcOB7MdTd=`8AJiTL1
 VZ[?X6M:Z8?hR^L<J;n;dC0
-R2
+R4
 w1479388151
 8F:/2016FALL/JY/cpu/mcpu/src/inst_rom.v
 FF:/2016FALL/JY/cpu/mcpu/src/inst_rom.v
 L0 3
-R3
+R5
 r1
 31
-R4
-R5
+R6
+R7
 !s100 B9W:CIRHV;n^@`WfmcN1B0
 !s108 1479389757.242000
 !s107 F:/2016FALL/JY/cpu/mcpu/src/defines.v|F:/2016FALL/JY/cpu/mcpu/src/inst_rom.v|
@@ -90,16 +105,16 @@ R5
 vmcpu
 IfT5P38Ri[fiEbMCng2FQ10
 VBa^okcQV::A]RBVbZ@Cl]0
-R2
+R4
 w1479389948
 8F:/2016FALL/JY/cpu/mcpu/src/mcpu.v
 FF:/2016FALL/JY/cpu/mcpu/src/mcpu.v
 L0 3
-R3
+R5
 r1
 31
-R4
-R5
+R6
+R7
 !s100 WTJ6?4Dj73?IzHS^M^d;I0
 !s108 1479389955.723000
 !s107 F:/2016FALL/JY/cpu/mcpu/src/defines.v|F:/2016FALL/JY/cpu/mcpu/src/mcpu.v|
@@ -107,61 +122,104 @@ R5
 !i10b 1
 !s85 0
 Emem
-Z6 w1479541497
-Z7 DPx4 work 4 pack 0 22 L4oXNZH_b]eg?k=W;SW1F1
-Z8 DPx4 ieee 11 numeric_std 0 22 O3PF8EB`?j9=z7KT`fn941
-Z9 DPx4 ieee 18 std_logic_unsigned 0 22 RYmj;=TK`k=k>D@Cz`zoB3
-Z10 DPx4 ieee 15 std_logic_arith 0 22 4`Y?g_lkdn;7UL9IiJck01
-Z11 DPx3 std 6 textio 0 22 5>J:;AW>W0[[dW0I6EN1Q0
-Z12 DPx4 ieee 14 std_logic_1164 0 22 5=aWaoGZSMWIcH0i^f`XF1
-R2
-Z13 8F:/2016FALL/JY/cpu/mcpu/src/mem.vhd
-Z14 FF:/2016FALL/JY/cpu/mcpu/src/mem.vhd
+Z8 w1479544528
+Z9 DPx4 work 4 pack 0 22 9B4z?Oemh[SP:S5?d;=:g2
+Z10 DPx4 ieee 11 numeric_std 0 22 O3PF8EB`?j9=z7KT`fn941
+Z11 DPx4 ieee 18 std_logic_unsigned 0 22 RYmj;=TK`k=k>D@Cz`zoB3
+Z12 DPx4 ieee 15 std_logic_arith 0 22 4`Y?g_lkdn;7UL9IiJck01
+Z13 DPx3 std 6 textio 0 22 5>J:;AW>W0[[dW0I6EN1Q0
+Z14 DPx4 ieee 14 std_logic_1164 0 22 5=aWaoGZSMWIcH0i^f`XF1
+R4
+Z15 8F:/2016FALL/JY/cpu/mcpu/src/mem.vhd
+Z16 FF:/2016FALL/JY/cpu/mcpu/src/mem.vhd
 l0
 L8
-V6hi?5XMjT=g:AF?bMb6_Q3
-!s100 cAA[:3l]J;RCabe`G@4=H1
-Z15 OL;C;10.1c;51
+VZbFJiVU6[4H0BCj>?nM[`0
+Z17 OL;C;10.1c;51
 32
+Z18 !s108 1479544569.422000
+Z19 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|F:/2016FALL/JY/cpu/mcpu/src/mem.vhd|
+Z20 !s107 F:/2016FALL/JY/cpu/mcpu/src/mem.vhd|
+Z21 o-work work -2002 -explicit
+Z22 tExplicit 1
+!s100 CdED=44KEocXA`]S2C6G?2
 !i10b 1
-!s108 1479541506.989000
-Z16 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|F:/2016FALL/JY/cpu/mcpu/src/mem.vhd|
-!s107 F:/2016FALL/JY/cpu/mcpu/src/mem.vhd|
-Z17 o-work work -2002 -explicit
-Z18 tExplicit 1
 Abehavioral
-R7
-R8
 R9
 R10
 R11
 R12
-DEx4 work 3 mem 0 22 6hi?5XMjT=g:AF?bMb6_Q3
+R13
+R14
+DEx4 work 3 mem 0 22 ZbFJiVU6[4H0BCj>?nM[`0
 l33
 L32
-VL6lGTF_cWzM=E`eILJK3N2
-R15
-32
-!s108 1479541304.977000
-R16
-!s107 F:/2016FALL/JY/cpu/mcpu/src/mem.vhd|
+V;1;53T]KRB<cX1SWTNe7f3
 R17
+32
 R18
-!s100 5>;?XA^0DZ0T6L<1DIGAm0
+R19
+R20
+R21
+R22
+!s100 11`n>Q>PVnW@VV6<23Ima2
+!i10b 1
+Emem_tb
+Z23 w1479545244
+R9
+R10
+R11
+R12
+R13
+R14
+R4
+Z24 8F:/2016FALL/JY/cpu/mcpu/src/testbench/mem_tb.vhd
+Z25 FF:/2016FALL/JY/cpu/mcpu/src/testbench/mem_tb.vhd
+l0
+L39
+VM7H>WH=dh410QX3ecUQ9l2
+R17
+32
+Z26 !s108 1479545265.455000
+Z27 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|F:/2016FALL/JY/cpu/mcpu/src/testbench/mem_tb.vhd|
+Z28 !s107 F:/2016FALL/JY/cpu/mcpu/src/testbench/mem_tb.vhd|
+R21
+R22
+!s100 USbEmR9JRh54QM5BFgho:0
+!i10b 1
+Abehavior
+R9
+R10
+R11
+R12
+R13
+R14
+DEx4 work 6 mem_tb 0 22 M7H>WH=dh410QX3ecUQ9l2
+l89
+L42
+V?T8nki08QC0iO55I8h:393
+R17
+32
+R26
+R27
+R28
+R21
+R22
+!s100 AAMd1o]fRY1jE;W<d@5m@2
 !i10b 1
 vmem_wb
 IY4YHljkXPd8XFZ4^a;[hb2
 VZ<3z;ihAWhl8:D91;lJKK2
-R2
+R4
 w1479384638
 8F:/2016FALL/JY/cpu/mcpu/src/mem_wb.v
 FF:/2016FALL/JY/cpu/mcpu/src/mem_wb.v
 L0 3
-R3
+R5
 r1
 31
-R4
-R5
+R6
+R7
 !s100 :PEcLVd65<G:S5X6>]^0o1
 !s90 -reportprogress|300|-work|work|-vopt|+incdir+F:/2016FALL/JY/cpu/mcpu/src|F:/2016FALL/JY/cpu/mcpu/src/mem_wb.v|
 !s108 1479384690.829000
@@ -169,115 +227,115 @@ R5
 !i10b 1
 !s85 0
 Ppack
-R11
-R12
-w1479541136
-R2
+R13
+R14
+w1479541654
+R4
 8F:/2016FALL/JY/cpu/mcpu/src/pack.vhd
 FF:/2016FALL/JY/cpu/mcpu/src/pack.vhd
 l0
 L13
-VL4oXNZH_b]eg?k=W;SW1F1
-R15
-32
+V9B4z?Oemh[SP:S5?d;=:g2
 R17
-R18
-!s100 Ceb6g04mZB5c[PUDbV:1M0
+32
+R21
+R22
+!s100 b2n@GY`J46k8hdXf=8@^h3
 !i10b 1
-!s108 1479541142.692000
+!s108 1479541878.574000
 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|F:/2016FALL/JY/cpu/mcpu/src/pack.vhd|
 !s107 F:/2016FALL/JY/cpu/mcpu/src/pack.vhd|
 Epc
-Z19 w1479385247
-Z20 DPx4 work 4 pack 0 22 o]fcl@Wdg2glNKd9Rb?h]2
-R9
-R10
+Z29 w1479385247
+Z30 DPx4 work 4 pack 0 22 o]fcl@Wdg2glNKd9Rb?h]2
 R11
 R12
-R2
-Z21 8F:/2016FALL/JY/cpu/mcpu/src/pc.vhd
-Z22 FF:/2016FALL/JY/cpu/mcpu/src/pc.vhd
+R13
+R14
+R4
+Z31 8F:/2016FALL/JY/cpu/mcpu/src/pc.vhd
+Z32 FF:/2016FALL/JY/cpu/mcpu/src/pc.vhd
 l0
 L8
 VNRJ2i<YIF]F<Kl8;TEEmN0
-R15
-32
-Z23 !s108 1479389773.306000
-Z24 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|F:/2016FALL/JY/cpu/mcpu/src/pc.vhd|
-Z25 !s107 F:/2016FALL/JY/cpu/mcpu/src/pc.vhd|
 R17
-R18
+32
+Z33 !s108 1479389773.306000
+Z34 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|F:/2016FALL/JY/cpu/mcpu/src/pc.vhd|
+Z35 !s107 F:/2016FALL/JY/cpu/mcpu/src/pc.vhd|
+R21
+R22
 !s100 i6i5_;81HJDPQKc8GY>HL3
 !i10b 1
 Abehavioral
-R20
-R9
-R10
+R30
 R11
 R12
+R13
+R14
 DEx4 work 2 pc 0 22 NRJ2i<YIF]F<Kl8;TEEmN0
 l21
 L19
 VCFoPVW<GgEDS:;`;TVBI71
-R15
-32
-R23
-R24
-R25
 R17
-R18
+32
+R33
+R34
+R35
+R21
+R22
 !s100 emVTV>SDo[djg9b1dZWMI3
 !i10b 1
 Epc_tb
-Z26 w1479391880
-R20
-R11
-R12
-R2
-Z27 8F:/2016FALL/JY/cpu/mcpu/pc_tb.vhd
-Z28 FF:/2016FALL/JY/cpu/mcpu/pc_tb.vhd
+Z36 w1479391880
+R30
+R13
+R14
+R4
+Z37 8F:/2016FALL/JY/cpu/mcpu/pc_tb.vhd
+Z38 FF:/2016FALL/JY/cpu/mcpu/pc_tb.vhd
 l0
 L35
 VQi3l<`Ea9E7_Q7g[iSzb]3
-R15
-32
-Z29 !s108 1479391888.989000
-Z30 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|F:/2016FALL/JY/cpu/mcpu/pc_tb.vhd|
-Z31 !s107 F:/2016FALL/JY/cpu/mcpu/pc_tb.vhd|
 R17
-R18
+32
+Z39 !s108 1479391888.989000
+Z40 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|F:/2016FALL/JY/cpu/mcpu/pc_tb.vhd|
+Z41 !s107 F:/2016FALL/JY/cpu/mcpu/pc_tb.vhd|
+R21
+R22
 !s100 OWk9DjKWiGHI4n9Yo`W:K1
 !i10b 1
 Abehavior
-R20
-R11
-R12
+R30
+R13
+R14
 DEx4 work 5 pc_tb 0 22 Qi3l<`Ea9E7_Q7g[iSzb]3
 l69
 L38
 VcnaWN0IYdmbSJFGdRWhKf0
-R15
-32
-R29
-R30
-R31
 R17
-R18
+32
+R39
+R40
+R41
+R21
+R22
 !s100 ^5I6kf<JQ>9Bb4R[DHEFe0
 !i10b 1
 vrom_tf
 I`N=jYS9C>;9MLk[W[F9CL0
 Vh]kT64aWMbzMZNPTH:`mR0
-R2
+R4
 w1479393587
 8F:/2016FALL/JY/cpu/mcpu/rom_tf.v
 FF:/2016FALL/JY/cpu/mcpu/rom_tf.v
 L0 25
-R3
+R5
 r1
 31
-R4
-R5
+R6
+R7
 !i10b 1
 !s100 dbGH[5XY7Qc_4j;nl?WRF2
 !s85 0
