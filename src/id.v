@@ -88,6 +88,21 @@ always @ (*) begin
 		branch_addr_o<=`ZeroInstAddr;
 
 	end else begin
+		//默认为nop,不从reg读数据,不写数据
+		alusel_o<=`EXE_SEL_SPECIAL;
+		aluop_o<=`EXE_OP_NOP;
+		we_o<=`WriteDisable;
+		waddr_o<=`ZeroDataAddr;
+		reg0_o<=`ZeroData;
+		reg1_o<=`ZeroData;
+		reg0_re_o<=`ReadDisable;
+		reg1_re_o<=`ReadDisable;
+		reg0_addr_o<=`ZeroRegAddr;
+		reg1_addr_o<=`ZeroRegAddr;
+		
+		stall_req<=`StallNo;
+		branch_flag_o<=`BranchFlagDown;
+		branch_addr_o<=`ZeroInstAddr;
 		case (op)
 			`OP_ADDSP3:begin
 					
