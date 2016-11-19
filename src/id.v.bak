@@ -37,8 +37,8 @@ module id(
 	output reg[`InstAddrBus] branch_addr_o
 );
 
-reg[`DataBus] reg0_o;
-reg[`DataBus] reg1_o;
+wire[`DataBus] reg0_o;
+wire[`DataBus] reg1_o;
 
 //more details see inst_list_types.pptx
 wire[4:0] op=inst_i[15:11];
