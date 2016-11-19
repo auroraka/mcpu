@@ -40,14 +40,17 @@ end mem ;
 architecture Behavioral of mem is
 begin
 	ram_addr_o <= memaddr_i;
-	--warnings : no wait
 	ram: process
 	begin
 		if(rst = RstEnable)then
-			ram_ce_o <= RamChipDisable;
-			ram_we_o <= RamWriteDisable;
-			ram_re_o <= RamReadDisable;
-			ram_data_o <= ZeroWord;
+			ram1_ce_o <= RamChipDisable;
+			ram1_we_o <= RamWriteDisable;
+			ram1_re_o <= RamReadDisable;
+			ram1_data_o <= ZeroWord;
+			ram2_ce_o <= RamChipDisable;
+			ram2_we_o <= RamWriteDisable;
+			ram2_re_o <= RamReadDisable;
+			ram2_data_o <= ZeroWord;
 		else
 			case memrw_i is
 				when MemRW_Idle =>
