@@ -1,2 +1,2 @@
-work	"src/pack.vhd"
-work	"src/pc.vhd"
+work	"../src/mem.vhd"
+work	"../src/pack.vhd"
