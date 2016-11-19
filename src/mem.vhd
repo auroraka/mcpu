@@ -53,42 +53,36 @@ begin
 		else
 			ram1_re_o <= RamReadDisable;
 			ram1_we_o <= RamWriteDisable;
-			ram1_data_o <= ZeroWord;
-			ram1_addr_o <= waddr_i;
+			ram1_addr_o <= memaddr_i;
 			ram2_re_o <= RamReadDisable;
 			ram2_we_o <= RamWriteDisable;
-			ram2_data_o <= ZeroWord;
-			ram2_addr_o <= waddr_i;
+			ram2_addr_o <= memaddr_i;
 			case memrw_i is
 				when MemRW_Idle =>
 					ram1_ce_o <= RamChipDisable;
 					ram2_ce_o <= RamChipDisable;
 				when MemRW_Read =>
+					ram1_data <= HighImpWord;
+					ram2_data <= HighImpWord;
 					if(memaddr_i<="0111111111111111")then
 						ram2_ce_o <= RamChipEnable;
 						ram2_re_o <= RamReadEnable;
-						ram2_we_o <= RamWriteDisable;
-						ram2_data_o <= HighImpWord;
 						ram1_ce_o <= RamChipDisable;
 					else
 						ram1_ce_o <= RamChipEnable;
 						ram1_re_o <= RamReadEnable;
-						ram1_we_o <= RamWriteDisable;
-						ram1_data_o <= HighImpWord;
 						ram2_ce_o <= RamChipDisable;
 					end if;
 				when MemRW_Write =>
+					ram1_data <= memdata_i;
+					ram2_data <= memdata_i;
 					if(memaddr_i<="0111111111111111")then
 						ram2_ce_o <= RamChipEnable;
-						ram2_re_o <= RamReadDisable;
 						ram2_we_o <= RamWriteEnable;
-						ram2_data_o <= wdata_i;
 						ram1_ce_o <= RamChipDisable;
 					else
 						ram1_ce_o <= RamChipEnable;
-						ram1_re_o <= RamReadDisable;
 						ram1_we_o <= RamWriteEnable;
-						ram1_data_o <= wdata_i;
 						ram2_ce_o <= RamChipDisable;
 					end if;
 				when others =>
@@ -96,6 +90,19 @@ begin
 		end if;
 	end process;
 	
+	stall: process(memdata_i,memaddr_i,memrw_i,rst)
+	begin
+		if(rst = RstEnable or memrw_i = MemRW_Idle)then
+			stall <= StallNo;
+		elsif(memrw_i = MemRW_Read or memrw_i = MemRW_Write)then
+			if(memaddr_i<="0111111111111111")then
+				stall <= StallYes;
+			else
+				stall <= StallNo;
+			end if;
+		end if;
+	end process;
+
 	we_o <= we_i;
 	waddr_o <= waddr_i;
 	wdata: process
@@ -111,6 +118,5 @@ begin
 			end case;
 		end if;
 	end process;
---stall_req
-	stall_req <= StallNo;
+
 end Behavioral ;
