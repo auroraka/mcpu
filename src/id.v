@@ -1,5 +1,5 @@
 `include "defines.v"
-
+//`include "D:\\CPU\\mcpu\\src\\defines.v"
 module id(
 	input rst,
 	
@@ -17,8 +17,8 @@ module id(
 	input wire mem_we_i,
 	input wire[`DataBus] mem_wdata_i,
 
-	input[`DataBus] reg0_data_i,
-	input[`DataBus] reg1_data_i,
+	//input wire[`DataBus] reg0_data_i,
+	//input wire[`DataBus] reg1_data_i,
 
 
 	output reg[`AluSelBus] alusel_o,
@@ -28,7 +28,7 @@ module id(
 	output reg reg0_re_o,
 	output reg reg1_re_o,
 	output reg[`RegAddrBus] reg0_addr_o,
-	output reg[`RegAddrBus] reg1_addr_o
+	output reg[`RegAddrBus] reg1_addr_o,
 	output reg we_o,
 	output reg[`RegAddrBus] waddr_o,	
 
@@ -51,16 +51,18 @@ wire[2:0] rz=inst_i[4:2];
 wire[15:0] immlu = {8'b0 , inst_i[7:0]};                                 
 
 //inst[7:0] ->   signed extended imm
-wire[15:0] imml = inst_i[7]? {8{1'b1}, inst_i[7:0]}:{8'b0 , inst_i[7:0]};
+wire[15:0] imml = inst_i[7]? 
+{8'b11111111, inst_i[7:0]}:
+{8'b0 , inst_i[7:0]};
 
 //inst[4:0] -> unsigned extended imm
 wire[15:0] immsu={11'b0 , op3};                                         
 
 //inst[4:0] ->   signed extended imm
-wire[15:0] imms=op3[4]? {11{1'b1}, op3}:{11'b0 , op3};                   
+wire[15:0] imms=op3[4]? {11'b11111111111, op3}:{11'b0 , op3};                   
 
 //inst[10:0] -> b imm
-wire[15:0] immb = inst_i[10]? {5{1'b1}, inst_i[10:0]}:{5'b0 , inst_i[10:0]};
+wire[15:0] immb = inst_i[10]? {5'b11111, inst_i[10:0]}:{5'b0 , inst_i[10:0]};
 wire reg0_eq_zero = (reg0_data_i == 0);
 wire reg1_eq_zero = (reg1_data_i == 0);
 
@@ -93,7 +95,7 @@ always @ (*) begin
 			`OP_B:begin
 				alusel_o<=`EXE_SEL_JUMP;
 				aluop_o<=`EXE_OP_B;
-				branch_addr_o<=pc+immb;
+				branch_addr_o<=pc_i+immb;
 				branch_flag_o<=`BranchFlagUp;	
 			end
 			`OP_BEQZ:begin
@@ -101,7 +103,7 @@ always @ (*) begin
 				aluop_o<=`EXE_OP_BEQZ;
 				reg0_re_o<=`ReadEnable;
 				reg0_addr_o<=rx;
-				branch_addr_o<=pc+imml;
+				branch_addr_o<=pc_i+imml;
 				branch_flag_o<=reg0_eq_zero;	
 			end
 			`OP_BNEZ:begin
@@ -109,7 +111,7 @@ always @ (*) begin
 				aluop_o<=`EXE_OP_BNEZ;
 				reg0_re_o<=`ReadEnable;
 				reg0_addr_o<=rx;
-				branch_addr_o<=pc+imml;
+				branch_addr_o<=pc_i+imml;
 				branch_flag_o<=~reg0_eq_zero;	
 			end
 			`OP_SLL:begin
@@ -176,7 +178,7 @@ always @ (*) begin
 						alusel_o<=`EXE_SEL_JUMP;
 						aluop_o<=`EXE_OP_BTEQZ;
 						reg0_re_o<=`ReadEnable;
-						reg0_addr_o<=`RegAddr_T;
+						reg0_addr_o<=`T_Addr;
 						branch_addr_o<=pc+imml;
 						branch_flag_o<=reg0_eq_zero;	
 					end
@@ -198,7 +200,7 @@ always @ (*) begin
 						alusel_o<=`EXE_SEL_REG;
 						aluop_o<=`EXE_OP_MTSP;
 						we_o<=`WriteEnable;
-						waddr_o<=`RegAddr_SP;
+						waddr_o<=`SP_Addr;
 						reg0_re_o<=`ReadEnable;
 						reg0_addr_o<=rx;
 					end
@@ -402,13 +404,13 @@ always @ (*) begin
 						we_o<=`WriteEnable;
 						waddr_o<=rx;
 						reg0_re_o<=`ReadEnable;
-						reg0_addr_o<=`RegAddr_IH;	
+						reg0_addr_o<=`IH_Addr;	
 					end
 					`OP3_MTIH:begin
 						alusel_o<=`EXE_SEL_REG;
 						aluop_o<=`EXE_OP_MTIH;
 						we_o<=`WriteEnable;
-						waddr_o<=`RegAddr_IH;
+						waddr_o<=`IH_Addr;
 						reg0_re_o<=`ReadEnable;
 						reg0_addr_o<=rx;	
 					end
