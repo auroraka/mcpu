@@ -17,7 +17,7 @@ entity pc is port(
 end pc;
 
 architecture Behavioral of pc is
-	signal pc_v: InstAddrBus;
+	signal pc_v: InstAddrBus := ZeroInstAddr;
 begin
 	process(clk)
 	begin

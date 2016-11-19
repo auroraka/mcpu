@@ -13,7 +13,7 @@ entity exe is
 		reg1_i : in DataBus ;
 		waddr_i : in RegAddrBus ;
 		we_i : in STD_LOGIC ;
-		stallreq : in STD_LOGIC ;
+		--stallreq : in STD_LOGIC ;
 		rst : in STD_LOGIC ;
 		
 		--aluop_o : out EXE_OP ;
@@ -21,6 +21,7 @@ entity exe is
 		memaddr_o : out DataAddrBus ;
 		we_o : out STD_LOGIC ;
 		waddr_o : out RegAddrBus ;
+		stallreq: out STD_LOGIC ;
 		wdata_o : out DataBus 
 	) ;
 end exe ;
@@ -36,11 +37,12 @@ begin
 	variable ans : DataBus := ZeroData ;
 	variable rw : MemRWBus := MemRW_Idle ;
 	variable memaddr : DataAddrBus := ZeroDataAddr ;
+	variable stall : STD_LOGIC := StallNo ;
 	begin
 		ans := ZeroData ;
 		rw := MemRW_Idle ;
 		memaddr := ZeroDataAddr ;
-		if(stallreq = StallNo and rst = RstDisable) then
+		if(rst = RstDisable) then
 			case alusel_i is 
 				when EXE_SEL_ARITH =>
 					case aluop_i is
@@ -151,6 +153,7 @@ begin
 		wdata_o <= ans ;
 		memaddr_o <= memaddr ;
 		memrw_o <= rw ;
+		stallreq <= stall ;
 	end process ;
 		
 end Behavioral ;
