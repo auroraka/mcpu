@@ -23,8 +23,8 @@ module id(
 
 	output reg[`AluSelBus] alusel_o,
 	output reg[`AluOpBus] aluop_o,
-	output reg[`DataBus] reg0_o,
-	output reg[`DataBus] reg1_o,
+	output reg[`DataBus] reg0_data_o,
+	output reg[`DataBus] reg1_data_o,
 	output reg reg0_re_o,
 	output reg reg1_re_o,
 	output reg[`RegAddrBus] reg0_addr_o,
@@ -36,6 +36,9 @@ module id(
 	output reg branch_flag_o,
 	output reg[`InstAddrBus] branch_addr_o
 );
+
+wire[`DataBus] reg0_o;
+wire[`DataBus] reg1_o;
 
 //more details see inst_list_types.pptx
 wire[4:0] op=inst_i[15:11];
@@ -423,37 +426,44 @@ always @ (*) begin
 	end
 end
 
+//some thing need to thin more with mem_wdata & ex_wdata
 
 always @ (*) begin
 	if (rst ==`RstEnable) begin
-		reg1_o<=`ZeroWord;
-	end else if (reg1_re_o==`ReadEnable && ex_we_i == `WriteEnable && reg1_addr_o == ex_waddr_i) begin
-		reg1_o<=ex_wdata_i;
-	end else if (reg1_re_o==`ReadEnable && mem_we_i == `WriteEnable && reg1_addr_o == mem_waddr_i) begin
-		reg1_o<=mem_wdata_i;
-	end else if (reg1_re_o==`ReadEnable) begin
-		reg1_o<=reg1_data_i;
-	end else if (reg1_re_o==`ReadDisable) begin
-		reg1_o<=imm_num;
-	end else begin
-		reg1_o<=`ZeroWord;
+		reg0_data_o<=`ZeroWord;
+	end else if (reg0_re_o==`ReadEnable && ex_we_i == `WriteEnable && reg0_addr_o == ex_waddr_i) begin
+		reg0_data_o<=ex_wdata_i;
+	end else if (reg0_re_o==`ReadEnable && mem_we_i == `WriteEnable && reg0_addr_o == mem_waddr_i) begin
+		reg0_data_o<=mem_wdata_i;
+	end else 
+		reg0_data_o<=reg0_o;
 	end
+	// end else if (reg0_re_o==`ReadEnable) begin
+	// 	reg0_data_o<=reg0_data_i;
+	// end else if (reg0_re_o==`ReadDisable) begin
+	// 	reg0_data_o<=imm_num;
+	// end else begin
+	// 	reg0_data_o<=`ZeroWord;
+	// end
 end
 
 always @ (*) begin
 	if (rst ==`RstEnable) begin
-		reg2_o<=`ZeroWord;
-	end else if (reg2_re_o==`ReadEnable && ex_we_i == `WriteEnable && reg2_addr_o == ex_waddr_i) begin
-		reg2_o<=ex_wdata_i;
-	end else if (reg2_re_o==`ReadEnable && mem_we_i == `WriteEnable && reg2_addr_o == mem_waddr_i) begin
-		reg2_o<=mem_wdata_i;
-	end else if (reg2_re_o==`ReadEnable) begin
-		reg2_o<=reg2_data_i;
-	end else if (reg2_re_o==`ReadDisable) begin
-		reg2_o<=imm_num;
-	end else begin
-		reg2_o<=`ZeroWord;
+		reg1_data_o<=`ZeroWord;
+	end else if (reg1_re_o==`ReadEnable && ex_we_i == `WriteEnable && reg1_addr_o == ex_waddr_i) begin
+		reg1_data_o<=ex_wdata_i;
+	end else if (reg1_re_o==`ReadEnable && mem_we_i == `WriteEnable && reg1_addr_o == mem_waddr_i) begin
+		reg1_data_o<=mem_wdata_i;
+	end else 
+		reg1_data_o<=reg1_o;
 	end
+	// end else if (reg1_re_o==`ReadEnable) begin
+	// 	reg1_data_o<=reg1_data_i;
+	// end else if (reg1_re_o==`ReadDisable) begin
+	// 	reg1_data_o<=imm_num;
+	// end else begin
+	// 	reg1_data_o<=`ZeroWord;
+	// end
 end
 
 endmodule
