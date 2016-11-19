@@ -39,7 +39,7 @@ subtype WordBus is STD_lOGIC_VECTOR(15 downto 0) ;
 constant ZeroWord : Word := "0000000000000000" ;
 
 --data
-subtype DataAddress is STD_lOGIC_VECTOR (15 downto 0) ;
+subtype DataAddrBus is STD_lOGIC_VECTOR (15 downto 0) ;
 subtype DataBus is STD_lOGIC_VECTOR(15 downto 0) ;
 constant ZeroData : Word := "0000000000000000" ;
 constant ZeroDataAddr : Word := "0000000000000000" ;
@@ -80,69 +80,69 @@ constant MemRW_Read : MemRWBus := "01" ;
 constant MemRW_Write : MemRWBus := "10" ;
 
 --ops id send to ex
-subtype AluOpBus is STD_lOGIC_VECTOR(3 downto 0) ;
-subtype AluSelBus is STD_lOGIC_VECTOR(3 downto 0) ; 
+subtype AluOpBus is STD_lOGIC_VECTOR(2 downto 0) ;
+subtype AluSelBus is STD_lOGIC_VECTOR(2 downto 0) ; 
 
-subtype EXE_OP is STD_lOGIC_VECTOR(2 downto 0) ;
+--subtype AluOpBus is STD_lOGIC_VECTOR(2 downto 0) ;
 --special
-constant EXE_OP_NOP	: EXE_OP := "000" ;
-constant EXE_OP_INT	: EXE_OP := "001" ;
+constant EXE_OP_NOP	: AluOpBus := "000" ;
+constant EXE_OP_INT	: AluOpBus := "001" ;
 
 --reg
-constant EXE_OP_LI	: EXE_OP := "000" ;
-constant EXE_OP_MFIH : EXE_OP := "001" ;
-constant EXE_OP_MFPC : EXE_OP := "010" ;
-constant EXE_OP_MOVE : EXE_OP := "011" ;
-constant EXE_OP_MTIH : EXE_OP := "100" ;
-constant EXE_OP_MTSP : EXE_OP := "101" ;
+constant EXE_OP_LI	: AluOpBus := "000" ;
+constant EXE_OP_MFIH : AluOpBus := "001" ;
+constant EXE_OP_MFPC : AluOpBus := "010" ;
+constant EXE_OP_MOVE : AluOpBus := "011" ;
+constant EXE_OP_MTIH : AluOpBus := "100" ;
+constant EXE_OP_MTSP : AluOpBus := "101" ;
 
 --jump
-constant EXE_OP_B	: EXE_OP := "000" ;
-constant EXE_OP_BEQZ : EXE_OP := "001" ;
-constant EXE_OP_BNEZ : EXE_OP := "010" ;
-constant EXE_OP_BTEQZ : EXE_OP := "011" ;
-constant EXE_OP_JR	: EXE_OP := "100" ;
+constant EXE_OP_B	: AluOpBus := "000" ;
+constant EXE_OP_BEQZ : AluOpBus := "001" ;
+constant EXE_OP_BNEZ : AluOpBus := "010" ;
+constant EXE_OP_BTEQZ : AluOpBus := "011" ;
+constant EXE_OP_JR	: AluOpBus := "100" ;
 
 
 --lw
-constant EXE_OP_LW	: EXE_OP := "000" ;
-constant EXE_OP_LW_SP : EXE_OP := "001" ;
-constant EXE_OP_SW	: EXE_OP := "010" ;
-constant EXE_OP_SW_SP : EXE_OP := "011" ;
-constant EXE_OP_OTHER : EXE_OP := "111" ;
+constant EXE_OP_LW	: AluOpBus := "000" ;
+constant EXE_OP_LW_SP : AluOpBus := "001" ;
+constant EXE_OP_SW	: AluOpBus := "010" ;
+constant EXE_OP_SW_SP : AluOpBus := "011" ;
+constant EXE_OP_OTHER : AluOpBus := "111" ;
 
 --cmp
-constant EXE_OP_CMP	: EXE_OP := "000" ;
-constant EXE_OP_CMPI : EXE_OP := "001" ;
+constant EXE_OP_CMP	: AluOpBus := "000" ;
+constant EXE_OP_CMPI : AluOpBus := "001" ;
 
 --logic
-constant EXE_OP_AND	: EXE_OP := "000" ;
-constant EXE_OP_NEG	: EXE_OP := "001" ;
-constant EXE_OP_OR	: EXE_OP := "010" ;
+constant EXE_OP_AND	: AluOpBus := "000" ;
+constant EXE_OP_NEG	: AluOpBus := "001" ;
+constant EXE_OP_OR	: AluOpBus := "010" ;
 
 --shift
-constant EXE_OP_SLL	: EXE_OP := "000" ;
-constant EXE_OP_SLLV : EXE_OP := "001" ;
-constant EXE_OP_SRA	 : EXE_OP := "010" ;
-constant EXE_OP_SRL	: EXE_OP := "011" ;
+constant EXE_OP_SLL	: AluOpBus := "000" ;
+constant EXE_OP_SLLV : AluOpBus := "001" ;
+constant EXE_OP_SRA	 : AluOpBus := "010" ;
+constant EXE_OP_SRL	: AluOpBus := "011" ;
 
 --arith
-constant EXE_OP_SUBU: EXE_OP := "000" ;
-constant EXE_OP_ADDIU : EXE_OP := "001" ;
-constant EXE_OP_ADDIU3 : EXE_OP := "010" ;
-constant EXE_OP_ADDSP : EXE_OP := "011" ;
-constant EXE_OP_ADDU : EXE_OP := "100" ;
+constant EXE_OP_SUBU: AluOpBus := "000" ;
+constant EXE_OP_ADDIU : AluOpBus := "001" ;
+constant EXE_OP_ADDIU3 : AluOpBus := "010" ;
+constant EXE_OP_ADDSP : AluOpBus := "011" ;
+constant EXE_OP_ADDU : AluOpBus := "100" ;
 
 --sels id send to ex
-subtype sel is STD_lOGIC_VECTOR (2 downto 0) ;
-constant EXE_SEL_SPECIAL : sel := "000" ;
-constant EXE_SEL_REG : sel := "001" ;
-constant EXE_SEL_JUMP : sel := "010" ;
-constant EXE_SEL_LW	: sel := "011" ;
-constant EXE_SEL_CMP : sel := "100" ;
-constant EXE_SEL_LOGIC : sel := "101" ;
-constant EXE_SEL_SHIFT : sel := "110" ;
-constant EXE_SEL_ARITH : sel := "111" ;
+--subtype sel is STD_lOGIC_VECTOR (2 downto 0) ;
+constant EXE_SEL_SPECIAL : AluSelBus := "000" ;
+constant EXE_SEL_REG : AluSelBus := "001" ;
+constant EXE_SEL_JUMP : AluSelBus := "010" ;
+constant EXE_SEL_LW	: AluSelBus := "011" ;
+constant EXE_SEL_CMP : AluSelBus := "100" ;
+constant EXE_SEL_LOGIC : AluSelBus := "101" ;
+constant EXE_SEL_SHIFT : AluSelBus := "110" ;
+constant EXE_SEL_ARITH : AluSelBus := "111" ;
 
 --mips16 instrcution sets( split into op0123)
 subtype OP is STD_lOGIC_VECTOR(4 downto 0) ;

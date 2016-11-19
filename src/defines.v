@@ -22,7 +22,7 @@
 //word
 `define WordLength 16
 `define WordBus `WordLength-1:0
-`define ZeroWord `WordLength-1'b0
+`define ZeroWord `WordLength'b0
 
 //data
 `define DataAddrBus `WordBus
@@ -45,7 +45,7 @@
 `define RegNum 16
 `define RegNumLog2 4
 `define RegAddrBus `RegNumLog2-1:0
-`define ZeroRegAddr `RegNumLog2-1'b0
+`define ZeroRegAddr `RegNumLog2'b0
 //[REG_ADDR_R0 - REG_ADDR_R7] = 0000-0111
 //REG_PC = 1000 is not in regfile
 
@@ -70,8 +70,8 @@
 `define MemRW_Write	`MemRWLength'b10
 
 //ops id send to ex
-`define AluOpBus 3:0
-`define AluSelBus 3:0 
+`define AluOpBus 2:0
+`define AluSelBus 2:0 
 //nop
 `define EXE_OP_NOP		3'b000
 `define EXE_SEL_NOP		3'b001

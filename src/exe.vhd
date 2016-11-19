@@ -7,8 +7,8 @@ USE WORK.PACK.ALL ;
 
 entity exe is 
 	Port(
-		aluop_i : in EXE_OP ;
-		alusel_i : in sel ;
+		aluop_i : in AluOpBus ;
+		alusel_i : in AluSelBus ;
 		reg0_i : in DataBus ;
 		reg1_i : in DataBus ;
 		waddr_i : in RegAddrBus ;
@@ -18,7 +18,7 @@ entity exe is
 		
 		--aluop_o : out EXE_OP ;
 		memrw_o : out MemRWBus ;
-		memaddr_o : out DataAddress ;
+		memaddr_o : out DataAddrBus ;
 		we_o : out STD_LOGIC ;
 		waddr_o : out RegAddrBus ;
 		wdata_o : out DataBus 
@@ -35,7 +35,7 @@ begin
 	process(alusel_i, aluop_i, reg0_i, reg1_i, stallreq, rst)
 	variable ans : DataBus := ZeroData ;
 	variable rw : MemRWBus := MemRW_Idle ;
-	variable memaddr : DataAddress := ZeroDataAddr ;
+	variable memaddr : DataAddrBus := ZeroDataAddr ;
 	begin
 		ans := ZeroData ;
 		rw := MemRW_Idle ;
