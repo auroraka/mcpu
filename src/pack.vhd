@@ -37,7 +37,7 @@ constant BranchFlagUp : STD_lOGIC := '1' ;
 subtype Word is STD_lOGIC_VECTOR (15 downto 0) ;
 subtype WordBus is STD_lOGIC_VECTOR(15 downto 0) ;
 constant ZeroWord : Word := "0000000000000000" ;
-
+constant HighImpWord : Word := "ZZZZZZZZZZZZZZZZ" ;
 --data
 subtype DataAddress is STD_lOGIC_VECTOR (15 downto 0) ;
 subtype DataBus is STD_lOGIC_VECTOR(15 downto 0) ;
@@ -78,6 +78,14 @@ subtype MemRWBus is STD_lOGIC_VECTOR (1 downto 0) ;
 constant MemRW_Idle : MemRWBus := "00" ;
 constant MemRW_Read : MemRWBus := "01" ;
 constant MemRW_Write : MemRWBus := "10" ;
+
+-- mem's ram
+constant RamReadEnable 		: STD_lOGIC := '1';
+constant RamReadDisable 	: STD_lOGIC := '0';
+constant RamWriteEnable 	: STD_lOGIC := '1';
+constant RamWriteDisable	: STD_lOGIC := '0';
+constant RamChipEnable 		: STD_lOGIC := '1';
+constant RamChipDisable 	: STD_lOGIC := '0';
 
 --ops id send to ex
 subtype AluOpBus is STD_lOGIC_VECTOR(3 downto 0) ;
