@@ -32,9 +32,6 @@ signal pc_id_i : InstAddrBus ;
 signal inst_id_i: InstBus ;
 signal reg0_data_id_i : DataBus ;
 signal reg1_data_id_i : DataBus ;
---signal ex_waddr_id_i: RegAddrBus ;
---signal ex_wdata_id_i: DataBus ;
---signal ex_we_id_i: STD_LOGIC ;
 signal mem_waddr_id_i : RegAddrBus ;
 signal mem_wdata_id_i : DataBus ;
 signal mem_we_id_i : STD_LOGIC ;
@@ -55,6 +52,7 @@ signal we_wb_i : STD_LOGIC ;
 signal we_ex_i: STD_LOGIC ;
 signal we_ex_o: STD_LOGIC ;
 signal we_mem_i: STD_LOGIC ;
+signal we_mem_o: STD_LOGIC ;
 signal waddr_id_o: RegAddrBus ;
 signal waddr_wb_i: RegAddrBus ;
 signal waddr_ex_i: RegAddrBus ;
@@ -64,11 +62,23 @@ signal waddr_mem_o: RegAddrBus ;
 signal wdata_wb_i: DataBus ;
 signal wdata_ex_o: DataBus ;
 signal wdata_mem_i: DataBus ;
+signal wdata_mem_o: DataBus ;
 signal memrw_ex_o : MemRWBus ;
 signal memrw_mem_i: MemRWBus ;
 signal memaddr_ex_o : DataAddrBus ;
 signal memaddr_mem_i: DataAddrBus ;
-signal ram_data_i: DataBus ; -- unreasonable, may have some problems
+signal memdata_ex_o: DataBus ;
+signal memdata_mem_i: DataBus ;
+signal ram2_data: DataBus ;
+signal ram2_addr_o: DataAddrBus ;
+signal ram2_ce_o: STD_LOGIC ;
+signal ram2_we_o: STD_LOGIC ;
+signal ram2_re_o: STD_LOGIC ;
+signal ram1_addr_o: DataAddrBus ;
+signal ram1_data: DataBus ;
+signal ram1_ce_o: STD_LOGIC ;
+signal ram1_we_o: STD_LOGIC ;
+signal ram1_re_o: STD_LOGIC ;
 
 component pc
 	Port(
@@ -164,6 +174,7 @@ component exe
 		
 		memrw_o : out MemRWBus ;
 		memaddr_o : out DataAddrBus ;
+		memdata_o : out DataBus ;
 		we_o : out STD_LOGIC ;
 		waddr_o : out RegAddrBus ;
 		stallreq: out STD_LOGIC ;
@@ -195,6 +206,7 @@ component ex_mem
 		stall: in STD_LOGIC ;
 		ex_memrw: in MemRWBus ;
 		ex_memaddr: in DataAddrBus ;
+		ex_memdata: in DataBus ;
 		ex_wdata: in DataBus ;
 		ex_waddr : in RegAddrBus ;
 		ex_we: in STD_LOGIC ;
@@ -203,6 +215,7 @@ component ex_mem
 		mem_waddr: out RegAddrBus ;
 		mem_memrw: out  MemRWBus ;
 		mem_memaddr: out DataAddrBus ;
+		mem_memdata: out DataBus ;
 		mem_we: out STD_LOGIC 
 	) ;
 end component ;
@@ -224,25 +237,57 @@ end component ;
 
 component mem
 	Port(
+		--寄存器
 		we_i : 		in STD_LOGIC ;
-		wdata_i : 	in DataBus ;
 		waddr_i : 	in RegAddrBus ;
+		wdata_i : 	in DataBus ;
+		--ram
+		memdata_i : in DataBus ;
+		memrw_i : 	in MemRWBus ; 
 		memaddr_i : in DataAddrBus ;
-		memrw_i : 	in MemRWBus ;
-
-		ram_data_i : 	in DataBus ;
 		rst : 		in STD_LOGIC ;
 
 		we_o : 		out STD_LOGIC ;
 		waddr_o : 	out RegAddrBus ;
 		wdata_o : 	out DataBus ;
-		ram_re_o :		out STD_LOGIC ;
-		ram_we_o :		out STD_LOGIC ;
-		ram_addr_o : 	out DataAddrBus ;
-		ram_data_o : 	out DataBus ;
-		ram_ce_o :		out STD_LOGIC ;
-
 		stall_req : out STD_LOGIC
+		--ram 2
+		ram2_data : 	inout DataBus ;
+		ram2_re_o :		out STD_LOGIC ;
+		ram2_we_o :		out STD_LOGIC ;
+		ram2_addr_o : 	out DataAddrBus ;
+		ram2_ce_o :		out STD_LOGIC;
+		--ram 1
+		ram1_data : 	inout DataBus ;
+		ram1_re_o :		out STD_LOGIC ;
+		ram1_we_o :		out STD_LOGIC ;
+		ram1_addr_o : 	out DataAddrBus ;
+		ram1_ce_o :		out STD_LOGIC	
+	) ;
+end component ;
+
+component stall_ctrl
+	Port(
+		rst : in STD_LOGIC ;
+		stallreq_id: in STD_LOGIC ;
+		stallreq__ex: in STD_LOGIC ;
+		stallreq_mem: in STD_LOGIC ;
+		
+		stall_pc: out STD_LOGIC ;
+		stall_if_id: out STD_LOGIC ;
+		stall_id_ex: out STD_LOGIC ;
+		stall_ex_mem: out STD_LOGIC ;
+		stall_mem_wb: out STD_LOGIC
+	) ;
+end component ;
+
+component ram1_ctrl
+	Port(
+	) ;
+end component ;
+
+component ram2_ctrl
+	Port(
 	) ;
 end component ;
 
@@ -270,9 +315,9 @@ begin
 		ex_waddr_i => waddr_ex_o,
 		ex_we_i => we_ex_o,
 		ex_wdata_i => wdata_ex_o,
-		mem_waddr_i => mem_waddr_id_i ,
-		mem_we_i => mem_we_id_i ,
-		mem_wdata_i => mem_wdata_id_i ,
+		mem_waddr_i => waddr_mem_o,
+		mem_we_i => we_mem_o,
+		mem_wdata_i => wdata_mem_o,
 		
 		alusel_o => alusel_id_o,
 		aluop_o => aluop_id_o,
@@ -334,6 +379,7 @@ begin
 		
 		memrw_o => memrw_ex_o,
 		memaddr_o => memaddr_ex_o,
+		memdata_o => memdata_ex_o ,
 		we_o => we_ex_o,
 		waddr_o => waddr_ex_o,
 		stallreq => stallreq_ex_o,
@@ -346,6 +392,7 @@ begin
 		stall => stall_ex_mem,
 		ex_memrw => memrw_ex_o,
 		ex_memaddr => memaddr_ex_o,
+		ex_memdata => memdata_ex_o,
 		ex_wdata => wdata_ex_o,
 		ex_waddr => waddr_ex_o,
 		ex_we => we_ex_o,
@@ -354,29 +401,62 @@ begin
 		mem_waddr => waddr_mem_i,
 		mem_memrw => memrw_mem_i,
 		mem_memaddr => memaddr_mem_i,
+		mem_memdata => memdata_mem_i, 
 		mem_we => we_mem_i
 	) ;
 	
-	mmem: mem port map(
-		we_i => we_mem_i,
-		wdata_i => wdata_mem_i,
-		waddr_i => waddr_mem_i,
-		memaddr_i => memaddr_mem_i,
-		memrw_i => memrw_mem_i,
-
-		ram_data_i : 	in DataBus ;
-		rst : 		in STD_LOGIC ;
-
-		we_o : 		out STD_LOGIC ;
-		waddr_o : 	out RegAddrBus ;
-		wdata_o : 	out DataBus ;
-		ram_re_o :		out STD_LOGIC ;
-		ram_we_o :		out STD_LOGIC ;
-		ram_addr_o : 	out DataAddrBus ;
-		ram_data_o : 	out DataBus ;
-		ram_ce_o :		out STD_LOGIC ;
-
-		stall_req : out STD_LOGIC
+	mmem_wb: mem_wb port map(
+		clk => clk ,
+		rst => rst ,
+		stall => stall_mem_wb ,
+		mem_wdata => wdata_mem_o, 
+		mem_waddr => waddr_mem_o,
+		mem_we => we_mem_o ,
+		
+		wb_wdata => wdata_wb_i,
+		wb_waddr => waddr_wb_i, 
+		wb_we => we_wb_i
 	) ;
 	
+	mmen: mem port map(
+		--寄存器
+		we_i => we_mem_i,
+		waddr_i => waddr_mem_i,
+		wdata_i => wdata_mem_i,
+		--ram
+		memdata_i => memdata_mem_i,
+		memrw_i => memrw_mem_i, 
+		memaddr_i => memaddr_mem_i,
+		rst => rst ,
+
+		we_o => we_mem_o,
+		waddr_o => waddr_mem_o,
+		wdata_o => wdata_mem_o,
+		stall_req => stallreq_mem_o,
+		--ram 2
+		ram2_data => ram2_data,
+		ram2_re_o => ram2_re_o,
+		ram2_we_o => ram2_we_o,
+		ram2_addr_o => ram2_addr_o,
+		ram2_ce_o => ram2_ce_o,
+		--ram 1
+		ram1_data => ram1_data,
+		ram1_re_o => ram1_re_o,
+		ram1_we_o => ram1_we_o,
+		ram1_addr_o => ram1_addr_o,
+		ram1_ce_o => ram1_ce_o	
+	) ;
+	
+	mstall_ctrl: stall_ctrl port map(
+		rst => rst ,
+		stallreq_id => stallreq_id_o, 
+		stallreq__ex => stallreq_ex_o,
+		stallreq_mem => stallreq_mem_o,
+		
+		stall_pc => stall_pc,
+		stall_if_id => stall_if_id, 
+		stall_id_ex => stall_id_ex,
+		stall_ex_mem => stall_ex_mem,
+		stall_mem_wb => stall_mem_wb
+	) ;
 end Behavioral ;

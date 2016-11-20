@@ -6,6 +6,7 @@ module ex_mem(
 	input wire stall,
 	input wire[`MemRWBus] ex_memrw,
 	input wire[`DataAddrBus] ex_memaddr,
+	input wire[`DataBus] ex_memdata,
 	input wire[`DataBus] ex_wdata,
 	input wire[`RegAddrBus] ex_waddr,
 	input wire ex_we,
@@ -14,6 +15,7 @@ module ex_mem(
 	output reg[`RegAddrBus] mem_waddr,
 	output reg[`MemRWBus] mem_memrw,
 	output reg[`DataAddrBus] mem_memaddr,
+	output reg[`DataBus] mem_memdata ,
 	output reg mem_we
 );
 
@@ -25,6 +27,7 @@ always @ (posedge clk) begin
 		mem_we<=`WriteDisable;
 		mem_memrw <= `MemRW_Idle ;
 		mem_memaddr <= `ZeroDataAddr ;
+		mem_memdata <= `ZeroData ;
 	end
 	else if (stall == `StallNo)
 	begin
@@ -33,6 +36,7 @@ always @ (posedge clk) begin
 		mem_we<=ex_we;
 		mem_memrw <= ex_memrw ;
 		mem_memaddr <= ex_memaddr ;
+		mem_memdata <= ex_memdata ;
 	end
 end
 

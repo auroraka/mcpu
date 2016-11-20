@@ -13,12 +13,11 @@ entity exe is
 		reg1_i : in DataBus ;
 		waddr_i : in RegAddrBus ;
 		we_i : in STD_LOGIC ;
-		--stallreq : in STD_LOGIC ;
 		rst : in STD_LOGIC ;
 		
-		--aluop_o : out EXE_OP ;
 		memrw_o : out MemRWBus ;
 		memaddr_o : out DataAddrBus ;
+		memdata_o : out DataBus ;
 		we_o : out STD_LOGIC ;
 		waddr_o : out RegAddrBus ;
 		stallreq: out STD_LOGIC ;
@@ -33,15 +32,18 @@ begin
 	waddr_o <= waddr_i ;
 	--wdata_o <= ZeroData ;
 	
-	process(alusel_i, aluop_i, reg0_i, reg1_i, stallreq, rst)
+	process(alusel_i, aluop_i, reg0_i, reg1_i, rst)
 	variable ans : DataBus := ZeroData ;
 	variable rw : MemRWBus := MemRW_Idle ;
 	variable memaddr : DataAddrBus := ZeroDataAddr ;
+	variable memdata : DataBus := ZeroData ;
 	variable stall : STD_LOGIC := StallNo ;
 	begin
 		ans := ZeroData ;
 		rw := MemRW_Idle ;
 		memaddr := ZeroDataAddr ;
+		memdata := ZeroData ;
+		stall := StallNo ;
 		if(rst = RstDisable) then
 			case alusel_i is 
 				when EXE_SEL_ARITH =>
@@ -137,10 +139,12 @@ begin
 							memaddr := reg0_i + reg1_i ;
 							rw := MemRW_Read ;
 						when EXE_OP_SW =>
-							memaddr := reg0_i + reg1_i ;
+							memaddr := reg0_i ;
+							memdata := reg1_i ;
 							rw := MemRW_Write ;
 						when EXE_OP_SW_SP => 
-							memaddr := reg0_i + reg1_i ;
+							memaddr := reg0_i ;
+							memdata := reg1_i ;
 							rw := MemRW_Write ;
 						when others =>
 							null ;
@@ -152,6 +156,7 @@ begin
 		end if ;
 		wdata_o <= ans ;
 		memaddr_o <= memaddr ;
+		memdata_o <= memdata ;
 		memrw_o <= rw ;
 		stallreq <= stall ;
 	end process ;
