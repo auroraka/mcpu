@@ -6,7 +6,7 @@ USE IEEE.NUMERIC_STD.ALL ;
 USE WORK.PACK.ALL ;
 
 entity mem is port(
-		--寄存�
+		--寄存
 		we_i : 		in STD_LOGIC ;
 		waddr_i : 	in RegAddrBus ;
 		wdata_i : 	in DataBus ;
@@ -93,12 +93,12 @@ begin
 	stall: process(memdata_i,memaddr_i,memrw_i,rst)
 	begin
 		if(rst = RstEnable or memrw_i = MemRW_Idle)then
-			stall <= StallNo;
+			stall_req <= StallNo;
 		elsif(memrw_i = MemRW_Read or memrw_i = MemRW_Write)then
 			if(memaddr_i<="0111111111111111")then
-				stall <= StallYes;
+				stall_req <= StallYes;
 			else
-				stall <= StallNo;
+				stall_req <= StallNo;
 			end if;
 		end if;
 	end process;
@@ -112,7 +112,11 @@ begin
 		else
 			case memrw_i is
 				when MemRW_Read =>
-					wdata_o <= ram_data_i;
+					if(memaddr_i<="0111111111111111")then
+						wdata_o <= ram2_data;
+					else
+						wdata_o <= ram1_data;
+					end if;
 				when others =>
 					wdata_o <= wdata_i;
 			end case;

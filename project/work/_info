@@ -4,21 +4,20 @@ K3
 cModel Technology
 Z0 dF:\2016FALL\JY\hw\prj3\ram_uart
 T_opt
-VZOPfz1kz>Zoh3Cgm^NJ0k2
-04 5 8 work pc_tb behavior 1
-=1-28d244e8e264-582dbaeb-3a6-2d28
+VMZ@3h<M]QzJW=^;OLbZdU2
+04 6 8 work hey_tb behavior 1
+=1-28d244e8e264-58318ec6-11f-6c74
 Z1 o-quiet -auto_acc_if_foreign -work work
 n@_opt
 Z2 OL;O;10.1c;51
 Z3 dF:\2016FALL\JY\hw\prj3\ram_uart
 T_opt1
-VnQOdKj8<=ZIOV9[C>gBlY3
-04 6 4 work mem_wb fast 0
-=1-28d244e8e264-58300f2c-302-52bc
+VabZXWFHldFgW846R95bbW1
+04 7 10 work ram2_tb behavioral 1
+=1-28d244e8e264-58319b63-18b-5500
 R1
 n@_opt1
 R2
-R3
 T_opt2
 ViHIEHh9dbTi0KH10cOU0l1
 04 6 8 work mem_tb behavior 1
@@ -26,6 +25,7 @@ ViHIEHh9dbTi0KH10cOU0l1
 R1
 n@_opt2
 R2
+R3
 vex_mem
 IjPZl?Q6TQbjGA9za@nXKA2
 VMQXWb9`3>V>cQMMRUCMoZ0
@@ -45,6 +45,86 @@ Z7 !s92 -work work +incdir+F:/2016FALL/JY/cpu/mcpu/src -L mtiAvm -L mtiOvm -L mt
 !s107 F:/2016FALL/JY/cpu/mcpu/src/defines.v|F:/2016FALL/JY/cpu/mcpu/src/ex_mem.v|
 !i10b 1
 !s85 0
+Ehey
+Z8 w1479642797
+Z9 DPx4 ieee 18 std_logic_unsigned 0 22 RYmj;=TK`k=k>D@Cz`zoB3
+Z10 DPx4 ieee 15 std_logic_arith 0 22 4`Y?g_lkdn;7UL9IiJck01
+Z11 DPx3 std 6 textio 0 22 5>J:;AW>W0[[dW0I6EN1Q0
+Z12 DPx4 ieee 14 std_logic_1164 0 22 5=aWaoGZSMWIcH0i^f`XF1
+R4
+Z13 8C:/Users/qian/Desktop/hey.vhd
+Z14 FC:/Users/qian/Desktop/hey.vhd
+l0
+L6
+VNCg9TMRQhiASPc^l?Macn3
+Z15 OL;C;10.1c;51
+32
+Z16 !s108 1479642814.729000
+Z17 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|C:/Users/qian/Desktop/hey.vhd|
+Z18 !s107 C:/Users/qian/Desktop/hey.vhd|
+Z19 o-work work -2002 -explicit
+Z20 tExplicit 1
+!s100 jmb5Y>Hg9HeB0<P0V=JZ_1
+!i10b 1
+Abehavioral
+R9
+R10
+R11
+R12
+DEx4 work 3 hey 0 22 NCg9TMRQhiASPc^l?Macn3
+l14
+L12
+VaHBBCbgXNddG023D?1;5^0
+R15
+32
+R16
+R17
+R18
+R19
+R20
+!s100 eTd8ZZbKgf3lU>RGobIb51
+!i10b 1
+Ehey_tb
+Z21 w1479628312
+Z22 DPx4 ieee 11 numeric_std 0 22 O3PF8EB`?j9=z7KT`fn941
+R9
+R10
+R11
+R12
+R4
+Z23 8C:/Users/qian/Desktop/hey_tb.vhd
+Z24 FC:/Users/qian/Desktop/hey_tb.vhd
+l0
+L6
+VW``fNl73j7dogMaJU]P2=1
+R15
+32
+Z25 !s108 1479628327.322000
+Z26 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|C:/Users/qian/Desktop/hey_tb.vhd|
+Z27 !s107 C:/Users/qian/Desktop/hey_tb.vhd|
+R19
+R20
+!s100 j_^^E;9DT]BAcRz4K867P0
+!i10b 1
+Abehavior
+R22
+R9
+R10
+R11
+R12
+DEx4 work 6 hey_tb 0 22 W``fNl73j7dogMaJU]P2=1
+l23
+L9
+V^?nzeWGeH9Cd`iN<^H6Oi3
+R15
+32
+R25
+R26
+R27
+R19
+R20
+!s100 3SiJ8?6n>[d@@VgB^In`h3
+!i10b 1
 vid_ex
 IWi]C4QdaA8?N`Km;k=fEf3
 VcX8l3ZjSZ:SFR@_KBF38=3
@@ -102,6 +182,45 @@ R7
 !s90 -reportprogress|300|-work|work|-vopt|+incdir+F:/2016FALL/JY/cpu/mcpu/src|F:/2016FALL/JY/cpu/mcpu/src/inst_rom.v|
 !i10b 1
 !s85 0
+Eio
+Z28 w1478190287
+R9
+R10
+R11
+R12
+R4
+Z29 8F:/2016FALL/dasan/jy/ram_uart/IO/io.vhd
+Z30 FF:/2016FALL/dasan/jy/ram_uart/IO/io.vhd
+l0
+L34
+Vi@j:;m9Y_do7j3KYRT8cA1
+R15
+32
+Z31 !s108 1479630677.239000
+Z32 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|F:/2016FALL/dasan/jy/ram_uart/IO/io.vhd|
+Z33 !s107 F:/2016FALL/dasan/jy/ram_uart/IO/io.vhd|
+R19
+R20
+!s100 nkL;?I:oo71o2ObU9c;Yn2
+!i10b 1
+Abehavioral
+R9
+R10
+R11
+R12
+DEx4 work 2 io 0 22 i@j:;m9Y_do7j3KYRT8cA1
+l59
+L50
+VjE31PPYo:Tg5oMOCEIdHJ1
+R15
+32
+R31
+R32
+R33
+R19
+R20
+!s100 =bEBSzf8MEUXlA5A9c:h23
+!i10b 1
 vmcpu
 IfT5P38Ri[fiEbMCng2FQ10
 VBa^okcQV::A]RBVbZ@Cl]0
@@ -122,89 +241,89 @@ R7
 !i10b 1
 !s85 0
 Emem
-Z8 w1479544528
-Z9 DPx4 work 4 pack 0 22 9B4z?Oemh[SP:S5?d;=:g2
-Z10 DPx4 ieee 11 numeric_std 0 22 O3PF8EB`?j9=z7KT`fn941
-Z11 DPx4 ieee 18 std_logic_unsigned 0 22 RYmj;=TK`k=k>D@Cz`zoB3
-Z12 DPx4 ieee 15 std_logic_arith 0 22 4`Y?g_lkdn;7UL9IiJck01
-Z13 DPx3 std 6 textio 0 22 5>J:;AW>W0[[dW0I6EN1Q0
-Z14 DPx4 ieee 14 std_logic_1164 0 22 5=aWaoGZSMWIcH0i^f`XF1
+Z34 w1479627572
+Z35 DPx4 work 4 pack 0 22 9B4z?Oemh[SP:S5?d;=:g2
+R22
+R9
+R10
+R11
+R12
 R4
-Z15 8F:/2016FALL/JY/cpu/mcpu/src/mem.vhd
-Z16 FF:/2016FALL/JY/cpu/mcpu/src/mem.vhd
+Z36 8F:/2016FALL/JY/cpu/mcpu/src/mem.vhd
+Z37 FF:/2016FALL/JY/cpu/mcpu/src/mem.vhd
 l0
 L8
-VZbFJiVU6[4H0BCj>?nM[`0
-Z17 OL;C;10.1c;51
+VLhm_8TZ@_YjXY_CVE1W8Z1
+R15
 32
-Z18 !s108 1479544569.422000
-Z19 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|F:/2016FALL/JY/cpu/mcpu/src/mem.vhd|
-Z20 !s107 F:/2016FALL/JY/cpu/mcpu/src/mem.vhd|
-Z21 o-work work -2002 -explicit
-Z22 tExplicit 1
-!s100 CdED=44KEocXA`]S2C6G?2
-!i10b 1
-Abehavioral
-R9
-R10
-R11
-R12
-R13
-R14
-DEx4 work 3 mem 0 22 ZbFJiVU6[4H0BCj>?nM[`0
-l33
-L32
-V;1;53T]KRB<cX1SWTNe7f3
-R17
-32
-R18
+Z38 !s108 1479627578.912000
+Z39 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|F:/2016FALL/JY/cpu/mcpu/src/mem.vhd|
+Z40 !s107 F:/2016FALL/JY/cpu/mcpu/src/mem.vhd|
 R19
 R20
-R21
-R22
-!s100 11`n>Q>PVnW@VV6<23Ima2
+!s100 UiO@91<BdTB@<IocA]<lb1
 !i10b 1
-Emem_tb
-Z23 w1479545244
+Abehavioral
+R35
+R22
 R9
 R10
 R11
 R12
-R13
-R14
+DEx4 work 3 mem 0 22 Lhm_8TZ@_YjXY_CVE1W8Z1
+l39
+L38
+VT=BfF64hlATcIgd4z9DF_0
+R15
+32
+R38
+R39
+R40
+R19
+R20
+!s100 k:MMHnHZn:2RAMRz;k`H]2
+!i10b 1
+Emem_tb
+Z41 w1479545244
+R35
+R22
+R9
+R10
+R11
+R12
 R4
-Z24 8F:/2016FALL/JY/cpu/mcpu/src/testbench/mem_tb.vhd
-Z25 FF:/2016FALL/JY/cpu/mcpu/src/testbench/mem_tb.vhd
+Z42 8F:/2016FALL/JY/cpu/mcpu/src/testbench/mem_tb.vhd
+Z43 FF:/2016FALL/JY/cpu/mcpu/src/testbench/mem_tb.vhd
 l0
 L39
 VM7H>WH=dh410QX3ecUQ9l2
-R17
+R15
 32
-Z26 !s108 1479545265.455000
-Z27 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|F:/2016FALL/JY/cpu/mcpu/src/testbench/mem_tb.vhd|
-Z28 !s107 F:/2016FALL/JY/cpu/mcpu/src/testbench/mem_tb.vhd|
-R21
-R22
+Z44 !s108 1479545265.455000
+Z45 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|F:/2016FALL/JY/cpu/mcpu/src/testbench/mem_tb.vhd|
+Z46 !s107 F:/2016FALL/JY/cpu/mcpu/src/testbench/mem_tb.vhd|
+R19
+R20
 !s100 USbEmR9JRh54QM5BFgho:0
 !i10b 1
 Abehavior
+R35
+R22
 R9
 R10
 R11
 R12
-R13
-R14
 DEx4 work 6 mem_tb 0 22 M7H>WH=dh410QX3ecUQ9l2
 l89
 L42
 V?T8nki08QC0iO55I8h:393
-R17
+R15
 32
-R26
-R27
-R28
-R21
-R22
+R44
+R45
+R46
+R19
+R20
 !s100 AAMd1o]fRY1jE;W<d@5m@2
 !i10b 1
 vmem_wb
@@ -227,101 +346,187 @@ R7
 !i10b 1
 !s85 0
 Ppack
-R13
-R14
-w1479541654
+R11
+R12
+w1479641394
 R4
 8F:/2016FALL/JY/cpu/mcpu/src/pack.vhd
 FF:/2016FALL/JY/cpu/mcpu/src/pack.vhd
 l0
 L13
-V9B4z?Oemh[SP:S5?d;=:g2
-R17
+V`z6KegQihQa[9j<0600SQ0
+R15
 32
-R21
-R22
-!s100 b2n@GY`J46k8hdXf=8@^h3
+R19
+R20
+!s100 Oi7g_8X]oG3D`WSLCSzGZ1
 !i10b 1
-!s108 1479541878.574000
+!s108 1479643364.564000
 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|F:/2016FALL/JY/cpu/mcpu/src/pack.vhd|
 !s107 F:/2016FALL/JY/cpu/mcpu/src/pack.vhd|
 Epc
-Z29 w1479385247
-Z30 DPx4 work 4 pack 0 22 o]fcl@Wdg2glNKd9Rb?h]2
+Z47 w1479385247
+Z48 DPx4 work 4 pack 0 22 o]fcl@Wdg2glNKd9Rb?h]2
+R9
+R10
 R11
 R12
-R13
-R14
 R4
-Z31 8F:/2016FALL/JY/cpu/mcpu/src/pc.vhd
-Z32 FF:/2016FALL/JY/cpu/mcpu/src/pc.vhd
+Z49 8F:/2016FALL/JY/cpu/mcpu/src/pc.vhd
+Z50 FF:/2016FALL/JY/cpu/mcpu/src/pc.vhd
 l0
 L8
 VNRJ2i<YIF]F<Kl8;TEEmN0
-R17
+R15
 32
-Z33 !s108 1479389773.306000
-Z34 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|F:/2016FALL/JY/cpu/mcpu/src/pc.vhd|
-Z35 !s107 F:/2016FALL/JY/cpu/mcpu/src/pc.vhd|
-R21
-R22
+Z51 !s108 1479389773.306000
+Z52 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|F:/2016FALL/JY/cpu/mcpu/src/pc.vhd|
+Z53 !s107 F:/2016FALL/JY/cpu/mcpu/src/pc.vhd|
+R19
+R20
 !s100 i6i5_;81HJDPQKc8GY>HL3
 !i10b 1
 Abehavioral
-R30
+R48
+R9
+R10
 R11
 R12
-R13
-R14
 DEx4 work 2 pc 0 22 NRJ2i<YIF]F<Kl8;TEEmN0
 l21
 L19
 VCFoPVW<GgEDS:;`;TVBI71
-R17
+R15
 32
-R33
-R34
-R35
-R21
-R22
+R51
+R52
+R53
+R19
+R20
 !s100 emVTV>SDo[djg9b1dZWMI3
 !i10b 1
 Epc_tb
-Z36 w1479391880
-R30
-R13
-R14
+Z54 w1479391880
+R48
+R11
+R12
 R4
-Z37 8F:/2016FALL/JY/cpu/mcpu/pc_tb.vhd
-Z38 FF:/2016FALL/JY/cpu/mcpu/pc_tb.vhd
+Z55 8F:/2016FALL/JY/cpu/mcpu/pc_tb.vhd
+Z56 FF:/2016FALL/JY/cpu/mcpu/pc_tb.vhd
 l0
 L35
 VQi3l<`Ea9E7_Q7g[iSzb]3
-R17
+R15
 32
-Z39 !s108 1479391888.989000
-Z40 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|F:/2016FALL/JY/cpu/mcpu/pc_tb.vhd|
-Z41 !s107 F:/2016FALL/JY/cpu/mcpu/pc_tb.vhd|
-R21
-R22
+Z57 !s108 1479391888.989000
+Z58 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|F:/2016FALL/JY/cpu/mcpu/pc_tb.vhd|
+Z59 !s107 F:/2016FALL/JY/cpu/mcpu/pc_tb.vhd|
+R19
+R20
 !s100 OWk9DjKWiGHI4n9Yo`W:K1
 !i10b 1
 Abehavior
-R30
-R13
-R14
+R48
+R11
+R12
 DEx4 work 5 pc_tb 0 22 Qi3l<`Ea9E7_Q7g[iSzb]3
 l69
 L38
 VcnaWN0IYdmbSJFGdRWhKf0
-R17
+R15
 32
-R39
-R40
-R41
-R21
-R22
+R57
+R58
+R59
+R19
+R20
 !s100 ^5I6kf<JQ>9Bb4R[DHEFe0
+!i10b 1
+Eram2_ctrl
+Z60 w1479646029
+Z61 DPx4 work 4 pack 0 22 `z6KegQihQa[9j<0600SQ0
+R22
+R9
+R10
+R11
+R12
+R4
+Z62 8F:/2016FALL/JY/cpu/mcpu/src/ram2_ctrl.vhd
+Z63 FF:/2016FALL/JY/cpu/mcpu/src/ram2_ctrl.vhd
+l0
+L8
+VjcDEbdBV4R00eDJa7XGMO2
+R15
+32
+Z64 !s108 1479646046.342000
+Z65 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|F:/2016FALL/JY/cpu/mcpu/src/ram2_ctrl.vhd|
+Z66 !s107 F:/2016FALL/JY/cpu/mcpu/src/ram2_ctrl.vhd|
+R19
+R20
+!s100 =O416o0=:>bZ_Dg3oUPSm3
+!i10b 1
+Abehavioral
+R61
+R22
+R9
+R10
+R11
+R12
+DEx4 work 9 ram2_ctrl 0 22 jcDEbdBV4R00eDJa7XGMO2
+l32
+L29
+V8Lh=an;Lf0@iM0Y8363:]3
+R15
+32
+R64
+R65
+R66
+R19
+R20
+!s100 I[6hLAWajNB1oL[i0KTm>3
+!i10b 1
+Eram2_tb
+Z67 w1479645731
+R61
+R22
+R9
+R10
+R11
+R12
+R4
+Z68 8F:/2016FALL/JY/cpu/mcpu/src/ram2_tb.vhd
+Z69 FF:/2016FALL/JY/cpu/mcpu/src/ram2_tb.vhd
+l0
+L8
+V9IU72PY9kLeBWVg^N83mR0
+R15
+32
+Z70 !s108 1479645769.679000
+Z71 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|F:/2016FALL/JY/cpu/mcpu/src/ram2_tb.vhd|
+Z72 !s107 F:/2016FALL/JY/cpu/mcpu/src/ram2_tb.vhd|
+R19
+R20
+!s100 ja4od[Y@4XI_NaogbO=LL2
+!i10b 1
+Abehavioral
+R61
+R22
+R9
+R10
+R11
+R12
+DEx4 work 7 ram2_tb 0 22 9IU72PY9kLeBWVg^N83mR0
+l50
+L10
+V?Q[VMnCzYgPW;dGVaG:5R3
+R15
+32
+R70
+R71
+R72
+R19
+R20
+!s100 QK;HoB:chRX;J8:==P2g:2
 !i10b 1
 vrom_tf
 I`N=jYS9C>;9MLk[W[F9CL0
