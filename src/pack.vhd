@@ -20,8 +20,8 @@ constant WriteDisable : STD_lOGIC := '1' ;
 constant ReadEnable : STD_lOGIC := '0' ;
 constant ReadDisable : STD_lOGIC := '1' ;
 
-constant ChipEnable : STD_lOGIC := '0' ;
-constant ChipDisable : STD_lOGIC := '1' ;
+constant PCChipEnable : STD_lOGIC := '0' ;
+constant PCChipDisable : STD_lOGIC := '1' ;
 
 -- added ;
 constant RamEnable : STD_lOGIC := '1' ;
@@ -86,6 +86,10 @@ constant RamWriteEnable 	: STD_lOGIC := '1';
 constant RamWriteDisable	: STD_lOGIC := '0';
 constant RamChipEnable 		: STD_lOGIC := '1';
 constant RamChipDisable 	: STD_lOGIC := '0';
+--ram
+subtype RamAddrBus is STD_LOGIC_VECTOR (17 downto 0) ;
+constant RamWEHigh 	: STD_lOGIC := '1';
+constant RamWELow	: STD_lOGIC := '0';
 
 --ops id send to ex
 subtype AluOpBus is STD_lOGIC_VECTOR(2 downto 0) ;

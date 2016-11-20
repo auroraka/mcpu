@@ -276,7 +276,7 @@ always @ (*) begin
 				reg0_re_o<=`ReadEnable;
 				reg1_re_o<=`ReadEnable;
 				reg0_addr_o<=`SP_Addr;
-				reg0_addr_o<=rx;
+				reg1_addr_o<=rx;
 			end
 			`OP_SW:begin
 				alusel_o<=`EXE_SEL_LW;
@@ -286,7 +286,7 @@ always @ (*) begin
 				reg0_re_o<=`ReadEnable;
 				reg1_re_o<=`ReadEnable;
 				reg0_addr_o<=rx;
-				reg0_addr_o<=ry;
+				reg1_addr_o<=ry;
 			end
 			`OP_ADDU:begin
 				case (op4)
