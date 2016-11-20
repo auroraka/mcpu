@@ -1,5 +1,5 @@
 `include "defines.v"
-
+//`include "D:\\CPU\\mcpu\\src\\defines.v"
 module id_ex(
 	input wire rst,
 	input wire clk,
@@ -26,6 +26,8 @@ always @ (posedge clk) begin
 		ex_alusel<=`EXE_SEL_NOP;
 		ex_waddr<=`ZeroDataAddr;
 		ex_we<=`WriteDisable;
+		ex_reg0 <= `ZeroData ;
+		ex_reg1 <= `ZeroData ;
 	end
 	else if (stall == `StallNo)
 	begin
@@ -33,6 +35,8 @@ always @ (posedge clk) begin
 		ex_alusel<=id_alusel;
 		ex_waddr<=id_waddr;
 		ex_we<=id_we;
+		ex_reg0 <= id_reg0 ;
+		ex_reg1 <= id_reg1 ;
 	end
 end 
 

@@ -1,5 +1,5 @@
-`include "defines.v"
-
+//`include "defines.v"
+`include "D:\\CPU\\mcpu\\src\\defines.v"
 module mem_wb(
 	input wire clk,
 	input wire rst,

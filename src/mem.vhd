@@ -6,7 +6,7 @@ USE IEEE.NUMERIC_STD.ALL ;
 USE WORK.PACK.ALL ;
 
 entity mem is port(
-		--寄存器
+		--寄存�
 		we_i : 		in STD_LOGIC ;
 		waddr_i : 	in RegAddrBus ;
 		wdata_i : 	in DataBus ;
@@ -19,7 +19,7 @@ entity mem is port(
 		we_o : 		out STD_LOGIC ;
 		waddr_o : 	out RegAddrBus ;
 		wdata_o : 	out DataBus ;
-		stall_req : out STD_LOGIC
+		stall_req : out STD_LOGIC ;
 		--ram 2
 		ram2_data : 	inout DataBus ;
 		ram2_re_o :		out STD_LOGIC ;
