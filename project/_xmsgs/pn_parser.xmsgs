@@ -86,6 +86,9 @@
 <msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;F:/2016FALL/JY/cpu/mcpu/src/mem.vhd&quot; into library work</arg>
 </msg>
 
+<msg type="error" file="ProjectMgmt" num="806" >&quot;<arg fmt="%s" index="1">F:/2016FALL/JY/cpu/mcpu/src/mem.vhd</arg>&quot; Line <arg fmt="%d" index="2">24</arg>. <arg fmt="%s" index="3">Syntax error near &quot;:&quot;.</arg>
+</msg>
+
 <msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;F:/2016FALL/JY/cpu/mcpu/src/testbench/mem_tb.vhd&quot; into library work</arg>
 </msg>
 
