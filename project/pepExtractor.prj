@@ -1,2 +1,2 @@
-work	"../src/mem.vhd"
 work	"../src/pack.vhd"
+work	"../src/stall_ctrl.vhd"

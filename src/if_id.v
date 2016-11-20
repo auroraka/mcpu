@@ -1,5 +1,5 @@
-//`include "defines.v"
-`include "D:\\CPU\\mcpu\\src\\defines.v"
+`include "defines.v"
+//`include "D:\\CPU\\mcpu\\src\\defines.v"
 
 module if_id(
 	input wire rst,
