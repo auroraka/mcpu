@@ -28,34 +28,34 @@ module stall_ctrl_tb;
 	// Inputs
 	reg rst;
 	reg stallreq_id;
-	reg stallreq_ex;
+	//reg stallreq_ex;
 	reg stallreq_mem;
 
 	// Outputs
 	wire stall_pc;
-	wire stall_if_id;
-	wire stall_id_ex;
-	wire stall_ex_mem;
-	wire stall_mem_wb;
+	wire stall_id;
+	wire stall_ex;
+	wire stall_mem;
+	//wire stall_mem_wb;
 
 	// Instantiate the Unit Under Test (UUT)
 	stall_ctrl uut (
 		.rst(rst), 
 		.stallreq_id(stallreq_id), 
-		.stallreq_ex(stallreq_ex), 
+		//.stallreq_ex(stallreq_ex), 
 		.stallreq_mem(stallreq_mem), 
 		.stall_pc(stall_pc), 
-		.stall_if_id(stall_if_id), 
-		.stall_id_ex(stall_id_ex), 
-		.stall_ex_mem(stall_ex_mem), 
-		.stall_mem_wb(stall_mem_wb)
+		.stall_id(stall_id), 
+		.stall_ex(stall_ex), 
+		.stall_mem(stall_mem) 
+		//.stall_wb(stall_mem_wb)
 	);
 
 	initial begin
 		// Initialize Inputs
 		rst = `RstEnable;
 		stallreq_id = `StallNo;
-		stallreq_ex = `StallNo;
+		//stallreq_ex = `StallNo;
 		stallreq_mem = `StallNo;
 
 		// Wait 100 ns for global reset to finish
@@ -68,13 +68,8 @@ module stall_ctrl_tb;
 		stallreq_mem = `StallYes ;
 		
 		#10 ;
-		stallreq_ex = `StallYes ;
-		stallreq_mem = `StallNo ;
-		
-		#10 ;
 		stallreq_mem = `StallYes ;
 		stallreq_id = `StallYes ;
-		stallreq_ex = `StallNo ;
 		
 		#10 ;
 		rst = `RstEnable ;
