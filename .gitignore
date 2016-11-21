@@ -64,4 +64,4 @@ modelsim.ini
 *impact.xml
 **/webtalk.log
 **/*.xmsgs
-
+.DS_Store
