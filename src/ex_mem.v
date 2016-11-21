@@ -4,7 +4,6 @@
 module ex_mem(
 	input wire clk,
 	input wire rst,
-	input wire stall,
 	input wire[`MemRWBus] ex_memrw,
 	input wire[`DataAddrBus] ex_memaddr,
 	input wire[`DataBus] ex_memdata,
@@ -30,7 +29,7 @@ always @ (posedge clk) begin
 		mem_memaddr <= `ZeroDataAddr ;
 		mem_memdata <= `ZeroData ;
 	end
-	else if (stall == `StallNo)
+	else
 	begin
 		mem_waddr<=ex_waddr;
 		mem_wdata<=ex_wdata;

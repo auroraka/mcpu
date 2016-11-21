@@ -94,9 +94,9 @@ begin
 			case memrw_i is
 				when MemRW_Read =>
 					if(memaddr_i<="0111111111111111")then
-						wdata_o <= ram2_data;
+						wdata_o <= ram2_data_i;
 					else
-						wdata_o <= ram1_data;
+						wdata_o <= ram1_data_i;
 					end if;
 				when others =>
 					wdata_o <= wdata_i;
