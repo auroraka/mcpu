@@ -39,6 +39,7 @@
 `define InstMemNumLog2 15
 `define ZeroInst `ZeroWord
 `define ZeroInstAddr `ZeroWord
+`define NopInst 16'0000100000000000
 
 //regs 
 //R0-R7 000-111

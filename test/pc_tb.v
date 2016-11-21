@@ -66,15 +66,19 @@ module pc_tb;
 		branch_addr_o = 10 ;
 		
 		#10 ;
-		branch_flag_o = `BranchFlagDown ;
+		branch_flag_o = `BranchFlagUp ;
 		stall = `StallYes ;
 		branch_addr_o = 8 ;
 		
 		#10 ;
 		stall = `StallNo ;
+		branch_flag_o = `BranchFlagDown ;
+		branch_addr_o = 0 ;
 		
 		#20 ;
 		branch_flag_o = `BranchFlagUp ;
+		branch_addr_o = 10 ;
+		
 		
 		#15 ;
 		rst = `RstEnable ;

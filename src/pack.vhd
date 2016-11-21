@@ -52,6 +52,7 @@ subtype InstBus is STD_lOGIC_VECTOR (15 downto 0) ;
 --constant InstMemNum : INTEGER := 32767 ;
 --constant InstMemNumLog2 : INTEGER := 15 ;
 constant ZeroInst : Word := "0000000000000000" ;
+constant NopInst: Word := "0000100000000000" ;
 constant ZeroInstAddr : Word := "0000000000000000" ;
 
 --regs 

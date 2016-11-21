@@ -34,11 +34,14 @@ begin
 				else 
 					pc <= pc_v ;
 				end if;
-				
 				-- prepare pc_v for next pc 
 				pc_v := pc_v + 1;
-			else
-				null ; --pc and pc_v hold ;
+			else --pc hold and pc_v store the next pc, branch_addr_o or pc+1
+				if branch_flag_o = BranchFlagUp then
+					pc_v := branch_addr_o ;
+				else
+					null ;
+				end if ;
 			end if ;
 		end if ;
 	end process;
