@@ -27,7 +27,6 @@ component ram2_ctrl
 port(
 	--pc
 	pc_addr : 	in 	DataAddrBus ;
-	pc_ce : 	in 	STD_LOGIC ;
 	inst:		out InstBus ;
 	--mem
 	mem_data_i : 	in 	DataBus ;
@@ -45,7 +44,6 @@ port(
 	) ;
 end component ;
 	signal pc_addr : 	DataAddrBus := ZeroWord;
-	signal pc_ce : 		STD_LOGIC := '0';
 	signal inst:		InstBus :=ZeroInst;
 	--mem
 	signal mem_data_i : 	DataBus :=ZeroWord;
@@ -64,7 +62,6 @@ end component ;
 begin
 	uut: ram2_ctrl PORT MAP(
 	pc_addr=>pc_addr,
-	pc_ce=>pc_ce,
 	inst=>inst,
 	--mem
 	mem_data_i=>mem_data_i,
