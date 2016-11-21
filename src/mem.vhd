@@ -20,14 +20,16 @@ entity mem is port(
 		waddr_o : 	out RegAddrBus ;
 		wdata_o : 	out DataBus ;
 		stall_req : out STD_LOGIC ;
-		--ram 2
-		ram2_data : 	inout DataBus ;
+		--ram 2 = ram 1
+		ram2_data_i:	in 	DataBus ;
+		ram2_data_o : 	out DataBus ;
 		ram2_re_o :		out STD_LOGIC ;
 		ram2_we_o :		out STD_LOGIC ;
 		ram2_addr_o : 	out DataAddrBus ;
 		ram2_ce_o :		out STD_LOGIC;
-		--ram 1
-		ram1_data : 	inout DataBus ;
+		--ram 1 = ram 0
+		ram1_data_i:	in 	DataBus ;
+		ram1_data_o : 	out DataBus ;
 		ram1_re_o :		out STD_LOGIC ;
 		ram1_we_o :		out STD_LOGIC ;
 		ram1_addr_o : 	out DataAddrBus ;
@@ -37,75 +39,54 @@ end mem ;
 
 architecture Behavioral of mem is
 begin
-	ram: process(memdata_i,memaddr_i,memrw_i,rst)
+	ram_out: process(memdata_i,memaddr_i,memrw_i,rst)
 	begin
 		if(rst = RstEnable)then
 			ram1_ce_o <= RamChipDisable;
 			ram1_we_o <= RamWriteDisable;
 			ram1_re_o <= RamReadDisable;
 			ram1_addr_o <= ZeroWord;
-			ram1_data <= ZeroWord;
+			ram1_data_o <= ZeroWord;
 			ram2_ce_o <= RamChipDisable;
 			ram2_we_o <= RamWriteDisable;
 			ram2_re_o <= RamReadDisable;
 			ram2_addr_o <= ZeroWord;
-			ram2_data <= ZeroWord;
+			ram2_data_o <= ZeroWord;
 		else
-			ram1_re_o <= RamReadDisable;
-			ram1_we_o <= RamWriteDisable;
+			if(memaddr_i<="0111111111111111")then
+				ram2_we_o<=memrw_i(1);
+				ram2_re_o<=memrw_i(0);
+				ram2_ce_o<=memrw_i(1) or memrw_i(0);
+				ram1_we_o<='0';
+				ram1_re_o<='0';
+				ram1_ce_o<='0';
+			else
+				ram1_we_o<=memrw_i(1);
+				ram1_re_o<=memrw_i(0);
+				ram1_ce_o<=memrw_i(1) or memrw_i(0);
+				ram2_we_o<='0';
+				ram2_re_o<='0';
+				ram2_ce_o<='0';
+			end if;
 			ram1_addr_o <= memaddr_i;
-			ram2_re_o <= RamReadDisable;
-			ram2_we_o <= RamWriteDisable;
 			ram2_addr_o <= memaddr_i;
-			case memrw_i is
-				when MemRW_Idle =>
-					ram1_ce_o <= RamChipDisable;
-					ram2_ce_o <= RamChipDisable;
-				when MemRW_Read =>
-					ram1_data <= HighImpWord;
-					ram2_data <= HighImpWord;
-					if(memaddr_i<="0111111111111111")then
-						ram2_ce_o <= RamChipEnable;
-						ram2_re_o <= RamReadEnable;
-						ram1_ce_o <= RamChipDisable;
-					else
-						ram1_ce_o <= RamChipEnable;
-						ram1_re_o <= RamReadEnable;
-						ram2_ce_o <= RamChipDisable;
-					end if;
-				when MemRW_Write =>
-					ram1_data <= memdata_i;
-					ram2_data <= memdata_i;
-					if(memaddr_i<="0111111111111111")then
-						ram2_ce_o <= RamChipEnable;
-						ram2_we_o <= RamWriteEnable;
-						ram1_ce_o <= RamChipDisable;
-					else
-						ram1_ce_o <= RamChipEnable;
-						ram1_we_o <= RamWriteEnable;
-						ram2_ce_o <= RamChipDisable;
-					end if;
-				when others =>
-			end case;
+			ram1_data_o <= memdata_i;
+			ram2_data_o <= memdata_i;
 		end if;
 	end process;
 	
 	stall: process(memdata_i,memaddr_i,memrw_i,rst)
 	begin
-		if(rst = RstEnable or memrw_i = MemRW_Idle)then
+		if(rst = RstEnable or memrw_i = MemRW_Idle or memaddr_i>"0111111111111111")then
 			stall_req <= StallNo;
-		elsif(memrw_i = MemRW_Read or memrw_i = MemRW_Write)then
-			if(memaddr_i<="0111111111111111")then
-				stall_req <= StallYes;
-			else
-				stall_req <= StallNo;
-			end if;
+		else
+			stall_req <= StallYes;
 		end if;
 	end process;
 
 	we_o <= we_i;
 	waddr_o <= waddr_i;
-	wdata: process
+	wdata: process(ram1_data_i,ram2_data_i,rst)
 	begin
 		if(rst = RstEnable)then
 			wdata_o <= ZeroWord;

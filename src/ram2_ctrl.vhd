@@ -6,9 +6,9 @@ USE IEEE.NUMERIC_STD.ALL ;
 USE WORK.PACK.ALL ;
 
 entity ram2_ctrl is port(
+	clk :		in	STD_LOGIC;
 	--pc
 	pc_addr : 	in 	DataAddrBus ;
-	pc_ce : 	in 	STD_LOGIC ;
 	inst:		out InstBus ;
 	--mem
 	mem_data_i : 	in 	DataBus ;
@@ -29,7 +29,7 @@ end ram2_ctrl ;
 architecture Behavioral of ram2_ctrl is
 	 signal tempRamAddr: STD_LOGIC_VECTOR(17 downto 0) := "000000000000000000";
 begin
-	ram_we_o <= not mem_we;
+	ram_we_o <= mem_we and clk;
 	ram_oe_o <= '0';
 	ram_en_o <= RamEnable;
 	ram_addr_o <= tempRamAddr;
