@@ -1,14 +1,14 @@
-`include "D:\\CPU\\mcpu\\src\\defines.v"
 `timescale 1ns / 1ns
+`include "D:\\CPU\\mcpu\\src\\defines.v"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer:
 //
-// Create Date:   10:05:32 11/20/2016
+// Create Date:   20:14:52 11/21/2016
 // Design Name:   if_id
-// Module Name:   D:/CPU/mcpu/project/if_id_tb.v
-// Project Name:  mcpu
+// Module Name:   D:/CPU/mcpu/test/if_id_tb.v
+// Project Name:  cpu_test
 // Target Device:  
 // Tool versions:  
 // Description: 
@@ -28,7 +28,9 @@ module if_id_tb;
 	// Inputs
 	reg rst;
 	reg clk;
-	reg stall;
+	reg stall_pc;
+	reg stall_id;
+	reg stall_ex;
 	reg [15:0] if_pc;
 	reg [15:0] if_inst;
 
@@ -40,7 +42,9 @@ module if_id_tb;
 	if_id uut (
 		.rst(rst), 
 		.clk(clk), 
-		.stall(stall), 
+		.stall_pc(stall_pc), 
+		.stall_id(stall_id), 
+		.stall_ex(stall_ex), 
 		.if_pc(if_pc), 
 		.if_inst(if_inst), 
 		.id_pc(id_pc), 
@@ -48,36 +52,55 @@ module if_id_tb;
 	);
 	
 	initial begin
-		clk = 0 ;
+		clk=0;
 		forever #5 clk=~clk;
 	end
 
 	initial begin
 		// Initialize Inputs
-		rst = `RstEnable ;
-		stall = `StallNo ;
+		rst = `RstEnable;
+		stall_pc = `StallNo;
+		stall_id = `StallNo;
+		stall_ex = `StallNo;
 		if_pc = 0;
 		if_inst = 0;
 
-		#10 ;
+		// Wait 100 ns for global reset to finish
+		#10;
 		rst = `RstDisable ;
-		if_pc = 1 ;
-		if_inst = 1 ;
+		if_pc = 10 ;
+		if_inst = 10 ;
 		
 		#10 ;
-		if_pc = 3 ;
-		if_inst = 8 ;
+		stall_pc = `StallYes ;
+		if_pc = 10 ;
+		if_inst = 10 ;
 		
 		#10 ;
-		stall = `StallYes ;
-		if_pc = 4 ;
-		if_inst = 1 ;
+		stall_pc = `StallNo ;
+		if_pc = 11 ;
+		if_inst = 11 ;
 		
 		#10 ;
-		stall = `StallNo ;
+		stall_pc = `StallYes ;
+		stall_id = `StallYes ;
+		if_pc = 12 ;
+		if_inst = 12 ;
 		
-		#20 ;
+		#10 ;
+		stall_pc = `StallYes ;
+		stall_id = `StallNo ;
+		if_pc = 12 ;
+		if_inst = 12 ;
+		
+		#10 ;
+		stall_pc = `StallNo ;
+		if_pc = 13 ;
+		if_inst = 13 ;
+		
+		#10 ;
 		rst = `RstEnable ;
+		#10 ;
         
 		// Add stimulus here
 

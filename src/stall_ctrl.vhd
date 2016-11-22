@@ -10,8 +10,8 @@ entity stall_ctrl is
 		
 		stall_pc: out STD_LOGIC ;
 		stall_id: out STD_LOGIC ;
-		stall_ex: out STD_LOGIC ;
-		stall_mem: out STD_LOGIC 
+		stall_ex: out STD_LOGIC 
+		--stall_mem: out STD_LOGIC 
 	) ;
 end stall_ctrl ;
 
@@ -22,23 +22,23 @@ begin
 	variable tmp_pc : STD_LOGIC := StallNo ;
 	variable tmp_id : STD_LOGIC := StallNo ;
 	variable tmp_ex : STD_LOGIC := StallNo ;
-	variable tmp_mem : STD_LOGIC := StallNo ;
+	--variable tmp_mem : STD_LOGIC := StallNo ;
 	begin
 		tmp_pc := StallNo ;
 		tmp_id := StallNo ;
 		tmp_ex := StallNo ;
-		tmp_mem := StallNo ;
+		--tmp_mem := StallNo ;
 		if(rst = RstDisable) then
-			if(stallreq_mem = StallYes) then
+			if(stallreq_id = StallYes) then
 				tmp_pc := StallYes ;
-			elsif (stallreq_id = StallYes) then
 				tmp_id := StallYes ;
+			elsif (stallreq_mem = StallYes) then
 				tmp_pc := StallYes ;
 			end if ;
 		end if ;
 		stall_pc <= tmp_pc ;
 		stall_id <= tmp_id ;
 		stall_ex <= tmp_ex ;
-		stall_mem <= tmp_mem ;
+		--stall_mem <= tmp_mem ;
 	end process ;
 end Behavioral ;

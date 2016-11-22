@@ -80,233 +80,37 @@ signal ram1_ce_o: STD_LOGIC ;
 signal ram1_we_o: STD_LOGIC ;
 signal ram1_re_o: STD_LOGIC ;
 
-component pc
-	Port(
-		stall:		in		std_logic;
-		clk:		in 		std_logic;
-		rst:		in 		std_logic;
-		branch_flag_o:	in	std_logic;
-		branch_addr_o:	in	InstAddrBus;
-		pc:				out InstAddrBus;
-		ce:				out std_logic
-	) ;
-end component ;
-
-component inst_rom
-	Port(
-		ce : in STD_LOGIC ;
-		addr: in InstAddrBus ;
-		inst : out InstBus
-	) ;
-end component ;
-
-component id
-	Port(
-		rst : in STD_LOGIC ;
-		pc_i : in InstAddrBus ;
-		inst_i : in InstBus ;
-		reg0_data_i: in DataBus ;
-		reg1_data_i: in DataBus ;
-		ex_waddr_i: in RegAddrBus ;
-		ex_we_i : in STD_LOGIC ;
-		ex_wdata_i: in DataBus ;
-		mem_waddr_i: in RegAddrBus ;
-		mem_we_i: in STD_LOGIC ;
-		mem_wdata_i: in DataBus ;
-		
-		alusel_o: out AluSelBus ;
-		aluop_o: out AluOpBus ;
-		reg0_data_o: out DataBus ;
-		reg1_data_o: out DataBus ;
-		reg0_re_o: out STD_LOGIC ;
-		reg1_re_o: out STD_LOGIC ;
-		reg0_addr_o: out RegAddrBus ;
-		reg1_addr_o: out RegAddrBus ;
-		we_o : out STD_LOGIC ;
-		waddr_o: out RegAddrBus ;
-		stall_req: out STD_LOGIC ;
-		branch_flag_o: out STD_LOGIC ;
-		branch_addr_o: out InstAddrBus 
-	) ;
-end component ;
-
-component if_id
-	Port(
-		rst: in STD_LOGIC ;
-		clk: in STD_LOGIC ;
-		stall: in STD_LOGIC ;
-		if_pc: in InstAddrBus ;
-		if_inst: in InstBus ;
-		id_pc: out InstAddrBus ;
-		id_inst: out InstBus
-	) ;
-end component ;
-
-component id_ex
-	Port(
-		rst : in STD_LOGIC ;
-		clk: in STD_LOGIC ;
-		stall: in STD_LOGIC ;
-		id_aluop: in AluOpBus ;
-		id_alusel: in AluSelBus ;
-		id_reg0: in DataBus ;
-		id_reg1: in DataBus ;
-		id_waddr: in RegAddrBus ;
-		id_we: in STD_LOGIC ;
-		ex_aluop: out AluOpBus ;
-		ex_alusel: out AluSelBus ;
-		ex_reg0: out DataBus ;
-		ex_reg1: out DataBus ;
-		ex_waddr: out RegAddrBus ;
-		ex_we: out STD_LOGIC ;
-	) ;
-end component ;
-
-component exe
-	Port(
-		aluop_i : in AluOpBus ;
-		alusel_i : in AluSelBus ;
-		reg0_i : in DataBus ;
-		reg1_i : in DataBus ;
-		waddr_i : in RegAddrBus ;
-		we_i : in STD_LOGIC ;
-		rst : in STD_LOGIC ;
-		
-		memrw_o : out MemRWBus ;
-		memaddr_o : out DataAddrBus ;
-		memdata_o : out DataBus ;
-		we_o : out STD_LOGIC ;
-		waddr_o : out RegAddrBus ;
-		stallreq: out STD_LOGIC ;
-		wdata_o : out DataBus
-	) ;
-end component ;
-
-component RegisterFile
-	Port(
-		re_0 : in STD_LOGIC ;
-		re_1 : in STD_LOGIC ;
-		raddr0 : in RegAddrBus ;
-		raddr1 : in RegAddrBus ;
-		we : in STD_LOGIC ;
-		waddr : in RegAddrBus ;
-		wdata : in DataBus ;
-		rst : in STD_LOGIC ;
-		clk : in STD_LOGIC ;
-		
-		rdata0 : out DataBus ;
-		rdata1 : out DataBus 
-	) ;
-end component ;
-
-component ex_mem
-	Port(
-		clk: in STD_LOGIC ;
-		rst: in STD_LOGIC ;
-		stall: in STD_LOGIC ;
-		ex_memrw: in MemRWBus ;
-		ex_memaddr: in DataAddrBus ;
-		ex_memdata: in DataBus ;
-		ex_wdata: in DataBus ;
-		ex_waddr : in RegAddrBus ;
-		ex_we: in STD_LOGIC ;
-		
-		mem_wdata: out DataBus ;
-		mem_waddr: out RegAddrBus ;
-		mem_memrw: out  MemRWBus ;
-		mem_memaddr: out DataAddrBus ;
-		mem_memdata: out DataBus ;
-		mem_we: out STD_LOGIC 
-	) ;
-end component ;
-
-component mem_wb
-	Port(
-		clk: in STD_LOGIC ;
-		rst: in STD_LOGIC ;
-		stall: in STD_LOGIC ;
-		mem_wdata: in DataBus ;
-		mem_waddr: in RegAddrBus ;
-		mem_we: in STD_LOGIC ;
-		
-		wb_wdata: out DataBus ;
-		wb_waddr: out RegAddrBus ;
-		wb_we: out STD_LOGIC 
-	) ;
-end component ;
-
-component mem
-	Port(
-		--寄存器
-		we_i : 		in STD_LOGIC ;
-		waddr_i : 	in RegAddrBus ;
-		wdata_i : 	in DataBus ;
-		--ram
-		memdata_i : in DataBus ;
-		memrw_i : 	in MemRWBus ; 
-		memaddr_i : in DataAddrBus ;
-		rst : 		in STD_LOGIC ;
-
-		we_o : 		out STD_LOGIC ;
-		waddr_o : 	out RegAddrBus ;
-		wdata_o : 	out DataBus ;
-		stall_req : out STD_LOGIC
-		--ram 2
-		ram2_data : 	inout DataBus ;
-		ram2_re_o :		out STD_LOGIC ;
-		ram2_we_o :		out STD_LOGIC ;
-		ram2_addr_o : 	out DataAddrBus ;
-		ram2_ce_o :		out STD_LOGIC;
-		--ram 1
-		ram1_data : 	inout DataBus ;
-		ram1_re_o :		out STD_LOGIC ;
-		ram1_we_o :		out STD_LOGIC ;
-		ram1_addr_o : 	out DataAddrBus ;
-		ram1_ce_o :		out STD_LOGIC	
-	) ;
-end component ;
-
-component stall_ctrl
-	Port(
-		rst : in STD_LOGIC ;
-		stallreq_id: in STD_LOGIC ;
-		stallreq__ex: in STD_LOGIC ;
-		stallreq_mem: in STD_LOGIC ;
-		
-		stall_pc: out STD_LOGIC ;
-		stall_if_id: out STD_LOGIC ;
-		stall_id_ex: out STD_LOGIC ;
-		stall_ex_mem: out STD_LOGIC ;
-		stall_mem_wb: out STD_LOGIC
-	) ;
-end component ;
-
-component ram1_ctrl
-	Port(
-	) ;
-end component ;
-
-component ram2_ctrl
-	Port(
-	) ;
-end component ;
-
 begin
-	mpc: pc port map(stall=>stall_pc, clk=>clk, rst=>rst, branch_flag_o=>branch_flag_o, branch_addr_o=>branch_addr_o, pc=>pc, ce=>rom_ce_o) ;
+	mpc:entity work.pc port map(
+		stall=>stall_pc, 
+		clk=>clk, 
+		rst=>rst, 
+		branch_flag_o=>branch_flag_o, 
+		branch_addr_o=>branch_addr_o, 
+		pc=>pc
+	) ;
 	id_pc_i <= pc ;
 	rom_addr_o <= pc ;
-	minst_rom: inst_rom port map(ce=>rom_ce_o, addr=>pc, inst=>rom_inst_i) ;
+
+	minst_rom: entity work.inst_rom port map(
+		ce=>rom_ce_o, 
+		addr=>pc, 
+		inst=>rom_inst_i
+	) ;
+	
 	id_inst_i <= rom_inst_i ;
-	mif_id: if_id port map(
+	
+	mif_id: entity work.if_id port map(
 		rst => rst ,
 		clk => clk ,
 		stall => stall_if_id ,
 		if_pc => pc ,
-		if_inst => rom_inst_i ;
+		if_inst => rom_inst_i ,
 		id_pc => pc_id_i, 
 		id_inst => inst_id_i
 	) ;
-	mid: id port map(
+	
+	mid:entity work.id port map(
 		rst => rst ,
 		pc_i => pc_id_i,
 		inst_i => inst_id_i,
@@ -334,7 +138,7 @@ begin
 		branch_addr_o => branch_addr_o
 	) ;
 	
-	mireg: RegisterFile port map(
+	mireg: entity work.RegisterFile port map(
 		re_0 => reg0_re_id_o,
 		re_1 => reg1_re_id_o,
 		raddr0 => reg0_addr_id_o,
@@ -350,7 +154,7 @@ begin
 	) ;
 
 	
-	mid_ex: id_ex port map(
+	mid_ex: entity work.id_ex port map(
 		rst => rst ,
 		clk => clk ,
 		stall => stall_id_ex ,
@@ -368,7 +172,7 @@ begin
 		ex_we => we_ex_i
 	);
 	
-	mexe: exe port map(
+	mexe: entity work.exe port map(
 		aluop_i => aluop_ex_i,
 		alusel_i => alusel_ex_i, 
 		reg0_i => reg0_data_ex_i, 
@@ -386,7 +190,7 @@ begin
 		wdata_o => wdata_ex_o
 	) ;
 	
-	mex_mem: ex_mem port map(
+	mex_mem: entity work.ex_mem port map(
 		clk => clk,
 		rst => rst, 
 		stall => stall_ex_mem,
@@ -405,7 +209,7 @@ begin
 		mem_we => we_mem_i
 	) ;
 	
-	mmem_wb: mem_wb port map(
+	mmem_wb: entity work.mem_wb port map(
 		clk => clk ,
 		rst => rst ,
 		stall => stall_mem_wb ,
@@ -418,7 +222,7 @@ begin
 		wb_we => we_wb_i
 	) ;
 	
-	mmen: mem port map(
+	mmen: entity work.mem port map(
 		--寄存器
 		we_i => we_mem_i,
 		waddr_i => waddr_mem_i,
@@ -447,7 +251,7 @@ begin
 		ram1_ce_o => ram1_ce_o	
 	) ;
 	
-	mstall_ctrl: stall_ctrl port map(
+	mstall_ctrl: entity work.stall_ctrl port map(
 		rst => rst ,
 		stallreq_id => stallreq_id_o, 
 		stallreq__ex => stallreq_ex_o,
