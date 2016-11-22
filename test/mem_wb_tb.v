@@ -27,7 +27,7 @@ module mem_wb_tb;
 	// Inputs
 	reg clk;
 	reg rst;
-	reg stall;
+	//reg stall;
 	reg [15:0] mem_wdata;
 	reg [3:0] mem_waddr;
 	reg mem_we;
@@ -41,7 +41,7 @@ module mem_wb_tb;
 	mem_wb uut (
 		.clk(clk), 
 		.rst(rst), 
-		.stall(stall), 
+		//.stall(stall), 
 		.mem_wdata(mem_wdata), 
 		.mem_waddr(mem_waddr), 
 		.mem_we(mem_we), 
@@ -58,7 +58,7 @@ module mem_wb_tb;
 	initial begin
 		// Initialize Inputs
 		rst = `RstEnable;
-		stall = `StallNo;
+		//stall = `StallNo;
 		mem_wdata = 0;
 		mem_waddr = 0;
 		mem_we = `WriteDisable;
@@ -75,17 +75,15 @@ module mem_wb_tb;
 		mem_we = `WriteDisable ;
 		
 		#10 ;
-		stall = `StallYes ;
+		//stall = `StallYes ;
 		mem_waddr = 2 ;
 		mem_wdata = 2 ;
 		mem_we = `WriteEnable ;
 		
-		#10 ;
-		stall = `StallNo ;
 		
 		#10 ;
 		rst = `RstEnable ;
-		rst = `RstEnable ;
+		//rst = `RstEnable ;
         
 		// Add stimulus here
 

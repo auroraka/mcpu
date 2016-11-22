@@ -33,6 +33,9 @@ end ram1_ctrl ;
 architecture Behavioral of ram1_ctrl is
 begin
 	ram_addr_o(17 downto 16)<="00";
+	ram_rdn_o<=(mem_data_i = "1011111100000000" and mem_re = ReadEnable) or clk;
+	ram_wrn_o<=(mem_data_i = "1011111100000000" and mem_we = WriteEnable) or clk;
+	ram_we_o<= (mem_we ==WriteEnable) or clk;
 	process(mem_ce,mem_we,mem_re,mem_addr_i,mem_data_i)
 	variable tempRamData: STD_LOGIC_VECTOR(15 downto 0):="0000000000000000";
 	begin
@@ -49,11 +52,11 @@ begin
 					ram_data_bi<=HighImpWord;
 					tempRamData:="00000000000000" & ram_data_ready_i & ram_tsre_i;
 					mem_data_o <= tempRamData;
-				elsif (mem_data_i = "1011111100000001") then --0xBF00
+				elsif (mem_data_i = "1011111100000000") then --0xBF00
 					ram_oe_o<='1';
 					ram_en_o<=RamDisable;
 					ram_we_o<='1';
-					ram_rdn_o<=clk;
+					-- ram_rdn_o<=clk;
 					ram_data_bi<=HighImpWord;
 					mem_data_o <= ram_data_bi;
 				else -- ram Read
@@ -68,17 +71,16 @@ begin
 				if (mem_data_i = "1011111100000001") then --0xBF01
 					-- not enable to write 0xBF01
 					ram_data_bi<=HighImpWord;
-				elsif (mem_data_i = "1011111100000001") then --0xBF00
+				elsif (mem_data_i = "1011111100000000") then --0xBF00
 					ram_en_o<='1';
 					ram_oe_o<='1';
 					ram_we_o<='1';
-					ram_wrn_o<=clk;
+					-- ram_wrn_o<=clk;
 					ram_data_bi<=mem_data_i;
 					ram_addr_o(15 downto 0)<=mem_addr_i;
 				else -- ram write
 					ram_en_o<='0';
 					ram_oe_o<='0';
-					ram_we_o<=clk;
 					ram_addr_o(15 downto 0)<=mem_addr_i;
 					ram_data_bi<=mem_data_i;
 				end if;					

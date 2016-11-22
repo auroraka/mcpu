@@ -91,7 +91,7 @@ begin
 	) ;
 	id_pc_i <= pc ;
 	
-	mram2_ctrl: entity.work.ram2_ctrl port map(
+	mram2_ctrl: entity.work.ram2_fake port map(
 		clk => clk ,
 		--pc
 		pc_addr => pc ,
@@ -270,7 +270,7 @@ begin
 		stall_ex => stall_ex
 	) ;
 	
-	mram1_ctrl: entity work.ram1_ctrl port map(
+	mram1_ctrl: entity work.ram1_fake port map(
 		clk => clk ,
 		--mem
 		mem_data_i => ram1_data_i,

@@ -28,7 +28,7 @@ module ex_mem_tb;
 	// Inputs
 	reg clk;
 	reg rst;
-	reg stall;
+	//reg stall;
 	reg [1:0] ex_memrw;
 	reg [15:0] ex_memaddr;
 	reg [15:0] ex_memdata;
@@ -48,7 +48,7 @@ module ex_mem_tb;
 	ex_mem uut (
 		.clk(clk), 
 		.rst(rst), 
-		.stall(stall), 
+		//.stall(stall), 
 		.ex_memrw(ex_memrw), 
 		.ex_memaddr(ex_memaddr), 
 		.ex_memdata(ex_memdata), 
@@ -71,7 +71,7 @@ module ex_mem_tb;
 	initial begin
 		// Initialize Inputs
 		rst = `RstEnable ;
-		stall = `StallNo ;
+		//stall = `StallNo ;
 		ex_memrw = `MemRW_Idle ;
 		ex_memaddr = 0;
 		ex_memdata = 0;
@@ -95,7 +95,7 @@ module ex_mem_tb;
 		ex_memdata = 2 ;
 		
 		#10 ;
-		stall = `StallYes ;
+		//stall = `StallYes ;
 		ex_waddr = 1 ;
 		ex_wdata = 0 ;
 		ex_we = `WriteEnable ;
@@ -103,8 +103,8 @@ module ex_mem_tb;
 		ex_memaddr = 2 ;
 		ex_memdata = 0 ;
 		
-		#10 ;
-		stall = `StallNo ;
+		//#10 ;
+		//stall = `StallNo ;
 		
 		#10 
 		rst = `RstEnable ;
