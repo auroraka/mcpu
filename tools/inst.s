@@ -1,6 +1,9 @@
 LI R1 0x11
 LI R2 0x22
 LI R3 0x33
+ADDU R1 R2 R4
+CMP R3 R4
+CMP R3 R2
 
 ;    [example code]
 ;R1串口(屏幕输出)地址

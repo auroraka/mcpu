@@ -58,16 +58,16 @@ begin
 			ram2_data_o <= ZeroWord;
 		else
 			if(memaddr_i(15)='0')then -- ram2
-				ram2_we_o<=memrw_i(1);
-				ram2_re_o<=memrw_i(0);
-				ram2_ce_o<=memrw_i(1) or memrw_i(0);
+				ram2_we_o<=memrw_i(1) and (not memrw_i(0));
+				ram2_re_o<=memrw_i(0) and (not memrw_i(1));
+				ram2_ce_o<=memrw_i(1) xor memrw_i(0);
 				ram1_we_o<='0';
 				ram1_re_o<='0';
 				ram1_ce_o<='0';
 			else
-				ram1_we_o<=memrw_i(1);
-				ram1_re_o<=memrw_i(0);
-				ram1_ce_o<=memrw_i(1) or memrw_i(0);
+				ram1_we_o<=(memrw_i(1) and (not memrw_i(0)));
+				ram1_re_o<=(memrw_i(0) and (not memrw_i(1)));
+				ram1_ce_o<=memrw_i(1) xor memrw_i(0);
 				ram2_we_o<='0';
 				ram2_re_o<='0';
 				ram2_ce_o<='0';

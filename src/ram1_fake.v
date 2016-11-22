@@ -1,4 +1,5 @@
 `include "defines.v"
+//`include "D:\\CPU\\mcpu\\src\\defines.v"
 
 module ram1_fake(
 	input wire clk,
@@ -18,9 +19,9 @@ module ram1_fake(
 		if (mem_ce == `RamChipDisable) begin
 			mem_data_o <= `ZeroWord;
 	  	end else begin
-	  		if (mem_re == `ReadEnable) begin
+	  		if (mem_re == `RamReadEnable) begin
 	  			mem_data_o <= ram[mem_addr_i[11:0]];
-			end else if (mem_we == `WriteEnable) begin
+			end else if (mem_we == `RamWriteEnable) begin
 				ram[mem_addr_i[11:0]]<=mem_data_i;
 			end else begin
 				mem_data_o <= `ZeroWord;
