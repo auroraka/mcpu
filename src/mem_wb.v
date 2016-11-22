@@ -11,14 +11,14 @@ module mem_wb(
 	output reg wb_we
 );
 
-always @ (posedge clk) begin
+always @ (posedge clk, posedge rst) begin
 	if (rst == `RstEnable) 
 	begin
 		wb_wdata<=`ZeroData;
 		wb_waddr<=`ZeroDataAddr;
 		wb_we<=`WriteDisable;
 	end
-	else if (stall == `StallNo)
+	else
 	begin
 		wb_waddr<=mem_waddr;
 		wb_wdata<=mem_wdata;
