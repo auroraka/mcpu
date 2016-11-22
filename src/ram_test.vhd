@@ -1,3 +1,4 @@
+--this is ram2_test.vhd
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 USE WORK.PACK.ALL ;
@@ -63,31 +64,6 @@ signal clk_inner:				STD_LOGIC;
 	 ram_en_o :		out 	STD_LOGIC 	
 	 ) ;
  end component ;
- component ram1_ctrl
- port(
-	clk :		in	STD_LOGIC;
-	--mem
-	mem_data_i : 	in 	DataBus ;
-	mem_data_o : 	out DataBus ;
-	mem_addr_i : 	in 	DataAddrBus ;
-	mem_re :		in 	STD_LOGIC ;
-	mem_we :		in 	STD_LOGIC ;
-	mem_ce :		in 	STD_LOGIC ;
-
-	--ram
-	ram_data_ready_i	:	in STD_LOGIC;
-	ram_tbre_i			:	in STD_LOGIC;
-	ram_tsre_i			:	in STD_LOGIC;
-	ram_data_bi			:	inout DataBus;
-
-	ram_oe_o			:	out STD_LOGIC;
-	ram_en_o			:	out STD_LOGIC;
-	ram_we_o			:	out STD_LOGIC;
-	ram_addr_o			: 	out DataAddrBus;
-	ram_wrn_o			:	out STD_LOGIC;
-	ram_rdn_o			:	out STD_LOGIC
-	 ) ;
- end component ;
 
 begin
 	wrn <= '1';
@@ -137,23 +113,6 @@ begin
 	mem_ce=>mem_ce,
 	--ram
 	ram_data=>data,
-	ram_addr_o=>addr,
-	ram_oe_o=>oe,
-	ram_we_o=>we,
-	ram_en_o=>en	
-	);
-	
-	uut2: ram1_ctrl PORT MAP(
-	clk=>clk_inner,
-	--mem
-	mem_data_i=>mem_data_i,
-	mem_data_o=>mem_data_o,
-	mem_addr_i=>mem_addr,
-	mem_re=>mem_re,
-	mem_we=>mem_we,
-	mem_ce=>mem_ce,
-	--ram
-	ram_data_bi=>data,
 	ram_addr_o=>addr,
 	ram_oe_o=>oe,
 	ram_we_o=>we,
