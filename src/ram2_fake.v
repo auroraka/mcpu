@@ -2,7 +2,7 @@
 
 module ram2_fake(
 	input wire clk,
-	input wier[`DataAddrBus] in,
+	input wire[`DataAddrBus] in,
 	output wire[`InstBus] inst,
 	input wire[`DataBus] mem_data_i,
 	output reg[`DataBus] mem_data_o,
