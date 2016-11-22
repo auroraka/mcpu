@@ -12,7 +12,7 @@ entity pc is port(
 	rst:		in 		std_logic;
 	branch_flag_o:	in	std_logic;
 	branch_addr_o:	in	InstAddrBus;
-	pc:				out InstAddrBus
+	pc_o:				out InstAddrBus
 );
 end pc;
 
@@ -24,15 +24,15 @@ begin
 	begin
 		if(rst = RstEnable) then
 			pc_v := ZeroInstAddr ;
-			pc <= pc_v ;
+			pc_o <= pc_v ;
 		elsif (clk'event and clk = '1') then
 			--pc <= pc_v ; -- update pc
 			if (stall = StallNo) then 
 				if branch_flag_o = BranchFlagUp then -- jump into new pc ;
-					pc <= branch_addr_o ;
+					pc_o <= branch_addr_o ;
 					pc_v := branch_addr_o;
 				else 
-					pc <= pc_v ;
+					pc_o <= pc_v ;
 				end if;
 				-- prepare pc_v for next pc 
 				pc_v := pc_v + 1;

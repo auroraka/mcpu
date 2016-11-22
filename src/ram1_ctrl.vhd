@@ -19,21 +19,21 @@ entity ram1_ctrl is port(
 	ram_data_ready_i	:	in STD_LOGIC;
 	ram_tbre_i			:	in STD_LOGIC;
 	ram_tsre_i			:	in STD_LOGIC;
-	ram_data_bi			:	in DataBus;
+	ram_data_bi			:	inout DataBus;
 
 	ram_oe_o			:	out STD_LOGIC;
 	ram_en_o			:	out STD_LOGIC;
 	ram_we_o			:	out STD_LOGIC;
 	ram_addr_o			: 	out DataAddrBus;
 	ram_wrn_o			:	out STD_LOGIC;
-	ram_rdn_o			:	out STD_LOGIC;
+	ram_rdn_o			:	out STD_LOGIC
 	) ;
 end ram1_ctrl ;
 
 architecture Behavioral of ram1_ctrl is
-	 variable tempRamData: STD_LOGIC_VECTOR(15 downto 0):="0000000000000000";
 begin
-	process(mem_ce,mem_we,mem_re,mem_addr,mem_data_i)
+	process(mem_ce,mem_we,mem_re,mem_addr_i,mem_data_i)
+	variable tempRamData: STD_LOGIC_VECTOR(15 downto 0):="0000000000000000";
 	begin
 		if mem_ce = RamChipDisable then
 			tempRamData:=ZeroData;
@@ -41,14 +41,14 @@ begin
 			mem_data_o <= tempRamData;
 		else
 			if (mem_re = ReadEnable) then
-				if (mem_data_i == "1011111100000001") then --0xBF01
+				if (mem_data_i = "1011111100000001") then --0xBF01
 					ram_oe_o<='1';
 					ram_en_o<='1';
 					ram_we_o<='1';
 					ram_data_bi<=HighImpWord;
 					tempRamData:="00000000000000" & ram_data_ready_i & ram_tsre_i;
 					mem_data_o <= tempRamData;
-				elsif (mem_data_i == "1011111100000001") then --0xBF00
+				elsif (mem_data_i = "1011111100000001") then --0xBF00
 					ram_oe_o<='1';
 					ram_en_o<='1';
 					ram_we_o<='1';
@@ -63,11 +63,11 @@ begin
 					ram_data_bi<=HighImpWord;
 					mem_data_o <= ram_data_bi;	
 				end if;	
-			end elsif (mem_we = WriteEnable) then 
-				if (mem_data_i == "1011111100000001") then --0xBF01
+			elsif (mem_we = WriteEnable) then 
+				if (mem_data_i = "1011111100000001") then --0xBF01
 					-- not enable to write 0xBF01
 					ram_data_bi<=HighImpWord;
-				elsif (mem_data_i == "1011111100000001") then --0xBF00
+				elsif (mem_data_i = "1011111100000001") then --0xBF00
 					ram_en_o<='1';
 					ram_oe_o<='1';
 					ram_we_o<='1';

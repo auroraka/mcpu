@@ -10,7 +10,7 @@ entity stall_ctrl is
 		
 		stall_pc: out STD_LOGIC ;
 		stall_id: out STD_LOGIC ;
-		stall_ex: out STD_LOGIC ;
+		stall_ex: out STD_LOGIC 
 		--stall_mem: out STD_LOGIC 
 	) ;
 end stall_ctrl ;

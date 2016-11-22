@@ -102,7 +102,7 @@
 `define EXE_OP_B		3'b000
 `define EXE_OP_BEQZ		3'b001
 `define EXE_OP_BNEZ		3'b010
-`define EXE_OP_BTNEZ	3'b011
+`define EXE_OP_BTEQZ	3'b011
 `define EXE_OP_JR		3'b100
 //lw
 `define EXE_OP_LW		3'b000

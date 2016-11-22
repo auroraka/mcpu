@@ -38,7 +38,7 @@ entity mem is port(
 		ram2_ce_o :		out STD_LOGIC; -- ce = RamChipEnable -> Ram Read    &    ce = RamChipDisable ->  PC Read
 
 		--stall_reg
-		stall_req : out STD_LOGIC ;
+		stall_req : out STD_LOGIC 
 	) ;
 end mem ;
 
@@ -58,7 +58,7 @@ begin
 			ram2_addr_o <= ZeroWord;
 			ram2_data_o <= ZeroWord;
 		else
-			if(memaddr_i(15)='0'))then -- ram2
+			if(memaddr_i(15)='0')then -- ram2
 				ram2_we_o<=memrw_i(1);
 				ram2_re_o<=memrw_i(0);
 				ram2_ce_o<=memrw_i(1) or memrw_i(0);
@@ -98,7 +98,7 @@ begin
 		else
 			case memrw_i is
 				when MemRW_Read =>
-					if(memaddr_i(15)='0'))then -- ram2
+					if(memaddr_i(15)='0')then -- ram2
 						wdata_o <= ram2_data_i;
 					else
 						wdata_o <= ram1_data_i;

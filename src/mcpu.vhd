@@ -87,7 +87,7 @@ component pc
 		rst:		in 		std_logic;
 		branch_flag_o:	in	std_logic;
 		branch_addr_o:	in	InstAddrBus;
-		pc:				out InstAddrBus;
+		pc_o:				out InstAddrBus;
 		ce:				out std_logic
 	) ;
 end component ;
@@ -158,7 +158,7 @@ component id_ex
 		ex_reg0: out DataBus ;
 		ex_reg1: out DataBus ;
 		ex_waddr: out RegAddrBus ;
-		ex_we: out STD_LOGIC ;
+		ex_we: out STD_LOGIC 
 	) ;
 end component ;
 
