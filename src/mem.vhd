@@ -24,17 +24,17 @@ entity mem is port(
 		--ram 1 
 		ram1_data_i:	in 	DataBus ;
 		ram1_data_o : 	out DataBus ;
+		ram1_addr_o : 	out DataAddrBus ;
 		ram1_re_o :		out STD_LOGIC ;
 		ram1_we_o :		out STD_LOGIC ;
-		ram1_addr_o : 	out DataAddrBus ;
 		ram1_ce_o :		out STD_LOGIC; -- ce = ChipEnable -> 
 		
 		--ram 2 
 		ram2_data_i:	in 	DataBus ;
 		ram2_data_o : 	out DataBus ;
+		ram2_addr_o : 	out DataAddrBus ;
 		ram2_re_o :		out STD_LOGIC ;
 		ram2_we_o :		out STD_LOGIC ;
-		ram2_addr_o : 	out DataAddrBus ;
 		ram2_ce_o :		out STD_LOGIC; -- ce = RamChipEnable -> Ram Read    &    ce = RamChipDisable ->  PC Read
 
 		--stall_reg
