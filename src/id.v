@@ -230,7 +230,7 @@ always @ (*) begin
 				aluop_o<=`EXE_OP_LI;
 				we_o<=`WriteEnable;
 				waddr_o<=rx;
-				reg0_re_o<=`ReadEnable;
+				//reg0_re_o<=`ReadEnable;
 				reg0_o<=immlu;
 			end
 			`OP_CMPI:begin

@@ -90,7 +90,7 @@ begin
 
 	we_o <= we_i;
 	waddr_o <= waddr_i;
-	wdata: process(ram1_data_i,ram2_data_i,rst)
+	wdata: process(ram1_data_i,ram2_data_i,rst,wdata_i)
 	begin
 		if(rst = RstEnable)then
 			wdata_o <= ZeroWord;
