@@ -3,11 +3,9 @@
 module mem_wb(
 	input wire clk,
 	input wire rst,
-	input wire stall,
 	input wire[`DataBus] mem_wdata,
 	input wire[`RegAddrBus] mem_waddr,
-	input wire mem_we,
-	
+	input wire mem_we,	
 	output reg[`DataBus] wb_wdata,
 	output reg[`RegAddrBus] wb_waddr,
 	output reg wb_we

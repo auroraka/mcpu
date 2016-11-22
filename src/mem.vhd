@@ -7,7 +7,6 @@ USE WORK.PACK.ALL ;
 
 entity mem is port(
 		rst : 		in STD_LOGIC ;
-		clk : 		in STD_LOGIC ;
 		--寄存
 		we_i : 		in STD_LOGIC ;
 		waddr_i : 	in RegAddrBus ;
