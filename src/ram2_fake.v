@@ -21,6 +21,7 @@ module ram2_fake(
 			mem_data_o <= `ZeroWord;
 	  	end else begin// pc rw
 	  		if (mem_re == `RamReadEnable) begin
+	  			$display("ram2 read addr %h",mem_addr_i);
 	  			mem_data_o <= ram[mem_addr_i[11:0]];
 			end else begin
 				mem_data_o <= `ZeroWord;
