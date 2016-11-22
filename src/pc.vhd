@@ -37,6 +37,7 @@ begin
 				-- prepare pc_v for next pc 
 				pc_v := pc_v + 1;
 			else --pc hold and pc_v store the next pc, branch_addr_o or pc+1
+				-- stall 时是否可以跳转 @comment By tl 
 				if branch_flag_o = BranchFlagUp then
 					pc_v := branch_addr_o ;
 				else
