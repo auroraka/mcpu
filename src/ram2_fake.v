@@ -1,5 +1,5 @@
-//`include "defines.v"
-`include "D:\\CPU\\mcpu\\src\\defines.v"
+`include "defines.v"
+//`include "D:\\CPU\\mcpu\\src\\defines.v"
 module ram2_fake(
 	input wire clk,
 	input wire[`DataAddrBus] pc,
@@ -14,10 +14,10 @@ module ram2_fake(
 
 	reg[`InstBus]  ram[0:4095];
 
-	initial $readmemh ( "ram2.data", ram );
+	initial $readmemh ( "D:\\CPU\\mcpu\\src\\ram2.data", ram );
 
 	always @ (*) begin
-		if (mem_ce == `RamRamChipEnable) begin //mem rw
+		if (mem_ce == `RamChipEnable) begin //mem rw
 			mem_data_o <= `ZeroWord;
 	  	end else begin// pc rw
 	  		if (mem_re == `RamReadEnable) begin

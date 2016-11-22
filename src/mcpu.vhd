@@ -229,7 +229,7 @@ begin
 		wb_we => we_wb_i
 	) ;
 	
-	mmen: entity work.mem port map(
+	mmem: entity work.mem port map(
 		rst => rst ,
 		--寄存器
 		we_i => we_mem_i,

@@ -1,5 +1,5 @@
-//`include "defines.v"
-`include "D:\\CPU\\mcpu\\src\\defines.v"
+`include "defines.v"
+//`include "D:\\CPU\\mcpu\\src\\defines.v"
 
 module ram1_fake(
 	input wire clk,

@@ -1,5 +1,5 @@
-`include "C:\\Users\\ytl\\Desktop\\Misledom\\mcpu\\src\\defines.v"
-//`include "defines.v"
+//`include "C:\\Users\\ytl\\Desktop\\Misledom\\mcpu\\src\\defines.v"
+`include "defines.v"
 //`include "D:\\CPU\\mcpu\\src\\defines.v"
 module id(
 	input rst,
