@@ -7,7 +7,7 @@ ENTITY ram2_test IS port(
 	rst : in STD_LOGIC ;
 	m_data : in std_logic_vector(2 downto 0);
 	m_data_o : out std_logic_vector(2 downto 0);
-	m_addr : in std_logic_vector(2 downto 0);
+	m_addr : in std_logic_vector(4 downto 0);
 	m_re : in STD_LOGIC;
 	m_we : in STD_LOGIC;
 	m_ce : in STD_LOGIC;
@@ -93,12 +93,13 @@ begin
 			mem_re <= ReadDisable ;
 			mem_we <= WriteDisable ;
 		elsif (clk_inner'event and clk_inner = '1') then
-			mem_addr(2 downto 0) <= m_addr ;
+			mem_addr(15 downto 12) <= m_addr(4 downto 1) ;
+			mem_addr(0) <= m_addr(0);
 			mem_data_i(2 downto 0) <= m_data ;
 			mem_ce <= m_ce ;
 			mem_re <= m_re ;
 			mem_we <= m_we ;
-			mem_addr(15 downto 3) <= ZeroWord(15 downto 3) ;
+			mem_addr(11 downto 1) <= ZeroWord(11 downto 1) ;
 			mem_data_i(15 downto 3) <= ZeroWord(15 downto 3) ;
 		end if ;
 	end process ;

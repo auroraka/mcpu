@@ -62,7 +62,7 @@ begin
 					ram_data_bi<=ZeroData;
 					tempRamData<="00000000000000" & ram_data_ready_i & ram_tsre_i;
 					data_flag<=ZeroData;
-				elsif (flag) then --0xBF00
+				elsif (flag = '1') then --0xBF00
 					ram_oe_o<='1';
 					ram_en_o<=RamDisable;
 					ram_data_bi<=HighImpWord;
@@ -79,7 +79,7 @@ begin
 					-- not enable to write 0xBF01
 					ram_data_bi<=ZeroData;
 					data_flag<=ZeroData;
-				elsif (flag) then --0xBF00
+				elsif (flag = '1') then --0xBF00
 					ram_en_o<=RamDisable;
 					ram_oe_o<='1';
 					ram_data_bi<=mem_data_i;
