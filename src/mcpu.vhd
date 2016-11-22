@@ -101,7 +101,7 @@ begin
 		mem_we => ram2_we_i,
 		mem_ce => ram2_ce_i
 	) ;
-	
+	id_inst_i <= pc_data ;
 	mif_id: entity work.if_id port map(
 		rst => rst ,
 		clk => clk ,
