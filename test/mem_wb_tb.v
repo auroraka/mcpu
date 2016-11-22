@@ -81,7 +81,7 @@ module mem_wb_tb;
 		mem_we = `WriteEnable ;
 		
 		
-		#15 ;
+		#10 ;
 		rst = `RstEnable ;
 		//rst = `RstEnable ;
         
