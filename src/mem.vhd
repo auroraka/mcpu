@@ -6,6 +6,8 @@ USE IEEE.NUMERIC_STD.ALL ;
 USE WORK.PACK.ALL ;
 
 entity mem is port(
+		rst : 		in STD_LOGIC ;
+		clk : 		in STD_LOGIC ;
 		--寄存
 		we_i : 		in STD_LOGIC ;
 		waddr_i : 	in RegAddrBus ;
@@ -14,12 +16,25 @@ entity mem is port(
 		memdata_i : in DataBus ;
 		memrw_i : 	in MemRWBus ; 
 		memaddr_i : in DataAddrBus ;
-		rst : 		in STD_LOGIC ;
 
 		we_o : 		out STD_LOGIC ;
 		waddr_o : 	out RegAddrBus ;
 		wdata_o : 	out DataBus ;
-		stall_req : out STD_LOGIC ;
+		
+		--ram 1 
+		ram1_data_ready_i:	in 	DataBus;
+		ram1_tbre_i:	in 	STD_LOGIC;
+		ram1_tsre_i:	in STD_LOGIC;
+
+		ram1_data_bi:	inout 	DataBus ;
+		
+		ram1_oe_o :		out STD_LOGIC;
+		ram1_en_o :		out STD_LOGIC;
+		ram1_we_o :		out STD_LOGIC;
+		ram1_addr_o : 	out DataAddrBus ;
+		ram1_wrn_o :	out STD_LOGIC;
+		ram1_rdn_o :	out STD_LOGIC;
+		
 		--ram 2 
 		ram2_data_i:	in 	DataBus ;
 		ram2_data_o : 	out DataBus ;
@@ -27,13 +42,9 @@ entity mem is port(
 		ram2_we_o :		out STD_LOGIC ;
 		ram2_addr_o : 	out DataAddrBus ;
 		ram2_ce_o :		out STD_LOGIC;
-		--ram 1 
-		ram1_data_i:	in 	DataBus ;
-		ram1_data_o : 	out DataBus ;
-		ram1_re_o :		out STD_LOGIC ;
-		ram1_we_o :		out STD_LOGIC ;
-		ram1_addr_o : 	out DataAddrBus ;
-		ram1_ce_o :		out STD_LOGIC	
+
+		--stall_reg
+		stall_req : out STD_LOGIC ;
 	) ;
 end mem ;
 
