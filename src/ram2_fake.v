@@ -14,7 +14,7 @@ module ram2_fake(
 
 	reg[`InstBus]  ram[0:4095];
 
-	initial $readmemh ( "D:\\CPU\\mcpu\\src\\ram2.data", ram );
+	//initial $readmemh ( "D:\\CPU\\mcpu\\src\\ram2.data", ram );
 
 	always @ (*) begin
 		if (mem_ce == `RamChipEnable) begin //mem rw
@@ -26,6 +26,14 @@ module ram2_fake(
 				mem_data_o <= `ZeroWord;
 			end
 	  	end
+	end
+
+	
+	initial begin
+		ram[0]<="0110100100010001";
+		ram[1]<="0110101000100010";
+		ram[2]<="0110101100110011";
+		ram[3]<="1110000101010001";	
 	end
 
 endmodule
