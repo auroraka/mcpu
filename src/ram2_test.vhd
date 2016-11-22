@@ -5,11 +5,9 @@ USE WORK.PACK.ALL ;
 ENTITY ram2_test IS port(
 	clk :in STD_LOGIC ;
 	rst : in STD_LOGIC ;
-	-- pc : in std_logic_vector(2 downto 0);
-	-- ins_o : out std_logic_vector(2 downto 0);
 	m_data : in std_logic_vector(2 downto 0);
 	m_data_o : out std_logic_vector(2 downto 0);
-	state_o: out std_logic_vector(1 downto 0) ;
+	state_o: out std_logic_vector(1 downto 0) :="11";
 	m_addr : in std_logic_vector(2 downto 0);
 	m_re : in STD_LOGIC;
 	m_we : in STD_LOGIC;
@@ -24,6 +22,9 @@ ENTITY ram2_test IS port(
 	ram_data_ready_i	:	in STD_LOGIC;
 	ram_tbre_i			:	in STD_LOGIC;
 	ram_tsre_i			:	in STD_LOGIC;
+	ram_data_ready_o	:	out STD_LOGIC;
+	ram_tbre_o			:	out STD_LOGIC;
+	ram_tsre_o			:	out STD_LOGIC;
 	ram_addr1 : out RamAddrBus;
 	ram_data1 : inout DataBus;
 	ram1OE : out STD_LOGIC;
@@ -43,27 +44,7 @@ signal mem_re :			STD_LOGIC := ReadDisable;
 signal mem_we :			STD_LOGIC := WriteDisable;
 signal mem_ce :			STD_LOGIC := PCChipDisable;
 signal clk_inner:				STD_LOGIC;
- -- component ram2_ctrl
- -- port(
-	 -- clk : in STD_LOGIC ;
-	 -- --pc
-	 -- pc_addr : 	in 	DataAddrBus ;
-	 -- inst:		out InstBus ;
-	 -- --mem
-	 -- mem_data_i : 	in 	DataBus ;
-	 -- mem_data_o : 	out DataBus ;
-	 -- mem_addr : 		in 	DataAddrBus ;
-	 -- mem_re :		in 	STD_LOGIC ;
-	 -- mem_we :		in 	STD_LOGIC ;
-	 -- mem_ce :		in 	STD_LOGIC ;
-	 -- --ram
-	 -- ram_data : 		inout 	DataBus ;
-	 -- ram_addr_o : 	out 	RamAddrBus ;
-	 -- ram_oe_o :		out 	STD_LOGIC ;
-	 -- ram_we_o :		out 	STD_LOGIC ;
-	 -- ram_en_o :		out 	STD_LOGIC 	
-	 -- ) ;
- -- end component ;
+
  component ram1_ctrl
  port(
 	clk :		in	STD_LOGIC;
@@ -84,7 +65,7 @@ signal clk_inner:				STD_LOGIC;
 	ram_oe_o			:	out STD_LOGIC;
 	ram_en_o			:	out STD_LOGIC;
 	ram_we_o			:	out STD_LOGIC;
-	ram_addr_o			: 	out DataAddrBus;
+	ram_addr_o			: 	out RamAddrBus;
 	ram_wrn_o			:	out STD_LOGIC;
 	ram_rdn_o			:	out STD_LOGIC
 	 ) ;
@@ -96,7 +77,10 @@ begin
 	oe <= '0';
 	data <= "1010101010101010";
 	addr <= "000000000011111111";
-	clk_inner<= clk;
+	clk_inner<= /clk;
+	ram_data_ready_o<=ram_data_ready_i;
+	ram_tbre_o<=ram_tbre_i;
+	ram_tsre_o<=ram_tsre_i;
 	process(clk_inner, rst)
 	begin
 		if(rst = RstEnable) then
@@ -105,7 +89,7 @@ begin
 			mem_ce <= PCChipDisable ;
 			mem_re <= ReadDisable ;
 			mem_we <= WriteDisable ;
-		elsif (clk'event and clk = '1') then
+		elsif (clk_inner'event and clk_inner = '1') then
 			mem_addr(2 downto 0) <= m_addr ;
 			mem_data_i(2 downto 0) <= m_data ;
 			mem_ce <= m_ce ;
@@ -119,25 +103,6 @@ begin
 	m_data_o<=mem_data_o(2 downto 0);
 	state_o <= "11";
 	
-	-- uut: ram2_ctrl PORT MAP(
-	-- clk=>clk_inner,
-	-- pc_addr=>pc_addr,
-	-- inst=>inst,
-	-- --mem
-	-- mem_data_i=>mem_data_i,
-	-- mem_data_o=>mem_data_o,
-	-- mem_addr=>mem_addr,
-	-- mem_re=>mem_re,
-	-- mem_we=>mem_we,
-	-- mem_ce=>mem_ce,
-	-- --ram
-	-- ram_data=>data,
-	-- ram_addr_o=>addr,
-	-- ram_oe_o=>oe,
-	-- ram_we_o=>we,
-	-- ram_en_o=>en	
-	-- );
-	
 	uut2: ram1_ctrl PORT MAP(
 	clk=>clk_inner,
 	--mem
@@ -148,14 +113,14 @@ begin
 	mem_we=>mem_we,
 	mem_ce=>mem_ce,
 	--ram
-	ram_data_ready_i=>data_ready,
-	ram_tbre_i=>tbre,
-	ram_tsre_i=>tsre,
-	ram_data_bi=>data,
-	ram_addr_o=>addr,
-	ram_oe_o=>oe,
-	ram_we_o=>we,
-	ram_en_o=>en,
+	ram_data_ready_i=>ram_data_ready_i,
+	ram_tbre_i=>ram_tbre_i,
+	ram_tsre_i=>ram_tsre_i,
+	ram_data_bi=>ram_data1,
+	ram_addr_o=>ram_addr1,
+	ram_oe_o=>ram1OE,
+	ram_we_o=>ram1WE,
+	ram_en_o=>ram1EN,
 	ram_wrn_o=>wrn,
 	ram_rdn_o=>rdn
 	);

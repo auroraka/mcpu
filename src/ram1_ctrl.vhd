@@ -13,25 +13,26 @@ entity ram1_ctrl is port(
 	mem_addr_i : 	in 	DataAddrBus ;
 	mem_re :		in 	STD_LOGIC ;
 	mem_we :		in 	STD_LOGIC ;
-	mem_ce :		in 	STD_LOGIC 
+	mem_ce :		in 	STD_LOGIC ;
 
-	-- --ram
-	-- ram_data_ready_i	:	in STD_LOGIC;
-	-- ram_tbre_i			:	in STD_LOGIC;
-	-- ram_tsre_i			:	in STD_LOGIC;
-	-- ram_data_bi			:	inout DataBus;
+	--ram
+	ram_data_ready_i	:	in STD_LOGIC;
+	ram_tbre_i			:	in STD_LOGIC;
+	ram_tsre_i			:	in STD_LOGIC;
+	ram_data_bi			:	inout DataBus;
 
-	-- ram_oe_o			:	out STD_LOGIC;
-	-- ram_en_o			:	out STD_LOGIC;
-	-- ram_we_o			:	out STD_LOGIC;
-	-- ram_addr_o			: 	out DataAddrBus;
-	-- ram_wrn_o			:	out STD_LOGIC;
-	-- ram_rdn_o			:	out STD_LOGIC
+	ram_oe_o			:	out STD_LOGIC;
+	ram_en_o			:	out STD_LOGIC;
+	ram_we_o			:	out STD_LOGIC;
+	ram_addr_o			: 	out RamAddrBus;
+	ram_wrn_o			:	out STD_LOGIC;
+	ram_rdn_o			:	out STD_LOGIC
 	) ;
 end ram1_ctrl ;
 
 architecture Behavioral of ram1_ctrl is
 begin
+	ram_addr_o(17 downto 16)<="00";
 	process(mem_ce,mem_we,mem_re,mem_addr_i,mem_data_i)
 	variable tempRamData: STD_LOGIC_VECTOR(15 downto 0):="0000000000000000";
 	begin
@@ -59,7 +60,7 @@ begin
 					ram_en_o<=RamEnable;
 					ram_oe_o<='0';
 					ram_we_o<='1';
-					ram_addr_o<=mem_addr_i;
+					ram_addr_o(15 downto 0)<=mem_addr_i;
 					ram_data_bi<=HighImpWord;
 					mem_data_o <= ram_data_bi;	
 				end if;	
@@ -73,12 +74,12 @@ begin
 					ram_we_o<='1';
 					ram_wrn_o<=clk;
 					ram_data_bi<=mem_data_i;
-					ram_addr_o<=mem_addr_i;
+					ram_addr_o(15 downto 0)<=mem_addr_i;
 				else -- ram write
 					ram_en_o<='0';
 					ram_oe_o<='0';
 					ram_we_o<=clk;
-					ram_addr_o<=mem_addr_i;
+					ram_addr_o(15 downto 0)<=mem_addr_i;
 					ram_data_bi<=mem_data_i;
 				end if;					
 			else

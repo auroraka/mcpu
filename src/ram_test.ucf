@@ -77,26 +77,23 @@ NET "data[2]" LOC = T15;
 NET "data[1]" LOC = T16;
 NET "data[0]" LOC = U13;
 
-NET "ram_data_ready_o" LOC = A14;
-NET "ram_tbre_o" LOC = E13;
-NET "ram_tsre_o" LOC = D13;
-
-NET "ram_data_ready_o" LOC = A16;
-NET "ram_tbre_o" LOC = D14;
-NET "ram_tsre_o" LOC = N9;
-
-NET "m_data_o[2]" LOC = A11;
-NET "m_data_o[1]" LOC = E10;
-NET "m_data_o[0]" LOC = D10;
-NET "state_o[1]" LOC = E12;
-NET "state_o[0]" LOC = A12;
-
+NET "ins_o[2]" LOC = A14;
+NET "ins_o[1]" LOC = E13;
+NET "ins_o[0]" LOC = D13;
+NET "pc[2]" LOC = J6;
+NET "pc[1]" LOC = J7;
+NET "pc[0]" LOC = K2;
 NET "m_addr[2]" LOC = R4;
 NET "m_addr[1]" LOC = U1;
 NET "m_addr[0]" LOC = V2;
 NET "m_data[2]" LOC = U8;
 NET "m_data[1]" LOC = R7;
 NET "m_data[0]" LOC = T7;
+NET "m_data_o[2]" LOC = A11;
+NET "m_data_o[1]" LOC = E10;
+NET "m_data_o[0]" LOC = D10;
+NET "state_o[1]" LOC = E12;
+NET "state_o[0]" LOC = A12;
 
 # PlanAhead Generated physical constraints 
 
