@@ -7,7 +7,6 @@ ENTITY ram2_test IS port(
 	rst : in STD_LOGIC ;
 	m_data : in std_logic_vector(2 downto 0);
 	m_data_o : out std_logic_vector(2 downto 0);
-	state_o: out std_logic_vector(1 downto 0) :="11";
 	m_addr : in std_logic_vector(2 downto 0);
 	m_re : in STD_LOGIC;
 	m_we : in STD_LOGIC;
@@ -22,9 +21,11 @@ ENTITY ram2_test IS port(
 	ram_data_ready_i	:	in STD_LOGIC;
 	ram_tbre_i			:	in STD_LOGIC;
 	ram_tsre_i			:	in STD_LOGIC;
+	--led
 	ram_data_ready_o	:	out STD_LOGIC;
 	ram_tbre_o			:	out STD_LOGIC;
 	ram_tsre_o			:	out STD_LOGIC;
+	--
 	ram_addr1 : out RamAddrBus;
 	ram_data1 : inout DataBus;
 	ram1OE : out STD_LOGIC;
@@ -77,10 +78,12 @@ begin
 	oe <= '0';
 	data <= "1010101010101010";
 	addr <= "000000000011111111";
-	clk_inner<= /clk;
+	clk_inner<= not clk;
+	--led
 	ram_data_ready_o<=ram_data_ready_i;
 	ram_tbre_o<=ram_tbre_i;
 	ram_tsre_o<=ram_tsre_i;
+	
 	process(clk_inner, rst)
 	begin
 		if(rst = RstEnable) then
@@ -101,7 +104,6 @@ begin
 	end process ;
 	
 	m_data_o<=mem_data_o(2 downto 0);
-	state_o <= "11";
 	
 	uut2: ram1_ctrl PORT MAP(
 	clk=>clk_inner,
