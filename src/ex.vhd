@@ -5,7 +5,7 @@ USE IEEE.STD_LOGIC_UNSIGNED.ALL;
 USE IEEE.NUMERIC_STD.ALL ;
 USE WORK.PACK.ALL ;
 
-entity exe is 
+entity ex is 
 	Port(
 		aluop_i : in AluOpBus ;
 		alusel_i : in AluSelBus ;
@@ -23,9 +23,9 @@ entity exe is
 		--stallreq: out STD_LOGIC ;
 		wdata_o : out DataBus 
 	) ;
-end exe ;
+end ex ;
 
-architecture Behavioral of exe is
+architecture Behavioral of ex is
 begin
 	--aluop_o <= aluop_i ;
 	we_o <= we_i ;

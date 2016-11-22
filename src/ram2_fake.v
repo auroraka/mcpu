@@ -1,8 +1,8 @@
-`include "defines.v"
-
+//`include "defines.v"
+`include "D:\\CPU\\mcpu\\src\\defines.v"
 module ram2_fake(
 	input wire clk,
-	input wier[`DataAddrBus] in,
+	input wire[`DataAddrBus] pc,
 	output wire[`InstBus] inst,
 	input wire[`DataBus] mem_data_i,
 	output reg[`DataBus] mem_data_o,

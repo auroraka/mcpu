@@ -91,15 +91,15 @@ begin
 	) ;
 	id_pc_i <= pc ;
 	
-	mram2_ctrl: entity.work.ram2_fake port map(
+	mram2_ctrl: entity work.ram2_fake port map(
 		clk => clk ,
 		--pc
-		pc_addr => pc ,
+		pc => pc ,
 		inst => pc_data ,
 		--mem
 		mem_data_i => ram2_data_i,
 		mem_data_o => ram2_data_o,
-		mem_addr => ram2_addr_i,
+		mem_addr_i => ram2_addr_i,
 		mem_re => ram2_re_i,
 		mem_we => ram2_we_i,
 		mem_ce => ram2_ce_i
@@ -166,7 +166,7 @@ begin
 		clk => clk ,
 		stall_pc => stall_pc ,
 		stall_id => stall_id ,
-		stall_ex => stall_ex .
+		stall_ex => stall_ex ,
 		id_aluop => aluop_id_o,
 		id_alusel => alusel_id_o,
 		id_reg0 => reg0_data_id_o,
@@ -181,7 +181,7 @@ begin
 		ex_we => we_ex_i
 	);
 	
-	mexe: entity work.exe port map(
+	mex: entity work.ex port map(
 		aluop_i => aluop_ex_i,
 		alusel_i => alusel_ex_i, 
 		reg0_i => reg0_data_ex_i, 
