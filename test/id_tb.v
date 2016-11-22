@@ -101,7 +101,7 @@ module id_tb;
 		rst = `RstDisable ;
 		pc_i = 1 ;
 		reg0_data_i = 1 ;
-		inst_i = 16'b0100101000001111 ;
+		inst_i = 16'b0110100100010001 ;
 		
         
 		// Add stimulus here

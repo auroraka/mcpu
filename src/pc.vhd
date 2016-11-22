@@ -17,29 +17,29 @@ entity pc is port(
 end pc;
 
 architecture Behavioral of pc is
-	--signal pc_v: InstAddrBus := ZeroInstAddr;
+	signal pc_v: InstAddrBus := "1111111111111111";
 begin
 	process(clk, rst)
-	variable pc_v : InstAddrBus := ZeroInstAddr ;
+	--variable pc_v : InstAddrBus := "1111111111111111" ;
 	begin
 		if(rst = RstEnable) then
-			pc_v := ZeroInstAddr ;
+			pc_v <= ZeroInstAddr ;
 			pc <= pc_v ;
 		elsif (clk'event and clk = '1') then
 			--pc <= pc_v ; -- update pc
 			if (stall = StallNo) then 
 				if branch_flag_o = BranchFlagUp then -- jump into new pc ;
 					pc <= branch_addr_o ;
-					pc_v := branch_addr_o;
+					pc_v <= branch_addr_o;
 				else 
 					pc <= pc_v ;
 				end if;
 				-- prepare pc_v for next pc 
-				pc_v := pc_v + 1;
+				pc_v <= pc_v + 1;
 			else --pc hold and pc_v store the next pc, branch_addr_o or pc+1
 				-- stall 时是否可以跳转 @comment By tl 
 				if branch_flag_o = BranchFlagUp then
-					pc_v := branch_addr_o ;
+					pc_v <= branch_addr_o ;
 				else
 					null ;
 				end if ;
