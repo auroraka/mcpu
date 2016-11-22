@@ -16,15 +16,22 @@ module ram2_fake(
 
 	//initial $readmemh ( "D:\\CPU\\mcpu\\src\\ram2.data", ram );
 
-	always @ (pc, mem_data_i, mem_addr_i, mem_re, mem_ce, mem_we) begin
-		if (mem_ce == `RamChipDisable) begin //mem rw
+	always @ (pc, mem_data_i, mem_addr_i, mem_re, mem_ce, mem_we) 
+	begin
+		if (mem_ce == `RamChipDisable) 
+		begin //mem rw
 			mem_data_o <= `ZeroWord;
 			inst <= ram[pc] ;
-	  	end else begin// pc rw
-	  		if (mem_re == `RamReadEnable) begin
+	  	end 
+		else 
+		begin// pc rw
+	  		if (mem_re == `RamReadEnable) 
+			begin
 	  			$display("ram2 read addr %h",mem_addr_i);
 	  			mem_data_o <= ram[mem_addr_i[11:0]];
-			end else begin
+			end 
+			else 
+			begin
 				mem_data_o <= `ZeroWord;
 			end
 	  	end
