@@ -88,7 +88,7 @@ NET "data[0]" LOC = U13;
 
 # led
 NET "ram_data_ready_o" LOC = A14; #z leftmost
-NET "ram_tbre_o" LOC = E13;
+NET "ram_tbre_o" LOC = E13;	
 NET "ram_tsre_o" LOC = D13;
 
 NET "m_data_o[2]" LOC = A11; #right most

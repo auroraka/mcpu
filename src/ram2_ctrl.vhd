@@ -27,7 +27,7 @@ entity ram2_ctrl is port(
 end ram2_ctrl ;
 
 architecture Behavioral of ram2_ctrl is
-	 signal tempRamAddr: STD_LOGIC_VECTOR(17 downto 0) := "000000000000000000";
+	 signal tempRamAddr: STD_LOGIC_VECTOR(17 downto 0) := (others => '0');
 begin
 	ram_we_o <= not mem_we or clk;
 	ram_oe_o <= '0' ;

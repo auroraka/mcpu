@@ -23,9 +23,6 @@ constant ReadDisable : STD_lOGIC := '1' ;
 constant PCChipEnable : STD_lOGIC := '0' ;
 constant PCChipDisable : STD_lOGIC := '1' ;
 
--- added ;
-constant RamEnable : STD_lOGIC := '0' ;
-constant RamDisable : STD_lOGIC := '1' ;
 
 constant StallYes : STD_lOGIC := '0' ; 
 constant StallNo : STD_lOGIC := '1' ;
@@ -41,8 +38,8 @@ constant HighImpWord : Word := "ZZZZZZZZZZZZZZZZ" ;
 --data
 subtype DataAddrBus is STD_lOGIC_VECTOR (15 downto 0) ;
 subtype DataBus is STD_lOGIC_VECTOR(15 downto 0) ;
-constant ZeroData : Word := "0000000000000000" ;
-constant ZeroDataAddr : Word := "0000000000000000" ;
+constant ZeroData : DataBus := "0000000000000000" ;
+constant ZeroDataAddr : DataAddrBus := "0000000000000000" ;
 
 --inst_mem
 constant InstValid : STD_lOGIC := '0' ;
@@ -76,17 +73,19 @@ constant MemRW_Idle : MemRWBus := "00" ;
 constant MemRW_Read : MemRWBus := "01" ;
 constant MemRW_Write : MemRWBus := "10" ;
 
--- mem's ram
+-- mem => ram
 constant RamReadEnable 		: STD_lOGIC := '1';
 constant RamReadDisable 	: STD_lOGIC := '0';
 constant RamWriteEnable 	: STD_lOGIC := '1';
 constant RamWriteDisable	: STD_lOGIC := '0';
 constant RamChipEnable 		: STD_lOGIC := '1';
 constant RamChipDisable 	: STD_lOGIC := '0';
---ram
+-- actual ram
 subtype RamAddrBus is STD_LOGIC_VECTOR (17 downto 0) ;
 constant RamWEHigh 	: STD_lOGIC := '1';
 constant RamWELow	: STD_lOGIC := '0';
+constant RamEnable : STD_lOGIC := '0' ;
+constant RamDisable : STD_lOGIC := '1' ;
 
 --ops id send to ex
 subtype AluOpBus is STD_lOGIC_VECTOR(2 downto 0) ;
