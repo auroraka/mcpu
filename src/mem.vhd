@@ -22,18 +22,12 @@ entity mem is port(
 		wdata_o : 	out DataBus ;
 		
 		--ram 1 
-		ram1_data_ready_i:	in 	DataBus;
-		ram1_tbre_i:	in 	STD_LOGIC;
-		ram1_tsre_i:	in STD_LOGIC;
-
-		ram1_data_bi:	inout 	DataBus ;
-		
-		ram1_oe_o :		out STD_LOGIC;
-		ram1_en_o :		out STD_LOGIC;
-		ram1_we_o :		out STD_LOGIC;
+		ram1_data_i:	in 	DataBus ;
+		ram1_data_o : 	out DataBus ;
+		ram1_re_o :		out STD_LOGIC ;
+		ram1_we_o :		out STD_LOGIC ;
 		ram1_addr_o : 	out DataAddrBus ;
-		ram1_wrn_o :	out STD_LOGIC;
-		ram1_rdn_o :	out STD_LOGIC;
+		ram1_ce_o :		out STD_LOGIC; -- ce = ChipEnable -> 
 		
 		--ram 2 
 		ram2_data_i:	in 	DataBus ;
@@ -41,7 +35,7 @@ entity mem is port(
 		ram2_re_o :		out STD_LOGIC ;
 		ram2_we_o :		out STD_LOGIC ;
 		ram2_addr_o : 	out DataAddrBus ;
-		ram2_ce_o :		out STD_LOGIC;
+		ram2_ce_o :		out STD_LOGIC; -- ce = RamChipEnable -> Ram Read    &    ce = RamChipDisable ->  PC Read
 
 		--stall_reg
 		stall_req : out STD_LOGIC ;
@@ -64,7 +58,7 @@ begin
 			ram2_addr_o <= ZeroWord;
 			ram2_data_o <= ZeroWord;
 		else
-			if(memaddr_i<="0111111111111111")then
+			if(memaddr_i(15)='0'))then -- ram2
 				ram2_we_o<=memrw_i(1);
 				ram2_re_o<=memrw_i(0);
 				ram2_ce_o<=memrw_i(1) or memrw_i(0);
@@ -88,7 +82,7 @@ begin
 	
 	stall: process(memdata_i,memaddr_i,memrw_i,rst)
 	begin
-		if(rst = RstEnable or memrw_i = MemRW_Idle or memaddr_i>"0111111111111111")then
+		if(rst = RstEnable or memrw_i = MemRW_Idle or memaddr_i(15)='1')then -- ram1
 			stall_req <= StallNo;
 		else
 			stall_req <= StallYes;
@@ -104,7 +98,7 @@ begin
 		else
 			case memrw_i is
 				when MemRW_Read =>
-					if(memaddr_i<="0111111111111111")then
+					if(memaddr_i(15)='0'))then -- ram2
 						wdata_o <= ram2_data_i;
 					else
 						wdata_o <= ram1_data_i;
