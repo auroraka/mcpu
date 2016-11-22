@@ -11,7 +11,7 @@ module mem_wb(
 	output reg wb_we
 );
 
-always @ (posedge clk, posedge rst) begin
+always @ (posedge clk or negedge rst) begin
 	if (rst == `RstEnable) 
 	begin
 		wb_wdata<=`ZeroData;

@@ -19,7 +19,7 @@ module ex_mem(
 	output reg mem_we
 );
 
-always @ (posedge clk , posedge rst) begin
+always @ (posedge clk or negedge rst) begin
 	if (rst == `RstEnable) 
 	begin
 		mem_wdata<=`ZeroData;
