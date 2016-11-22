@@ -17,10 +17,10 @@ module ram2_fake(
 	initial $readmemh ( "ram2.data", ram );
 
 	always @ (*) begin
-		if (mem_ce == `RamChipEnable) begin //mem rw
+		if (mem_ce == `RamRamChipEnable) begin //mem rw
 			mem_data_o <= `ZeroWord;
 	  	end else begin// pc rw
-	  		if (mem_re == `ReadEnable) begin
+	  		if (mem_re == `RamReadEnable) begin
 	  			mem_data_o <= ram[mem_addr_i[11:0]];
 			end else begin
 				mem_data_o <= `ZeroWord;
