@@ -20,7 +20,7 @@ entity exe is
 		memdata_o : out DataBus ;
 		we_o : out STD_LOGIC ;
 		waddr_o : out RegAddrBus ;
-		stallreq: out STD_LOGIC ;
+		--stallreq: out STD_LOGIC ;
 		wdata_o : out DataBus 
 	) ;
 end exe ;
@@ -158,7 +158,7 @@ begin
 		memaddr_o <= memaddr ;
 		memdata_o <= memdata ;
 		memrw_o <= rw ;
-		stallreq <= stall ;
+		--stallreq <= stall ;
 	end process ;
 		
 end Behavioral ;

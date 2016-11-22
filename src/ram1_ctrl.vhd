@@ -13,20 +13,20 @@ entity ram1_ctrl is port(
 	mem_addr_i : 	in 	DataAddrBus ;
 	mem_re :		in 	STD_LOGIC ;
 	mem_we :		in 	STD_LOGIC ;
-	mem_ce :		in 	STD_LOGIC ;
+	mem_ce :		in 	STD_LOGIC 
 
-	--ram
-	ram_data_ready_i	:	in STD_LOGIC;
-	ram_tbre_i			:	in STD_LOGIC;
-	ram_tsre_i			:	in STD_LOGIC;
-	ram_data_bi			:	inout DataBus;
+	-- --ram
+	-- ram_data_ready_i	:	in STD_LOGIC;
+	-- ram_tbre_i			:	in STD_LOGIC;
+	-- ram_tsre_i			:	in STD_LOGIC;
+	-- ram_data_bi			:	inout DataBus;
 
-	ram_oe_o			:	out STD_LOGIC;
-	ram_en_o			:	out STD_LOGIC;
-	ram_we_o			:	out STD_LOGIC;
-	ram_addr_o			: 	out DataAddrBus;
-	ram_wrn_o			:	out STD_LOGIC;
-	ram_rdn_o			:	out STD_LOGIC
+	-- ram_oe_o			:	out STD_LOGIC;
+	-- ram_en_o			:	out STD_LOGIC;
+	-- ram_we_o			:	out STD_LOGIC;
+	-- ram_addr_o			: 	out DataAddrBus;
+	-- ram_wrn_o			:	out STD_LOGIC;
+	-- ram_rdn_o			:	out STD_LOGIC
 	) ;
 end ram1_ctrl ;
 
