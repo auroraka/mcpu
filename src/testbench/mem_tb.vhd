@@ -49,6 +49,7 @@ ARCHITECTURE behavior OF mem_tb IS
          wdata_i : IN  std_logic_vector(15 downto 0);
          waddr_i : IN  std_logic_vector(3 downto 0);
          memaddr_i : IN  std_logic_vector(15 downto 0);
+		 memdata_i : IN std_logic_vector(15 downto 0) ;
          memrw_i : IN  std_logic_vector(1 downto 0);
          ram_data_i : IN  std_logic_vector(15 downto 0);
          rst : IN  std_logic;
