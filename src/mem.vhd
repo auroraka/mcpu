@@ -20,14 +20,14 @@ entity mem is port(
 		waddr_o : 	out RegAddrBus ;
 		wdata_o : 	out DataBus ;
 		stall_req : out STD_LOGIC ;
-		--ram 2 = ram 1
+		--ram 2 
 		ram2_data_i:	in 	DataBus ;
 		ram2_data_o : 	out DataBus ;
 		ram2_re_o :		out STD_LOGIC ;
 		ram2_we_o :		out STD_LOGIC ;
 		ram2_addr_o : 	out DataAddrBus ;
 		ram2_ce_o :		out STD_LOGIC;
-		--ram 1 = ram 0
+		--ram 1 
 		ram1_data_i:	in 	DataBus ;
 		ram1_data_o : 	out DataBus ;
 		ram1_re_o :		out STD_LOGIC ;

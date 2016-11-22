@@ -10,8 +10,11 @@
 `define ReadEnable 1'b0
 `define ReadDisable 1'b1
 
-`define ChipEnable 1'b0
-`define ChipDisable 1'b1
+`define PCChipEnable 1'b0
+`define PCChipDisable 1'b1
+
+`define RamEnable 1'b1
+`define RamDisable 1'b0
 
 `define StallYes 1'b0 
 `define StallNo  1'b1
@@ -23,6 +26,7 @@
 `define WordLength 16
 `define WordBus `WordLength-1:0
 `define ZeroWord `WordLength'b0
+`define HighImpWord `WordLength'bZZZZZZZZZZZZZZZZ
 
 //data
 `define DataAddrBus `WordBus
@@ -35,11 +39,9 @@
 `define InstInvalid 1'b1
 `define InstAddrBus `WordBus
 `define InstBus `WordBus
-`define InstMemNum 32767
-`define InstMemNumLog2 15
 `define ZeroInst `ZeroWord
 `define ZeroInstAddr `ZeroWord
-`define NopInst 16'0000100000000000
+`define NopInst 16'b0000100000000000
 
 //regs 
 //R0-R7 000-111
@@ -70,12 +72,25 @@
 `define MemRW_Read	`MemRWLength'b01
 `define MemRW_Write	`MemRWLength'b10
 
+//mem's ram
+`define RamReadEnable 1'b1
+`define RamReadDisable 1'b0
+`define RamWriteEnable 1'b1
+`define RamWriteDisable 1'b0
+`define RamChipEnable 1'b1
+`define RamChipDisable 1'b0
+
+//ram
+`define RamAddrBus   17:0
+`define RamWEHigh 1'b1
+`define RamWELow 1'b0
+
 //ops id send to ex
 `define AluOpBus 2:0
 `define AluSelBus 2:0 
 //nop
 `define EXE_OP_NOP		3'b000
-`define EXE_SEL_NOP		3'b001
+`define EXE_OP_INT		3'b001
 //reg
 `define EXE_OP_LI		3'b000
 `define EXE_OP_MFIH		3'b001
@@ -87,44 +102,36 @@
 `define EXE_OP_B		3'b000
 `define EXE_OP_BEQZ		3'b001
 `define EXE_OP_BNEZ		3'b010
-`define EXE_OP_BTEQZ	3'b011
-`define EXE_OP_BTNEZ	3'b100
-`define EXE_OP_JALR		3'b101
-`define EXE_OP_JR		3'b110
-`define EXE_OP_JRRA		3'b111
+`define EXE_OP_BTNEZ	3'b011
+`define EXE_OP_JR		3'b100
 //lw
 `define EXE_OP_LW		3'b000
 `define EXE_OP_LW_SP	3'b001
 `define EXE_OP_SW		3'b010
-`define EXE_OP_SW_RS	3'b011
-`define EXE_OP_SW_SP	3'b100
+`define EXE_OP_SW_SP	3'b011
+`define EXE_OP_SW_OTHER	3'b111
+
 //cmp
 `define EXE_OP_CMP		3'b000
 `define EXE_OP_CMPI		3'b001
-`define EXE_OP_SLT		3'b010
-`define EXE_OP_SLTI		3'b011
-`define EXE_OP_SLTU		3'b101
-`define EXE_OP_SLTUI	3'b110
+
 //logic
 `define EXE_OP_AND		3'b000
 `define EXE_OP_NEG		3'b001
-`define EXE_OP_NOT		3'b010
-`define EXE_OP_OR		3'b011
-`define EXE_OP_XOR		3'b100
+`define EXE_OP_OR		3'b010
+
 //shift
 `define EXE_OP_SLL		3'b000
 `define EXE_OP_SLLV		3'b001
 `define EXE_OP_SRA		3'b010
-`define EXE_OP_SRAV		3'b011
-`define EXE_OP_SRL		3'b101
-`define EXE_OP_SRLV		3'b110
+`define EXE_OP_SRL		3'b011
+
 //arith
 `define EXE_OP_SUBU		3'b000
 `define EXE_OP_ADDIU	3'b001
 `define EXE_OP_ADDIU3	3'b010
-`define EXE_OP_ADDSP3	3'b011
-`define EXE_OP_ADDSP	3'b100
-`define EXE_OP_ADDU		3'b101
+`define EXE_OP_ADDSP	3'b011
+`define EXE_OP_ADDU		3'b100
 
 //sels id send to ex
 `define EXE_SEL_SPECIAL	3'b000

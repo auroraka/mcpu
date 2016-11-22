@@ -49,16 +49,12 @@ constant InstValid : STD_lOGIC := '0' ;
 constant InstInvalid :STD_lOGIC := '1' ;
 subtype InstAddrBus is STD_LOGIC_VECTOR (15 downto 0) ;
 subtype InstBus is STD_lOGIC_VECTOR (15 downto 0) ;
---constant InstMemNum : INTEGER := 32767 ;
---constant InstMemNumLog2 : INTEGER := 15 ;
 constant ZeroInst : Word := "0000000000000000" ;
 constant NopInst: Word := "0000100000000000" ;
 constant ZeroInstAddr : Word := "0000000000000000" ;
 
 --regs 
 --R0-R15 0000-1111
---constant RegNum : INTEGER := 16 ;
---constant RegNumLog2 : INTEGER := 4 ;
 subtype RegAddrBus is STD_lOGIC_VECTOR (3 downto 0) ;
 constant ZeroRegAddr : RegAddrBus := "0000" ;
 constant Reg0_Addr : RegAddrBus := "0000" ;

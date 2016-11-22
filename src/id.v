@@ -9,12 +9,12 @@ module id(
 	input wire[`DataBus] reg0_data_i,
 	input wire[`DataBus] reg1_data_i,
 	
-	input wire[`RegAddrBus] ex_waddr_i,
 	input wire ex_we_i,
+	input wire[`RegAddrBus] ex_waddr_i,
 	input wire[`DataBus] ex_wdata_i,
 
-	input wire[`RegAddrBus] mem_waddr_i,
 	input wire mem_we_i,
+	input wire[`RegAddrBus] mem_waddr_i,
 	input wire[`DataBus] mem_wdata_i,
 
 	//input wire[`DataBus] reg0_data_i,
@@ -54,9 +54,7 @@ wire[2:0] rz=inst_i[4:2];
 wire[15:0] immlu = {8'b0 , inst_i[7:0]};                                 
 
 //inst[7:0] ->   signed extended imm
-wire[15:0] imml = inst_i[7]? 
-{8'b11111111, inst_i[7:0]}:
-{8'b0 , inst_i[7:0]};
+wire[15:0] imml = inst_i[7]? {8'b11111111, inst_i[7:0]}:{8'b0 , inst_i[7:0]};
 
 //inst[4:0] -> unsigned extended imm
 wire[15:0] immsu={11'b0 , op3};                                         
