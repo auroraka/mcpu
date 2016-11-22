@@ -1,5 +1,6 @@
+`include "C:\\Users\\ytl\\Desktop\\Misledom\\mcpu\\src\\defines.v"
 //`include "defines.v"
-`include "D:\\CPU\\mcpu\\src\\defines.v"
+//`include "D:\\CPU\\mcpu\\src\\defines.v"
 module id(
 	input rst,
 	
@@ -86,6 +87,7 @@ always @ (*) begin
 		branch_addr_o<=`ZeroInstAddr;
 
 	end else begin
+		//$display("op is %b",op);
 		//默认为nop,不从reg读数据,不写数据
 		alusel_o<=`EXE_SEL_SPECIAL;
 		aluop_o<=`EXE_OP_NOP;
@@ -165,6 +167,7 @@ always @ (*) begin
 				endcase
 			end
 			`OP_ADDIU3:begin 
+				//$display("id in OP_ADDIU");
 				alusel_o<=`EXE_SEL_ARITH;
 				aluop_o<=`EXE_OP_ADDIU3;
 				we_o<=`WriteEnable;
@@ -435,7 +438,10 @@ always @ (*) begin
 			`OP_INT:begin
 				//not finished
 			end
+
 		endcase
+		//$display("aluop is %b",aluop_o);
+		//$display("alusel is %b",alusel_o);
 	end
 end
 
