@@ -13,25 +13,38 @@ entity ram1_ctrl is port(
 	mem_addr_i : 	in 	DataAddrBus ;
 	mem_re :		in 	STD_LOGIC ;
 	mem_we :		in 	STD_LOGIC ;
-	mem_ce :		in 	STD_LOGIC 
+	mem_ce :		in 	STD_LOGIC ;
 
-	-- --ram
-	-- ram_data_ready_i	:	in STD_LOGIC;
-	-- ram_tbre_i			:	in STD_LOGIC;
-	-- ram_tsre_i			:	in STD_LOGIC;
-	-- ram_data_bi			:	inout DataBus;
+	--ram
+	ram_data_ready_i	:	in STD_LOGIC;
+	ram_tbre_i			:	in STD_LOGIC;
+	ram_tsre_i			:	in STD_LOGIC;
+	ram_data_bi			:	inout DataBus;
 
-	-- ram_oe_o			:	out STD_LOGIC;
-	-- ram_en_o			:	out STD_LOGIC;
-	-- ram_we_o			:	out STD_LOGIC;
-	-- ram_addr_o			: 	out DataAddrBus;
-	-- ram_wrn_o			:	out STD_LOGIC;
-	-- ram_rdn_o			:	out STD_LOGIC
+	ram_oe_o			:	out STD_LOGIC;
+	ram_en_o			:	out STD_LOGIC;
+	ram_we_o			:	out STD_LOGIC;
+	ram_addr_o			: 	out RamAddrBus;
+	ram_wrn_o			:	out STD_LOGIC;
+	ram_rdn_o			:	out STD_LOGIC
 	) ;
 end ram1_ctrl ;
 
 architecture Behavioral of ram1_ctrl is
+signal flag: STD_LOGIC;
 begin
+	ram_addr_o(17 downto 16)<="00";
+	process(mem_data_i)
+	begin
+		if(mem_addr_i = "1011111100000000")then
+			flag<='1';
+		else
+			flag<='0';
+		end if;
+	end process;
+	ram_rdn_o<= flag and not mem_re;
+	ram_wrn_o<=(flag and not mem_we )or clk;
+	ram_we_o<= not mem_we or clk;
 	process(mem_ce,mem_we,mem_re,mem_addr_i,mem_data_i)
 	variable tempRamData: STD_LOGIC_VECTOR(15 downto 0):="0000000000000000";
 	begin
@@ -44,22 +57,22 @@ begin
 				if (mem_data_i = "1011111100000001") then --0xBF01
 					ram_oe_o<='1';
 					ram_en_o<=RamDisable;
-					ram_we_o<='1';
+					-- ram_we_o<='1';
 					ram_data_bi<=HighImpWord;
 					tempRamData:="00000000000000" & ram_data_ready_i & ram_tsre_i;
 					mem_data_o <= tempRamData;
-				elsif (mem_data_i = "1011111100000001") then --0xBF00
+				elsif (mem_data_i = "1011111100000000") then --0xBF00
 					ram_oe_o<='1';
 					ram_en_o<=RamDisable;
-					ram_we_o<='1';
-					ram_rdn_o<=clk;
+					-- ram_we_o<='1';
+					-- ram_rdn_o<=clk;
 					ram_data_bi<=HighImpWord;
 					mem_data_o <= ram_data_bi;
 				else -- ram Read
 					ram_en_o<=RamEnable;
 					ram_oe_o<='0';
-					ram_we_o<='1';
-					ram_addr_o<=mem_addr_i;
+					-- ram_we_o<='1';
+					ram_addr_o(15 downto 0)<=mem_addr_i;
 					ram_data_bi<=HighImpWord;
 					mem_data_o <= ram_data_bi;	
 				end if;	
@@ -67,18 +80,15 @@ begin
 				if (mem_data_i = "1011111100000001") then --0xBF01
 					-- not enable to write 0xBF01
 					ram_data_bi<=HighImpWord;
-				elsif (mem_data_i = "1011111100000001") then --0xBF00
+				elsif (mem_data_i = "1011111100000000") then --0xBF00
 					ram_en_o<='1';
 					ram_oe_o<='1';
-					ram_we_o<='1';
-					ram_wrn_o<=clk;
 					ram_data_bi<=mem_data_i;
-					ram_addr_o<=mem_addr_i;
+					ram_addr_o(15 downto 0)<=mem_addr_i;
 				else -- ram write
 					ram_en_o<='0';
 					ram_oe_o<='0';
-					ram_we_o<=clk;
-					ram_addr_o<=mem_addr_i;
+					ram_addr_o(15 downto 0)<=mem_addr_i;
 					ram_data_bi<=mem_data_i;
 				end if;					
 			else
