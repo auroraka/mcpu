@@ -194,26 +194,26 @@
 `define OP1_ADDSP	3'b011
 `define OP1_MTSP	3'b100
 
-`define OP4_ADDU 01
-`define OP4_SUBU 11
+`define OP4_ADDU 2'b01
+`define OP4_SUBU 2'b11
 
-`define OP2_JR 		000
-`define OP2_JRRA 	001
-`define OP2_MFPC	010
-`define OP2_JALR	110
+`define OP2_JR 		3'b000
+`define OP2_JRRA 	3'b001
+`define OP2_MFPC	3'b010
+`define OP2_JALR	3'b110
 
-`define OP3_JR		00000
-`define OP3_SLT		00010
-`define OP3_SLTU	00011
-`define OP3_SLLV	00100
-`define OP3_SRLV	00110
-`define OP3_SRAV	00111
-`define OP3_CMP		01010
-`define OP3_NEG		01011
-`define OP3_AND		01100
-`define OP3_OR		01101
-`define OP3_NOT		01111
-`define OP3_XOR		01110
+`define OP3_JR		5'b00000
+`define OP3_SLT		5'b00010
+`define OP3_SLTU	5'b00011
+`define OP3_SLLV	5'b00100
+`define OP3_SRLV	5'b00110
+`define OP3_SRAV	5'b00111
+`define OP3_CMP		5'b01010
+`define OP3_NEG		5'b01011
+`define OP3_AND		5'b01100
+`define OP3_OR		5'b01101
+`define OP3_NOT		5'b01111
+`define OP3_XOR		5'b01110
 
-`define OP3_MFIH	00000
-`define OP3_MTIH	00001
+`define OP3_MFIH	5'b00000
+`define OP3_MTIH	5'b00001

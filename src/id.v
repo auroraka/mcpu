@@ -60,6 +60,8 @@ wire[15:0] imml = inst_i[7]? {8'b11111111, inst_i[7:0]}:{8'b0 , inst_i[7:0]};
 //inst[4:0] -> unsigned extended imm
 wire[15:0] immsu={11'b0 , op3};                                         
 
+//inst[4:0] -> rz -> unsigned extended imm
+wire[15:0] immrz={13'b0 , inst_i[4:2]};
 //inst[4:0] ->   signed extended imm
 wire[15:0] imms=op3[4]? {11'b11111111111, op3}:{11'b0 , op3};                   
 
@@ -144,7 +146,7 @@ always @ (*) begin
 						we_o<=`WriteEnable;
 						waddr_o<=rx;
 						reg0_o<=reg0_data_i;
-						reg1_o<=immsu;
+						reg1_o<=immrz;
 						reg0_re_o<=`ReadEnable;
 						reg0_addr_o<=ry;
 					end
@@ -154,7 +156,7 @@ always @ (*) begin
 						we_o<=`WriteEnable;
 						waddr_o<=rx;
 						reg0_o<=reg0_data_i;
-						reg1_o<=immsu;
+						reg1_o<=immrz;
 						reg0_re_o<=`ReadEnable;
 						reg0_addr_o<=ry;
 					end
@@ -164,7 +166,7 @@ always @ (*) begin
 						we_o<=`WriteEnable;
 						waddr_o<=rx;
 						reg0_o<=reg0_data_i;
-						reg1_o<=immsu;
+						reg1_o<=immrz;
 						reg0_re_o<=`ReadEnable;
 						reg0_addr_o<=ry;
 					end
@@ -228,6 +230,7 @@ always @ (*) begin
 						aluop_o<=`EXE_OP_MTSP;
 						we_o<=`WriteEnable;
 						waddr_o<=`SP_Addr;
+						reg0_o<=reg0_data_i;
 						reg0_re_o<=`ReadEnable;
 						reg0_addr_o<=rx;
 					end
@@ -259,6 +262,7 @@ always @ (*) begin
 				aluop_o<=`EXE_OP_MOVE;
 				we_o<=`WriteEnable;
 				waddr_o<=rx;
+				reg0_o<=reg0_data_i;
 				reg0_re_o<=`ReadEnable;
 				reg0_addr_o<=ry;
 			end
@@ -309,7 +313,7 @@ always @ (*) begin
 					`OP4_ADDU:begin
 						$display("id in OP4_ADDU");
 						alusel_o<=`EXE_SEL_ARITH;
-						aluop_o<=`EXE_OP_SUBU;
+						aluop_o<=`EXE_OP_ADDU;
 						we_o<=`WriteEnable;
 						waddr_o<=rz;						
 						reg0_o<=reg0_data_i;
@@ -335,8 +339,10 @@ always @ (*) begin
 				endcase	
 			end
 			`OP_JR:begin
+				//$display("#id case OP_JR");
 				case (op3)
 					`OP3_JR:begin
+						//$display("#id case OP3_JR");
 						case (op2)
 							`OP2_JR:begin
 								$display("id in OP2_JR");
@@ -447,6 +453,7 @@ always @ (*) begin
 						aluop_o<=`EXE_OP_MFIH;
 						we_o<=`WriteEnable;
 						waddr_o<=rx;
+						reg0_o<=reg0_data_i;
 						reg0_re_o<=`ReadEnable;
 						reg0_addr_o<=`IH_Addr;	
 					end
@@ -456,6 +463,7 @@ always @ (*) begin
 						aluop_o<=`EXE_OP_MTIH;
 						we_o<=`WriteEnable;
 						waddr_o<=`IH_Addr;
+						reg0_o<=reg0_data_i;
 						reg0_re_o<=`ReadEnable;
 						reg0_addr_o<=rx;	
 					end

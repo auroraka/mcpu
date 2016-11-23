@@ -31,7 +31,7 @@ module mcpu_tb ;
 		#30 ;
 		rst = `RstDisable ;
 		
-		#1000 $stop ;
+		#10000 $stop ;
 	end
 	
 endmodule 

@@ -12,7 +12,7 @@ module ram2_fake(
 	input wire mem_ce
 );
 
-	reg[`InstBus]  ram[0:4095];
+	reg[`InstBus]  ram[0:16383];
 
 	initial $readmemb ( "ram2.data", ram );
 
@@ -23,7 +23,7 @@ module ram2_fake(
 	  	end else begin// pc rw
 	  		if (mem_re == `RamReadEnable) begin
 	  			$display("ram2 read addr %h",mem_addr_i);
-	  			mem_data_o <= ram[mem_addr_i[11:0]];
+	  			mem_data_o <= ram[mem_addr_i[13:0]];
 			end else begin
 				mem_data_o <= `ZeroWord;
 			end
