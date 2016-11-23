@@ -4,54 +4,40 @@ add wave -noupdate -expand -group mcpu /mcpu_tb/mcpu0/rst
 add wave -noupdate -expand -group mcpu /mcpu_tb/mcpu0/clk
 add wave -noupdate -expand -group mcpu -radix hexadecimal /mcpu_tb/mcpu0/pc
 add wave -noupdate -expand -group mcpu /mcpu_tb/mcpu0/pc_data
-add wave -noupdate -expand -group mcpu /mcpu_tb/mcpu0/reg0_data_ex_i
-add wave -noupdate -expand -group mcpu /mcpu_tb/mcpu0/reg1_data_ex_i
+add wave -noupdate -expand -group mcpu -radix hexadecimal /mcpu_tb/mcpu0/reg0_data_ex_i
+add wave -noupdate -expand -group mcpu -radix hexadecimal /mcpu_tb/mcpu0/reg1_data_ex_i
 add wave -noupdate -expand -group mcpu /mcpu_tb/mcpu0/alusel_ex_i
 add wave -noupdate -expand -group mcpu /mcpu_tb/mcpu0/aluop_ex_i
 add wave -noupdate -expand -group mcpu /mcpu_tb/mcpu0/we_ex_o
 add wave -noupdate -expand -group mcpu /mcpu_tb/mcpu0/waddr_ex_o
 add wave -noupdate -expand -group mcpu -radix hexadecimal /mcpu_tb/mcpu0/wdata_ex_o
-add wave -noupdate -group pc /mcpu_tb/mcpu0/pc0/stall
-add wave -noupdate -group pc /mcpu_tb/mcpu0/pc0/clk
-add wave -noupdate -group pc /mcpu_tb/mcpu0/pc0/rst
-add wave -noupdate -group pc /mcpu_tb/mcpu0/pc0/branch_flag_o
-add wave -noupdate -group pc /mcpu_tb/mcpu0/pc0/branch_addr_o
-add wave -noupdate -group pc /mcpu_tb/mcpu0/pc0/pc
-add wave -noupdate -group pc /mcpu_tb/mcpu0/pc0/pc_v
-add wave -noupdate -group id -radix hexadecimal /mcpu_tb/mcpu0/id0/pc_i
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/inst_i
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/reg0_data_i
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/reg1_data_i
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/alusel_o
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/aluop_o
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/reg0_data_o
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/reg1_data_o
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/reg0_re_o
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/reg1_re_o
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/reg0_addr_o
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/reg1_addr_o
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/we_o
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/waddr_o
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/stall_req
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/branch_flag_o
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/branch_addr_o
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/reg0_o
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/reg1_o
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/op
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/op1
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/op2
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/op3
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/op4
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/rx
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/ry
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/rz
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/immlu
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/imml
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/immsu
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/imms
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/immb
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/reg0_eq_zero
-add wave -noupdate -group id /mcpu_tb/mcpu0/id0/reg1_eq_zero
+add wave -noupdate -expand -group pc /mcpu_tb/mcpu0/pc0/stall
+add wave -noupdate -expand -group pc /mcpu_tb/mcpu0/pc0/branch_flag_o
+add wave -noupdate -expand -group pc -radix hexadecimal /mcpu_tb/mcpu0/pc0/branch_addr_o
+add wave -noupdate -expand -group pc -radix hexadecimal /mcpu_tb/mcpu0/pc0/pc
+add wave -noupdate -expand -group pc -radix hexadecimal /mcpu_tb/mcpu0/pc0/pc_v
+add wave -noupdate -expand -group id -radix hexadecimal /mcpu_tb/mcpu0/id0/pc_i
+add wave -noupdate -expand -group id /mcpu_tb/mcpu0/id0/inst_i
+add wave -noupdate -expand -group id /mcpu_tb/mcpu0/id0/stall_req
+add wave -noupdate -expand -group id /mcpu_tb/mcpu0/id0/branch_flag_o
+add wave -noupdate -expand -group id -radix hexadecimal /mcpu_tb/mcpu0/id0/branch_addr_o
+add wave -noupdate -expand -group id -radix hexadecimal /mcpu_tb/mcpu0/id0/reg0_o
+add wave -noupdate -expand -group id -radix hexadecimal /mcpu_tb/mcpu0/id0/reg1_o
+add wave -noupdate -expand -group id -group id_var /mcpu_tb/mcpu0/id0/op
+add wave -noupdate -expand -group id -group id_var /mcpu_tb/mcpu0/id0/op1
+add wave -noupdate -expand -group id -group id_var /mcpu_tb/mcpu0/id0/op2
+add wave -noupdate -expand -group id -group id_var /mcpu_tb/mcpu0/id0/op3
+add wave -noupdate -expand -group id -group id_var /mcpu_tb/mcpu0/id0/op4
+add wave -noupdate -expand -group id -group id_var /mcpu_tb/mcpu0/id0/rx
+add wave -noupdate -expand -group id -group id_var /mcpu_tb/mcpu0/id0/ry
+add wave -noupdate -expand -group id -group id_var /mcpu_tb/mcpu0/id0/rz
+add wave -noupdate -expand -group id -group id_var /mcpu_tb/mcpu0/id0/immlu
+add wave -noupdate -expand -group id -group id_var /mcpu_tb/mcpu0/id0/imml
+add wave -noupdate -expand -group id -group id_var /mcpu_tb/mcpu0/id0/immsu
+add wave -noupdate -expand -group id -group id_var /mcpu_tb/mcpu0/id0/imms
+add wave -noupdate -expand -group id -group id_var /mcpu_tb/mcpu0/id0/immb
+add wave -noupdate -expand -group id -group id_var /mcpu_tb/mcpu0/id0/reg0_eq_zero
+add wave -noupdate -expand -group id -group id_var /mcpu_tb/mcpu0/id0/reg1_eq_zero
 add wave -noupdate -expand -group regfile /mcpu_tb/mcpu0/regfile0/re_0
 add wave -noupdate -expand -group regfile /mcpu_tb/mcpu0/regfile0/re_1
 add wave -noupdate -expand -group regfile -radix octal /mcpu_tb/mcpu0/regfile0/raddr0
@@ -109,7 +95,7 @@ add wave -noupdate -group mem /mcpu_tb/mcpu0/mem0/ram2_we_o
 add wave -noupdate -group mem /mcpu_tb/mcpu0/mem0/ram2_ce_o
 add wave -noupdate -group mem /mcpu_tb/mcpu0/mem0/stall_req
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {338 ns} 0}
+WaveRestoreCursors {{Cursor 1} {79 ns} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 235
 configure wave -valuecolwidth 111
@@ -125,4 +111,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {284 ns} {378 ns}
+WaveRestoreZoom {48 ns} {142 ns}
