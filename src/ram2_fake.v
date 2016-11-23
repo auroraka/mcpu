@@ -1,5 +1,5 @@
 `include "defines.v"
-//`include "D:\\CPU\\mcpu\\src\\defines.v"
+
 module ram2_fake(
 	input wire clk,
 	input wire[`DataAddrBus] pc,
@@ -14,7 +14,7 @@ module ram2_fake(
 
 	reg[`InstBus]  ram[0:4095];
 
-	//initial $readmemh ( "D:\\CPU\\mcpu\\src\\ram2.data", ram );
+	initial $readmemh ( "ram2.data", ram );
 
 	always @ (pc, mem_data_i, mem_addr_i, mem_re, mem_ce, mem_we) begin
 		if (mem_ce == `RamChipDisable) begin //mem rw
@@ -31,11 +31,11 @@ module ram2_fake(
 	end
 
 	
-	initial begin
-		ram[0]<=16'b0110100100010001;
-		ram[1]<=16'b0110101000100010;
-		ram[2]<=16'b0110101100110011;
-		ram[3]<=16'b1110000101010001;	
-	end
+	// initial begin
+	// 	ram[0]<=16'b0110100100010001;
+	// 	ram[1]<=16'b0110101000100010;
+	// 	ram[2]<=16'b0110101100110011;
+	// 	ram[3]<=16'b1110000101010001;	
+	// end
 
 endmodule
