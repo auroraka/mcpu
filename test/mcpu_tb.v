@@ -1,7 +1,6 @@
 //mcputestbench
 `timescale 1ns / 1ns
 `include "defines.v"
-//`include "D:\\CPU\\mcpu\\src\\defines.v"
 
 module mcpu_tb ;
 
@@ -13,7 +12,7 @@ module mcpu_tb ;
 	wire [15:0] id_pc_i ;
 	wire [15:0] id_inst_i ;
 
-	mcpu uut(
+	mcpu mcpu0(
 		.rst(rst),
 		.clk(clk),
 		
@@ -29,7 +28,7 @@ module mcpu_tb ;
 	initial begin
 		rst = `RstEnable ;
 		
-		#10 ;
+		#30 ;
 		rst = `RstDisable ;
 		
 		#1000 $stop ;

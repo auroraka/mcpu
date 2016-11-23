@@ -12,7 +12,7 @@ module ram1_fake(
 
 	reg[`InstBus]  ram[0:4095];
 
-	initial $readmemh ( "ram1.data", ram );
+	initial $readmemb( "ram1.data", ram );
 
 	always @ (*) begin
 		if (mem_ce == `RamChipDisable) begin

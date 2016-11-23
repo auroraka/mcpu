@@ -4,19 +4,13 @@
 `define WriteEnable 1'b0
 `define WriteDisable 1'b1
 
-`define RamEnable 1'b0
-`define RamDisable 1'b1
-
 `define ReadEnable 1'b0
 `define ReadDisable 1'b1
 
 `define PCChipEnable 1'b0
 `define PCChipDisable 1'b1
 
-`define RamEnable 1'b1
-`define RamDisable 1'b0
-
-`define StallYes 1'b0 
+`define StallYes 1'b0 	
 `define StallNo  1'b1
 
 `define BranchFlagDown  1'b0
@@ -79,6 +73,8 @@
 `define RamWriteDisable 1'b0
 `define RamChipEnable 1'b1
 `define RamChipDisable 1'b0
+`define RamEnable 1'b0
+`define RamDisable 1'b1
 
 //ram
 `define RamAddrBus   17:0

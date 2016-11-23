@@ -111,12 +111,14 @@ always @ (*) begin
 				//default nop	
 			end
 			`OP_B:begin
+				$display("id in OP_B");
 				alusel_o<=`EXE_SEL_JUMP;
 				aluop_o<=`EXE_OP_B;
 				branch_addr_o<=pc_i+immb;
 				branch_flag_o<=`BranchFlagUp;	
 			end
 			`OP_BEQZ:begin
+				$display("id in OP_BEQZ");
 				alusel_o<=`EXE_SEL_JUMP;
 				aluop_o<=`EXE_OP_BEQZ;
 				reg0_re_o<=`ReadEnable;
@@ -125,6 +127,7 @@ always @ (*) begin
 				branch_flag_o<=reg0_eq_zero;	
 			end
 			`OP_BNEZ:begin
+				$display("id in OP_BNEZ");
 				alusel_o<=`EXE_SEL_JUMP;
 				aluop_o<=`EXE_OP_BNEZ;
 				reg0_re_o<=`ReadEnable;
@@ -133,6 +136,7 @@ always @ (*) begin
 				branch_flag_o<=~reg0_eq_zero;	
 			end
 			`OP_SLL:begin
+				$display("id in OP_SLL");				
 				case (op4)
 					`OP4_SLL:begin
 						alusel_o<=`EXE_SEL_SHIFT;
@@ -167,7 +171,7 @@ always @ (*) begin
 				endcase
 			end
 			`OP_ADDIU3:begin 
-				//$display("id in OP_ADDIU");
+				$display("id in OP_ADDIU3");
 				alusel_o<=`EXE_SEL_ARITH;
 				aluop_o<=`EXE_OP_ADDIU3;
 				we_o<=`WriteEnable;
@@ -178,6 +182,7 @@ always @ (*) begin
 				reg0_addr_o<=rx;
 			end
 			`OP_ADDIU:begin
+				$display("id in OP_ADDIU");
 				alusel_o<=`EXE_SEL_ARITH;
 				aluop_o<=`EXE_OP_ADDIU;
 				we_o<=`WriteEnable;
@@ -194,6 +199,7 @@ always @ (*) begin
 			`OP_BTEQZ:begin
 				case (op1)
 					`OP1_BTEQZ:begin
+						$display("id in OP1_BTEQZ");
 						alusel_o<=`EXE_SEL_JUMP;
 						aluop_o<=`EXE_OP_BTEQZ;
 						reg0_re_o<=`ReadEnable;
@@ -206,6 +212,7 @@ always @ (*) begin
 					`OP1_SW_RS:begin
 					end
 					`OP1_ADDSP:begin
+						$display("id in OP1_ADDSP");
 						alusel_o<=`EXE_SEL_ARITH;
 						aluop_o<=`EXE_OP_ADDSP;
 						we_o<=`WriteEnable;
@@ -216,6 +223,7 @@ always @ (*) begin
 						reg0_addr_o<=`SP_Addr;
 					end
 					`OP1_MTSP:begin
+						$display("id in OP1_MTSP");
 						alusel_o<=`EXE_SEL_REG;
 						aluop_o<=`EXE_OP_MTSP;
 						we_o<=`WriteEnable;
@@ -226,6 +234,7 @@ always @ (*) begin
 				endcase
 			end
 			`OP_LI:begin
+				$display("id in OP_LI");
 				alusel_o<=`EXE_SEL_REG;
 				aluop_o<=`EXE_OP_LI;
 				we_o<=`WriteEnable;
@@ -234,6 +243,7 @@ always @ (*) begin
 				reg0_o<=immlu;
 			end
 			`OP_CMPI:begin
+				$display("id in OP_CMPI");
 				alusel_o<=`EXE_SEL_CMP;
 				aluop_o<=`EXE_OP_CMPI;
 				we_o<=`WriteEnable;
@@ -244,6 +254,7 @@ always @ (*) begin
 				reg0_addr_o<=rx;
 			end
 			`OP_MOVE:begin
+				$display("id in OP_MOVE");
 				alusel_o<=`EXE_SEL_REG;
 				aluop_o<=`EXE_OP_MOVE;
 				we_o<=`WriteEnable;
@@ -252,6 +263,7 @@ always @ (*) begin
 				reg0_addr_o<=ry;
 			end
 			`OP_LW_SP:begin
+				$display("id in OP_LW_SP");
 				alusel_o<=`EXE_SEL_LW;
 				aluop_o<=`EXE_OP_LW_SP;
 				we_o<=`WriteEnable;
@@ -260,6 +272,7 @@ always @ (*) begin
 				reg1_o<=imml;
 			end
 			`OP_LW:begin
+				$display("id in OP_LW");
 				alusel_o<=`EXE_SEL_LW;
 				aluop_o<=`EXE_OP_LW;
 				we_o<=`WriteEnable;
@@ -270,6 +283,7 @@ always @ (*) begin
 				reg0_addr_o<=rx;
 			end
 			`OP_SW_SP:begin
+				$display("id in OP_SW_SP");
 				alusel_o<=`EXE_SEL_LW;
 				aluop_o<=`EXE_OP_SW_SP;
 				reg0_o<=reg0_data_i+imml;
@@ -280,6 +294,7 @@ always @ (*) begin
 				reg1_addr_o<=rx;
 			end
 			`OP_SW:begin
+				$display("id in OP_SW");
 				alusel_o<=`EXE_SEL_LW;
 				aluop_o<=`EXE_OP_SW;
 				reg0_o<=reg0_data_i+imms;
@@ -292,6 +307,7 @@ always @ (*) begin
 			`OP_ADDU:begin
 				case (op4)
 					`OP4_ADDU:begin
+						$display("id in OP4_ADDU");
 						alusel_o<=`EXE_SEL_ARITH;
 						aluop_o<=`EXE_OP_SUBU;
 						we_o<=`WriteEnable;
@@ -301,9 +317,10 @@ always @ (*) begin
 						reg0_re_o<=`ReadEnable;
 						reg1_re_o<=`ReadEnable;
 						reg0_addr_o<=rx;
-						reg0_addr_o<=ry;
+						reg1_addr_o<=ry;
 					end
 					`OP4_SUBU:begin
+						$display("id in OP4_SUBU");
 						alusel_o<=`EXE_SEL_ARITH;
 						aluop_o<=`EXE_OP_SUBU;
 						we_o<=`WriteEnable;
@@ -313,7 +330,7 @@ always @ (*) begin
 						reg0_re_o<=`ReadEnable;
 						reg1_re_o<=`ReadEnable;
 						reg0_addr_o<=rx;
-						reg0_addr_o<=ry;
+						reg1_addr_o<=ry;
 					end
 				endcase	
 			end
@@ -322,6 +339,7 @@ always @ (*) begin
 					`OP3_JR:begin
 						case (op2)
 							`OP2_JR:begin
+								$display("id in OP2_JR");
 								alusel_o<=`EXE_SEL_JUMP;
 								aluop_o<=`EXE_OP_JR;
 								reg0_re_o<=`ReadEnable;
@@ -332,6 +350,7 @@ always @ (*) begin
 							`OP2_JRRA:begin
 							end
 							`OP2_MFPC:begin
+								$display("id in OP2_MFPC");
 								alusel_o<=`EXE_SEL_REG;
 								aluop_o<=`EXE_OP_MFPC;
 								we_o<=`WriteEnable;
@@ -347,6 +366,7 @@ always @ (*) begin
 					`OP3_SLTU:begin
 					end
 					`OP3_SLLV:begin
+						$display("id in OP3_SLLV");
 						alusel_o<=`EXE_SEL_SHIFT;
 						aluop_o<=`EXE_OP_SLLV;
 						we_o<=`WriteEnable;
@@ -356,13 +376,14 @@ always @ (*) begin
 						reg0_re_o<=`ReadEnable;
 						reg1_re_o<=`ReadEnable;
 						reg0_addr_o<=rx;
-						reg0_addr_o<=ry;
+						reg1_addr_o<=ry;
 					end
 					`OP3_SRLV:begin
 					end
 					`OP3_SRAV:begin
 					end
 					`OP3_CMP:begin
+						$display("id in OP3_CMP");
 						alusel_o<=`EXE_SEL_CMP;
 						aluop_o<=`EXE_OP_CMP;
 						we_o<=`WriteEnable;
@@ -375,6 +396,7 @@ always @ (*) begin
 						reg1_addr_o<=ry;
 					end
 					`OP3_NEG:begin
+						$display("id in OP3_NEG");
 						alusel_o<=`EXE_SEL_LOGIC;
 						aluop_o<=`EXE_OP_NEG;
 						we_o<=`WriteEnable;
@@ -384,6 +406,7 @@ always @ (*) begin
 						reg0_addr_o<=ry;
 					end
 					`OP3_AND:begin
+						$display("id in OP3_AND");
 						alusel_o<=`EXE_SEL_LOGIC;
 						aluop_o<=`EXE_OP_AND;
 						we_o<=`WriteEnable;
@@ -396,6 +419,7 @@ always @ (*) begin
 						reg1_addr_o<=ry;
 					end
 					`OP3_OR:begin
+						$display("id in OP3_OR");
 						alusel_o<=`EXE_SEL_LOGIC;
 						aluop_o<=`EXE_OP_OR;
 						we_o<=`WriteEnable;
@@ -418,6 +442,7 @@ always @ (*) begin
 			`OP_MFIH:begin
 				case (op3)
 					`OP3_MFIH:begin
+						$display("id in OP3_MFIH");
 						alusel_o<=`EXE_SEL_REG;
 						aluop_o<=`EXE_OP_MFIH;
 						we_o<=`WriteEnable;
@@ -426,6 +451,7 @@ always @ (*) begin
 						reg0_addr_o<=`IH_Addr;	
 					end
 					`OP3_MTIH:begin
+						$display("id in OP3_MTIH");
 						alusel_o<=`EXE_SEL_REG;
 						aluop_o<=`EXE_OP_MTIH;
 						we_o<=`WriteEnable;

@@ -19,9 +19,9 @@ int main(int argc,char* argv[]){
 	unsigned short x;
 	
 	while (fread(&x,sizeof(unsigned short),1,fin)){
+		//x=x>>8 | (x<<8);
 		//for (int j=15;j>=0;j--) printf("%d",(x>>j)&1);printf("\n");
-		x=x>>8 | (x<<8);
-		fwrite(&x,sizeof(unsigned short),1,fout);
+		for (int j=15;j>=0;j--) fprintf(fout,"%d",(x>>j)&1);fprintf(fout,"\n");
+		//fwrite(&x,sizeof(unsigned short),1,fout);
 	}
-
 }

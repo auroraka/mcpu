@@ -78,7 +78,7 @@ signal ram1_we_i: STD_LOGIC := RamWriteDisable;
 signal ram1_re_i: STD_LOGIC := RamReadDisable;
 
 begin
-	mpc:entity work.pc port map(
+	pc0:entity work.pc port map(
 		stall=>stall_pc, 
 		clk=>clk, 
 		rst=>rst, 
@@ -88,7 +88,7 @@ begin
 	) ;
 	id_pc_i <= pc ;
 	
-	mram2_ctrl: entity work.ram2_fake port map(
+	ram2_ctrl0: entity work.ram2_fake port map(
 		clk => clk ,
 		--pc
 		pc => pc ,
@@ -103,7 +103,7 @@ begin
 	) ;
 	id_inst_i <= pc_data ;
 	
-	mif_id: entity work.if_id port map(
+	if_id0: entity work.if_id port map(
 		rst => rst ,
 		clk => clk ,
 		stall_pc => stall_pc ,
@@ -115,7 +115,7 @@ begin
 		id_inst => inst_id_i
 	) ;
 	
-	mid:entity work.id port map(
+	id0:entity work.id port map(
 		rst => rst ,
 		pc_i => pc_id_i,
 		inst_i => inst_id_i,
@@ -143,7 +143,7 @@ begin
 		branch_addr_o => branch_addr_o
 	) ;
 	
-	mireg: entity work.RegisterFile port map(
+	regfile0: entity work.RegisterFile port map(
 		re_0 => reg0_re_id_o,
 		re_1 => reg1_re_id_o,
 		raddr0 => reg0_addr_id_o,
@@ -159,7 +159,7 @@ begin
 	) ;
 
 	
-	mid_ex: entity work.id_ex port map(
+	id_ex0: entity work.id_ex port map(
 		rst => rst ,
 		clk => clk ,
 		stall_pc => stall_pc ,
@@ -179,7 +179,7 @@ begin
 		ex_we => we_ex_i
 	);
 	
-	mex: entity work.ex port map(
+	ex0: entity work.ex port map(
 		aluop_i => aluop_ex_i,
 		alusel_i => alusel_ex_i, 
 		reg0_i => reg0_data_ex_i, 
@@ -197,7 +197,7 @@ begin
 		wdata_o => wdata_ex_o
 	) ;
 	
-	mex_mem: entity work.ex_mem port map(
+	ex_mem0: entity work.ex_mem port map(
 		clk => clk,
 		rst => rst, 
 		ex_memrw => memrw_ex_o,
@@ -215,7 +215,7 @@ begin
 		mem_we => we_mem_i
 	) ;
 	
-	mmem_wb: entity work.mem_wb port map(
+	mem_wb0: entity work.mem_wb port map(
 		clk => clk ,
 		rst => rst ,
 		mem_wdata => wdata_mem_o, 
@@ -227,7 +227,7 @@ begin
 		wb_we => we_wb_i
 	) ;
 	
-	mmem: entity work.mem port map(
+	mem0: entity work.mem port map(
 		rst => rst ,
 		--寄存器
 		we_i => we_mem_i,
@@ -258,7 +258,7 @@ begin
 		ram1_ce_o => ram1_ce_i	
 	) ;
 	
-	mstall_ctrl: entity work.stall_ctrl port map(
+	stall_ctrl0: entity work.stall_ctrl port map(
 		rst => rst ,
 		stallreq_id => stallreq_id_o, 
 		stallreq_mem => stallreq_mem_o,
@@ -268,7 +268,7 @@ begin
 		stall_ex => stall_ex
 	) ;
 	
-	mram1_ctrl: entity work.ram1_fake port map(
+	ram1_ctrl0: entity work.ram1_fake port map(
 		clk => clk ,
 		--mem
 		mem_data_i => ram1_data_i,

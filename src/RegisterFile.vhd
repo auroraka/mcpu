@@ -61,7 +61,7 @@ process(re_0, raddr0, we, waddr, wdata, R0, R1, R2, R3, R4, R5, R6, R7, SP, IH, 
 			end if ;
 		end if ;
 		rdata0 <= tmp0 ;
-	end process ;
+end process ;
 	
 	process(re_1, raddr1, we, waddr, wdata, R0, R1, R2, R3, R4, R5, R6, R7, SP, IH, T)
 	variable tmp1 : DataBus := ZeroData ;
