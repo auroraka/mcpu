@@ -17,7 +17,8 @@ architecture Behavioral of mcpu is
 signal branch_flag_o : STD_LOGIC := BranchFlagDown ;
 signal branch_addr_o : InstAddrBus := ZeroInstAddr ;
 signal pc : InstAddrBus := ZeroInstAddr ;
-signal pc_data : InstBus ;--:= NopInst;
+signal pc_inst : InstAddrBus := ZeroInstAddr ;
+signal pc_data : InstBus := NopInst;
 signal stall_pc : STD_LOGIC := StallNo ;
 signal stall_id : STD_LOGIC := StallNo;
 signal stall_ex : STD_LOGIC := StallNo ;
@@ -84,14 +85,15 @@ begin
 		rst=>rst, 
 		branch_flag_o=>branch_flag_o, 
 		branch_addr_o=>branch_addr_o, 
+		pc_inst => pc_inst ,
 		pc=>pc
 	) ;
-	id_pc_i <= pc ;
+	id_pc_i <= pc_inst ;
 	
 	ram2_ctrl0: entity work.ram2_fake port map(
 		clk => clk ,
 		--pc
-		pc => pc ,
+		pc => pc_inst ,
 		inst => pc_data ,
 		--mem
 		mem_data_i => ram2_data_i,
