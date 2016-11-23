@@ -1,5 +1,4 @@
 `include "defines.v"
-//`include "D:\\CPU\\mcpu\\src\\defines.v"
 
 module ram1_fake(
 	input wire clk,
@@ -13,13 +12,14 @@ module ram1_fake(
 
 	reg[`InstBus]  ram[0:4095];
 
-	initial $readmemh ( "ram1.data", ram );
+	initial $readmemb( "ram1.data", ram );
 
 	always @ (*) begin
 		if (mem_ce == `RamChipDisable) begin
 			mem_data_o <= `ZeroWord;
 	  	end else begin
 	  		if (mem_re == `RamReadEnable) begin
+	  			$display("ram1 read addr %h",mem_addr_i);
 	  			mem_data_o <= ram[mem_addr_i[11:0]];
 			end else if (mem_we == `RamWriteEnable) begin
 				ram[mem_addr_i[11:0]]<=mem_data_i;

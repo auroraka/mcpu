@@ -7,7 +7,7 @@ ass :
 
 .PHONY : lsb2msb
 lsb2msb : 
-	LSB2MSB.exe inst_rom_LSB.data inst_rom.data
+	LSB2MSB.exe inst_rom_LSB.data ram2.data
 
 .PHONY : compile_lsb2msb
 compile_lsb2msb : 
