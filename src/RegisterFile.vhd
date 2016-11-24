@@ -104,7 +104,7 @@ end process ;
 			SP <= ZeroData ;
 			IH <= ZeroData ;
 			T <= ZeroData ;
-		elsif(rising_edge(clk)) then
+		elsif(falling_edge(clk)) then
 			if(we = WriteEnable) then
 				case waddr is 
 					when Reg0_Addr => R0 <= wdata ;
