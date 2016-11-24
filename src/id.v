@@ -67,8 +67,8 @@ wire[15:0] imms=op3[4]? {11'b11111111111, op3}:{11'b0 , op3};
 
 //inst[10:0] -> b imm
 wire[15:0] immb = inst_i[10]? {5'b11111, inst_i[10:0]}:{5'b0 , inst_i[10:0]};
-wire reg0_eq_zero = (reg0_data_i == 0);
-wire reg1_eq_zero = (reg1_data_i == 0);
+wire reg0_eq_zero = (reg0_data_i == 16'b0) ? 1'b1:1'b0;
+wire reg1_eq_zero = (reg1_data_i == 16'b0) ? 1'b1:1'b0;
 
 always @ (*) begin
 	if (rst == `RstEnable) begin
