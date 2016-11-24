@@ -72,7 +72,7 @@ begin
 				ram2_re_o<='0';
 				ram2_ce_o<='0';
 			end if;
-			ram1_addr_o <= memaddr_i - AddrBase;
+			ram1_addr_o <= memaddr_i;
 			ram2_addr_o <= memaddr_i;
 			ram1_data_o <= memdata_i;
 			ram2_data_o <= memdata_i;
