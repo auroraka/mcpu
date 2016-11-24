@@ -8,7 +8,7 @@ entity mcpu is
 		rst: in STD_LOGIC ;
 		clk: in STD_LOGIC ;
 		--stall: in STD_LOGIC ;
-		pc_test : out InstAddrBus;
+--		pc_test : out InstAddrBus;
 
 		dev_ram1_data_ready_i	:	in STD_LOGIC;
 		dev_ram1_tbre_i			:	in STD_LOGIC;
@@ -95,7 +95,7 @@ signal ram1_data_o: DataBus := ZeroData;
 signal ram1_ce_i: STD_LOGIC := RamChipDisable;
 signal ram1_we_i: STD_LOGIC := RamWriteDisable;
 signal ram1_re_i: STD_LOGIC := RamReadDisable;
-
+signal clk_half: STD_LOGIC:='0';
 component id is
 	port(
 		rst : in STD_LOGIC ;
@@ -160,8 +160,15 @@ component mem_wb is
 end component ;
 
 begin
-	pc_test(7 downto 0) <= pc_inst(7 downto 0) ;
-	pc_test(15 downto 8)<= pc_data(15 downto 8);
+	-- pc_test(7 downto 0) <= pc_inst(7 downto 0) ;
+	-- pc_test(15 downto 8)<= pc_data(15 downto 8);
+	clk_halff:process( clk )
+	begin
+		if(rising_edge(clk))then
+			clk_half<= not clk_half;
+		end if;
+	end process;
+	
 	pc0:entity work.pc port map(
 		stall=>stall_pc, 
 		clk=>clk, 
@@ -320,7 +327,7 @@ begin
 	
 	mem0: entity work.mem port map(
 		rst => rst ,
-		--寄存�
+		--寄存�
 		we_i => we_mem_i,
 		waddr_i => waddr_mem_i,
 		wdata_i => wdata_mem_i,

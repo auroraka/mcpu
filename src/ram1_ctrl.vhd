@@ -54,6 +54,9 @@ begin
 			tempRamData<=ZeroData;
 			ram_data_bi<=ZeroData;
 			data_flag<=ZeroData;
+			--据说应该改一下
+			ram_oe_o<='1';
+			ram_en_o<=RamDisable;
 		else
 			if (mem_re = RamReadEnable) then
 				if (mem_addr_i = "1011111100000001") then --0xBF01
@@ -96,6 +99,9 @@ begin
 				tempRamData<=ZeroData;
 				data_flag<=ZeroData;
 				ram_data_bi<=ZeroData;
+				--据说应该改一下
+				ram_oe_o<='1';
+				ram_en_o<=RamDisable;
 			end if ;
 		end if;
 	end process;
