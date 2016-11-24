@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 NOP 
 BEQZ R1 0X5
 NOP
