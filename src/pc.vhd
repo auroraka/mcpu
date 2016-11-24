@@ -25,8 +25,8 @@ begin
 	begin
 		if(rst = RstEnable) then
 			--pc_v := ZeroInstAddr ;
-			pc_inst <= "1111111111111111" ;
-			pc_v := ZeroInstAddr ;
+			pc_inst <= ZeroInstAddr ;
+			pc_v := ZeroInstAddr + 1;
 			pc <= pc_v ;
 		elsif (clk'event and clk = '1') then
 			--pc <= pc_v ; -- update pc
