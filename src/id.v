@@ -67,8 +67,8 @@ wire[15:0] imms=op3[4]? {11'b11111111111, op3}:{11'b0 , op3};
 
 //inst[10:0] -> b imm
 wire[15:0] immb = inst_i[10]? {5'b11111, inst_i[10:0]}:{5'b0 , inst_i[10:0]};
-reg id_get_reg0;
-reg id_get_reg1;
+reg [15:0]id_get_reg0;
+reg [15:0]id_get_reg1;
 wire reg0_eq_zero = (id_get_reg0 == 16'b0);
 wire reg1_eq_zero = (id_get_reg1 == 16'b0);
 
