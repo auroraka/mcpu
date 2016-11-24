@@ -95,6 +95,69 @@ signal ram1_ce_i: STD_LOGIC := RamChipDisable;
 signal ram1_we_i: STD_LOGIC := RamWriteDisable;
 signal ram1_re_i: STD_LOGIC := RamReadDisable;
 
+component id is
+	port(
+		rst : in STD_LOGIC ;
+		pc_i : in InstAddrBus ;
+		inst_i : in InstAddrBus ;
+		reg0_data_i: in DataBus ;
+		reg1_data_i : in DataBus ;
+		ex_we_i: STD_LOGIC ;
+		ex_waddr_i : in RegAddrBus  ;
+		ex_wdata_i : in DataBus ;
+		mem_we_i : in STD_LOGIC ;
+		mem_waddr_i : in RegAddrBus ;
+		mem_wdata_i : in DataBus ;
+		
+		alusel_o: out AluSelBus ;
+		aluop_o: out AluOpBus ;
+		reg0_data_o : out DataBus ;
+		reg1_data_o : out DataBus ;
+		reg0_re_o: out STD_LOGIC ;
+		reg1_re_o: out STD_LOGIC ;
+		reg0_addr_o: out RegAddrBus ;
+		reg1_addr_o: out RegAddrBus ;
+		we_o : out STD_LOGIC ;
+		waddr_o: out RegAddrBus ;
+		stall_req: out STD_LOGIC ;
+		branch_flag_o: out STD_LOGIC ;
+		branch_addr_o: out InstAddrBus 
+	) ;
+end component ;
+
+component ex_mem is
+	port(
+		clk : in STD_LOGIC ;
+		rst : in STD_LOGIC ;
+		ex_memrw : in MemRWBus ;
+		ex_memaddr : in DataAddrBus ;
+		ex_memdata : in DataBus ;
+		ex_wdata : in DataBus ;
+		ex_waddr: in RegAddrBus ;
+		ex_we : in STD_LOGIC ;
+		
+		mem_wdata: out DataBus ;
+		mem_waddr : out RegAddrBus ;
+		mem_memrw : out MemRWBus ;
+		mem_memaddr: out DataAddrBus ;
+		mem_memdata: out DataBus ;
+		mem_we : out STD_LOGIC
+	) ;
+end component ;
+
+component mem_wb is
+	port(
+		clk : in STD_LOGIC ;
+		rst : in STD_LOGIC ;
+		mem_wdata : in DataBus ;
+		mem_waddr : in RegAddrBus ;
+		mem_we : in STD_LOGIC ;
+		wb_wdata : out DataBus ;
+		wb_waddr : out RegAddrBus ;
+		wb_we: out STD_LOGIC 
+	) ;
+end component ;
+
 begin
 	pc0:entity work.pc port map(
 		stall=>stall_pc, 
@@ -109,18 +172,18 @@ begin
 	ram2_ctrl0: entity work.ram2_ctrl port map(
 		clk => clk ,
 		--pc
-		pc => pc_inst ,
+		pc_addr => pc_inst ,
 		inst => pc_data ,
 		--mem
 		mem_data_i => ram2_data_i,
 		mem_data_o => ram2_data_o,
-		mem_addr_i => ram2_addr_i,
+		mem_addr => ram2_addr_i,
 		mem_re => ram2_re_i,
 		mem_we => ram2_we_i,
 		mem_ce => ram2_ce_i,
 
 		--ramn2
-		ram_data => dev_ram2_addr_o,
+		ram_data => dev_ram2_data,
 		ram_addr_o => dev_ram2_addr_o,
 		ram_oe_o => dev_ram2_oe_o,
 		ram_we_o => dev_ram2_we_o,
@@ -139,7 +202,7 @@ begin
 		id_inst => inst_id_i
 	) ;
 	
-	id0:entity work.id port map(
+	id0: id port map(
 		rst => rst ,
 		pc_i => pc_id_i,
 		inst_i => inst_id_i,
@@ -221,7 +284,7 @@ begin
 		wdata_o => wdata_ex_o
 	) ;
 	
-	ex_mem0: entity work.ex_mem port map(
+	ex_mem0: ex_mem port map(
 		clk => clk,
 		rst => rst, 
 		ex_memrw => memrw_ex_o,
@@ -239,7 +302,7 @@ begin
 		mem_we => we_mem_i
 	) ;
 	
-	mem_wb0: entity work.mem_wb port map(
+	mem_wb0: mem_wb port map(
 		clk => clk ,
 		rst => rst ,
 		mem_wdata => wdata_mem_o, 
@@ -253,7 +316,8 @@ begin
 	
 	mem0: entity work.mem port map(
 		rst => rst ,
-		--寄存�		we_i => we_mem_i,
+		--寄存�
+		we_i => we_mem_i,
 		waddr_i => waddr_mem_i,
 		wdata_i => wdata_mem_i,
 		--ram

@@ -497,7 +497,7 @@ always @ (*) begin
 	if (rst ==`RstEnable) begin
 		id_get_reg1<=`ZeroData;
 	end else if (reg1_re_o==`ReadEnable && ex_we_i == `WriteEnable && reg1_addr_o == ex_waddr_i) begin
-		id_get_reg0<=ex_wdata_i;
+		id_get_reg1<=ex_wdata_i;
 	end else if (reg1_re_o==`ReadEnable && mem_we_i == `WriteEnable && reg1_addr_o == mem_waddr_i) begin
 		id_get_reg1<=mem_wdata_i;
 	end else begin
