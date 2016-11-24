@@ -8,6 +8,8 @@ entity mcpu is
 		rst: in STD_LOGIC ;
 		clk: in STD_LOGIC ;
 		--stall: in STD_LOGIC ;
+		pc_test : out InstAddrBus ;
+		
 
 		dev_ram1_data_ready_i	:	in STD_LOGIC;
 		dev_ram1_tbre_i			:	in STD_LOGIC;
@@ -25,7 +27,7 @@ entity mcpu is
 		dev_ram2_addr_o : 	out 	RamAddrBus ;
 		dev_ram2_oe_o :		out 	STD_LOGIC ;
 		dev_ram2_we_o :		out 	STD_LOGIC ;
-		dev_ram2_en_o :		out 	STD_LOGIC 	
+		dev_ram2_en_o :		out 	STD_LOGIC 
 
 	) ;
 end mcpu ;
@@ -168,6 +170,8 @@ begin
 		pc_inst => pc_inst ,
 		pc=>pc
 	) ;
+	
+	pc_test <= pc_inst ;
 	
 	ram2_ctrl0: entity work.ram2_ctrl port map(
 		clk => clk ,
