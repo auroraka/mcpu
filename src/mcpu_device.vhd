@@ -8,8 +8,25 @@ entity mcpu is
 		rst: in STD_LOGIC ;
 		clk: in STD_LOGIC ;
 		--stall: in STD_LOGIC ;
-		id_pc_i: out InstAddrBus ;
-		id_inst_i: out InstBus 
+
+		dev_ram1_data_ready_i	:	in STD_LOGIC;
+		dev_ram1_tbre_i			:	in STD_LOGIC;
+		dev_ram1_tsre_i			:	in STD_LOGIC;
+		dev_ram1_data_bi			:	inout DataBus;
+
+		dev_ram1_oe_o			:	out STD_LOGIC;
+		dev_ram1_en_o			:	out STD_LOGIC;
+		dev_ram1_we_o			:	out STD_LOGIC;
+		dev_ram1_addr_o			: 	out RamAddrBus;
+		dev_ram1_wrn_o			:	out STD_LOGIC;
+		dev_ram1_rdn_o			:	out STD_LOGIC;
+
+		dev_ram2_data : 		inout 	DataBus ;
+		dev_ram2_addr_o : 	out 	RamAddrBus ;
+		dev_ram2_oe_o :		out 	STD_LOGIC ;
+		dev_ram2_we_o :		out 	STD_LOGIC ;
+		dev_ram2_en_o :		out 	STD_LOGIC 	
+
 	) ;
 end mcpu ;
 
@@ -88,9 +105,8 @@ begin
 		pc_inst => pc_inst ,
 		pc=>pc
 	) ;
-	id_pc_i <= pc_inst ;
 	
-	ram2_ctrl0: entity work.ram2_fake port map(
+	ram2_ctrl0: entity work.ram2_ctrl port map(
 		clk => clk ,
 		--pc
 		pc => pc_inst ,
@@ -101,9 +117,15 @@ begin
 		mem_addr_i => ram2_addr_i,
 		mem_re => ram2_re_i,
 		mem_we => ram2_we_i,
-		mem_ce => ram2_ce_i
+		mem_ce => ram2_ce_i,
+
+		--ramn2
+		ram_data => dev_ram2_addr_o,
+		ram_addr_o => dev_ram2_addr_o,
+		ram_oe_o => dev_ram2_oe_o,
+		ram_we_o => dev_ram2_we_o,
+		ram_en_o =>dev_ram2_en_o
 	) ;
-	id_inst_i <= pc_data ;
 	
 	if_id0: entity work.if_id port map(
 		rst => rst ,
@@ -231,8 +253,7 @@ begin
 	
 	mem0: entity work.mem port map(
 		rst => rst ,
-		--寄存器
-		we_i => we_mem_i,
+		--寄存�		we_i => we_mem_i,
 		waddr_i => waddr_mem_i,
 		wdata_i => wdata_mem_i,
 		--ram
@@ -270,7 +291,7 @@ begin
 		stall_ex => stall_ex
 	) ;
 	
-	ram1_ctrl0: entity work.ram1_fake port map(
+	ram1_ctrl0: entity work.ram1_ctrl port map(
 		clk => clk ,
 		--mem
 		mem_data_i => ram1_data_i,
@@ -278,19 +299,19 @@ begin
 		mem_addr_i => ram1_addr_i,
 		mem_re => ram1_re_i,
 		mem_we => ram1_we_i,
-		mem_ce => ram1_ce_i
+		mem_ce => ram1_ce_i,
 
-		-- --ram
-		-- ram_data_ready_i	:	in STD_LOGIC;
-		-- ram_tbre_i			:	in STD_LOGIC;
-		-- ram_tsre_i			:	in STD_LOGIC;
-		-- ram_data_bi			:	inout DataBus;
+		--ram
+		ram_data_ready_i => dev_ram1_data_ready_i,
+		ram_tbre_i => dev_ram1_tbre_i,
+		ram_tsre_i => dev_ram1_tsre_i,
+		ram_data_bi => dev_ram1_data_bi,
 
-		-- ram_oe_o			:	out STD_LOGIC;
-		-- ram_en_o			:	out STD_LOGIC;
-		-- ram_we_o			:	out STD_LOGIC;
-		-- ram_addr_o			: 	out DataAddrBus;
-		-- ram_wrn_o			:	out STD_LOGIC;
-		-- ram_rdn_o			:	out STD_LOGIC
+		ram_oe_o => dev_ram1_oe_o,
+		ram_en_o => dev_ram1_en_o,
+		ram_we_o => dev_ram1_we_o,
+		ram_addr_o => dev_ram1_addr_o,
+		ram_wrn_o => dev_ram1_wrn_o,
+		ram_rdn_o => dev_ram1_rdn_o
 	) ;
 end Behavioral ;
