@@ -67,8 +67,10 @@ wire[15:0] imms=op3[4]? {11'b11111111111, op3}:{11'b0 , op3};
 
 //inst[10:0] -> b imm
 wire[15:0] immb = inst_i[10]? {5'b11111, inst_i[10:0]}:{5'b0 , inst_i[10:0]};
-wire reg0_eq_zero = (reg0_data_i == 0);
-wire reg1_eq_zero = (reg1_data_i == 0);
+reg id_get_reg0;
+reg id_get_reg1;
+wire reg0_eq_zero = (id_get_reg0 == 16'b0);
+wire reg1_eq_zero = (id_get_reg1 == 16'b0);
 
 always @ (*) begin
 	if (rst == `RstEnable) begin
@@ -290,7 +292,7 @@ always @ (*) begin
 				$display("id in OP_SW_SP");
 				alusel_o<=`EXE_SEL_LW;
 				aluop_o<=`EXE_OP_SW_SP;
-				reg0_o<=reg0_data_i+imml;
+				reg0_o<=id_get_reg0+imml;
 				reg1_o<=reg1_data_i;
 				reg0_re_o<=`ReadEnable;
 				reg1_re_o<=`ReadEnable;
@@ -301,7 +303,7 @@ always @ (*) begin
 				$display("id in OP_SW");
 				alusel_o<=`EXE_SEL_LW;
 				aluop_o<=`EXE_OP_SW;
-				reg0_o<=reg0_data_i+imms;
+				reg0_o<=id_get_reg0+imms;
 				reg1_o<=reg1_data_i;
 				reg0_re_o<=`ReadEnable;
 				reg1_re_o<=`ReadEnable;
@@ -479,7 +481,29 @@ always @ (*) begin
 	end
 end
 
-//some thing need to thin more with mem_wdata & ex_wdata
+always @ (*) begin
+	if (rst ==`RstEnable) begin
+		id_get_reg0<=`ZeroData;
+	end else if (reg0_re_o==`ReadEnable && ex_we_i == `WriteEnable && reg0_addr_o == ex_waddr_i) begin
+		id_get_reg0<=ex_wdata_i;
+	end else if (reg0_re_o==`ReadEnable && mem_we_i == `WriteEnable && reg0_addr_o == mem_waddr_i) begin
+		id_get_reg0<=mem_wdata_i;
+	end else begin
+		id_get_reg0<=reg0_data_i;
+	end
+end
+
+always @ (*) begin
+	if (rst ==`RstEnable) begin
+		id_get_reg1<=`ZeroData;
+	end else if (reg1_re_o==`ReadEnable && ex_we_i == `WriteEnable && reg1_addr_o == ex_waddr_i) begin
+		id_get_reg0<=ex_wdata_i;
+	end else if (reg1_re_o==`ReadEnable && mem_we_i == `WriteEnable && reg1_addr_o == mem_waddr_i) begin
+		id_get_reg1<=mem_wdata_i;
+	end else begin
+		id_get_reg1<=reg1_data_i;
+	end
+end
 
 always @ (*) begin
 	if (rst ==`RstEnable) begin
@@ -491,13 +515,6 @@ always @ (*) begin
 	end else begin
 		reg0_data_o<=reg0_o;
 	end
-	// end else if (reg0_re_o==`ReadEnable) begin
-	// 	reg0_data_o<=reg0_data_i;
-	// end else if (reg0_re_o==`ReadDisable) begin
-	// 	reg0_data_o<=imm_num;
-	// end else begin
-	// 	reg0_data_o<=`ZeroWord;
-	// end
 end
 
 always @ (*) begin
@@ -510,13 +527,6 @@ always @ (*) begin
 	end else begin
 		reg1_data_o<=reg1_o;
 	end
-	// end else if (reg1_re_o==`ReadEnable) begin
-	// 	reg1_data_o<=reg1_data_i;
-	// end else if (reg1_re_o==`ReadDisable) begin
-	// 	reg1_data_o<=imm_num;
-	// end else begin
-	// 	reg1_data_o<=`ZeroWord;
-	// end
 end
 
 endmodule
