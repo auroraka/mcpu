@@ -45,23 +45,38 @@ ARCHITECTURE behavior OF mem_tb IS
  
     COMPONENT mem
     PORT(
-         we_i : IN  std_logic;
-         wdata_i : IN  std_logic_vector(15 downto 0);
-         waddr_i : IN  std_logic_vector(3 downto 0);
-         memaddr_i : IN  std_logic_vector(15 downto 0);
-		 memdata_i : IN std_logic_vector(15 downto 0) ;
-         memrw_i : IN  std_logic_vector(1 downto 0);
-         ram_data_i : IN  std_logic_vector(15 downto 0);
-         rst : IN  std_logic;
-         we_o : OUT  std_logic;
-         waddr_o : OUT  std_logic_vector(3 downto 0);
-         wdata_o : OUT  std_logic_vector(15 downto 0);
-         ram_re_o : OUT  std_logic;
-         ram_we_o : OUT  std_logic;
-         ram_addr_o : OUT  std_logic_vector(15 downto 0);
-         ram_data_o : OUT  std_logic_vector(15 downto 0);
-         ram_ce_o : OUT  std_logic;
-         stall_req : OUT  std_logic
+		rst : 		in STD_LOGIC ;
+		--寄存
+		we_i : 		in STD_LOGIC ;
+		waddr_i : 	in RegAddrBus ;
+		wdata_i : 	in DataBus ;
+		--ram
+		memdata_i : in DataBus ;
+		memrw_i : 	in MemRWBus ; 
+		memaddr_i : in DataAddrBus ;
+
+		we_o : 		out STD_LOGIC ;
+		waddr_o : 	out RegAddrBus ;
+		wdata_o : 	out DataBus ;
+		
+		--ram 1 
+		ram1_data_i:	in 	DataBus ;
+		ram1_data_o : 	out DataBus ;
+		ram1_addr_o : 	out DataAddrBus ;
+		ram1_re_o :		out STD_LOGIC ;
+		ram1_we_o :		out STD_LOGIC ;
+		ram1_ce_o :		out STD_LOGIC; -- ce = ChipEnable -> 
+		
+		--ram 2 
+		ram2_data_i:	in 	DataBus ;
+		ram2_data_o : 	out DataBus ;
+		ram2_addr_o : 	out DataAddrBus ;
+		ram2_re_o :		out STD_LOGIC ;
+		ram2_we_o :		out STD_LOGIC ;
+		ram2_ce_o :		out STD_LOGIC; -- ce = RamChipEnable -> Ram Read    &    ce = RamChipDisable ->  PC Read
+
+		--stall_reg
+		stall_req : out STD_LOGIC 
         );
     END COMPONENT;
     
@@ -71,18 +86,25 @@ ARCHITECTURE behavior OF mem_tb IS
    signal waddr_i : std_logic_vector(3 downto 0) := (others => '0');
    signal memaddr_i : std_logic_vector(15 downto 0) := (others => '0');
    signal memrw_i : std_logic_vector(1 downto 0) := (others => '0');
-   signal ram_data_i : std_logic_vector(15 downto 0) := "1111111100000000";
+   signal memdata_i : std_logic_vector(15 downto 0) := (others => '0');
+   signal ram1_data_i : std_logic_vector(15 downto 0) := (others=>'0');
+   signal ram2_data_i : std_logic_vector(15 downto 0) := (others=>'0');
    signal rst : std_logic := RstDisable;
 
  	--Outputs
    signal we_o : std_logic;
    signal waddr_o : std_logic_vector(3 downto 0);
    signal wdata_o : std_logic_vector(15 downto 0);
-   signal ram_re_o : std_logic;
-   signal ram_we_o : std_logic;
-   signal ram_addr_o : std_logic_vector(15 downto 0);
-   signal ram_data_o : std_logic_vector(15 downto 0);
-   signal ram_ce_o : std_logic;
+   signal ram1_re_o : std_logic:='0';
+   signal ram1_we_o : std_logic:='0';
+   signal ram1_addr_o : std_logic_vector(15 downto 0);
+   signal ram1_data_o : std_logic_vector(15 downto 0);
+   signal ram1_ce_o : std_logic:='0';
+   signal ram2_re_o : std_logic:='0';
+   signal ram2_we_o : std_logic:='0';
+   signal ram2_addr_o : std_logic_vector(15 downto 0);
+   signal ram2_data_o : std_logic_vector(15 downto 0);
+   signal ram2_ce_o : std_logic:='0';
    signal stall_req : std_logic;
    -- No clocks detected in port list. Replace <clock> below with 
    -- appropriate port name 
@@ -96,16 +118,23 @@ BEGIN
           waddr_i => waddr_i,
           memaddr_i => memaddr_i,
           memrw_i => memrw_i,
-          ram_data_i => ram_data_i,
+          memdata_i => memdata_i,
           rst => rst,
           we_o => we_o,
           waddr_o => waddr_o,
           wdata_o => wdata_o,
-          ram_re_o => ram_re_o,
-          ram_we_o => ram_we_o,
-          ram_addr_o => ram_addr_o,
-          ram_data_o => ram_data_o,
-          ram_ce_o => ram_ce_o,
+          ram1_re_o => ram1_re_o,
+          ram1_we_o => ram1_we_o,
+          ram1_addr_o => ram1_addr_o,
+          ram1_data_o => ram1_data_o,
+          ram1_data_i => ram1_data_i,
+          ram1_ce_o => ram1_ce_o,
+          ram2_re_o => ram2_re_o,
+          ram2_we_o => ram2_we_o,
+          ram2_addr_o => ram2_addr_o,
+          ram2_data_o => ram2_data_o,
+          ram2_data_i => ram2_data_i,
+          ram2_ce_o => ram2_ce_o,
           stall_req => stall_req
         );
  
@@ -114,12 +143,13 @@ BEGIN
    begin		
       wait for 10 ns;	
 	--write ram
+	we_i<='1';
 	memrw_i <= MemRW_Write;
 	memaddr_i <= "0010001000100010";--2222
-	wdata_i <= "0100010001000100";--4444
+	memdata_i <= "0100010001000100";--4444
       wait for 100 ns;	
 	--write reg
-	we_i <= '1';
+	we_i <= '0';
 	wdata_i <= "0001000100010001";--1111
 	waddr_i <= "0010";--2
 	memrw_i <= MemRW_Idle;
@@ -128,7 +158,10 @@ BEGIN
 	memrw_i <= MemRW_Read;
 	memaddr_i <= "0001000100010001";--1111
 	waddr_i <= "0100";--4
-      wait for 100 ns;	
+	  wait for 10 ns;
+	ram1_data_i<="0000000000000001";
+	ram2_data_i<="0000000000000010";
+      wait for 90 ns;	
 	rst <= RstEnable;
 	wait;
    end process;
