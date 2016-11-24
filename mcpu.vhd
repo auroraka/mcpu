@@ -388,6 +388,7 @@ begin
 	) ;
 	
 	ram1_ctrl0: entity work.ram1_ctrl port map(
+		rst=>rst,
 		clk => clk ,
 		--mem
 		mem_data_i => ram1_data_i,
