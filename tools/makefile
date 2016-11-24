@@ -1,6 +1,9 @@
 all : ass lsb2msb
 	rm inst_rom_LSB.data
 
+bin :
+	Assembleler.exe inst.s ram2.bit
+	
 .PHONY : ass 
 ass : 
 	Assembleler.exe inst.s inst_rom_LSB.data
