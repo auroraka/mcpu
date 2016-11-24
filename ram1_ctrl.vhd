@@ -45,6 +45,8 @@ begin
 						state<=PORT_READ;
 					elsif (mem_we = RamWriteEnable) then
 						state<=PORT_WRITE;
+					else 
+						state<=IDLE;
 					end if;
 				elsif (mem_addr_i = "1011111100000001") then
 					state<=PORT_CHECK;
@@ -53,6 +55,8 @@ begin
 						state<=MEM_READ;
 					elsif (mem_we = RamWriteEnable) then
 						state<=MEM_WRITE;
+					else
+						state<=IDLE;
 					end if;
 				end if;
 			else 
@@ -63,7 +67,7 @@ begin
 
 	process(clk,rst,state,mem_addr_i,mem_data_i,mem_re,mem_we,mem_ce,ram_data_bi,ram_data_ready_i,ram_tsre_i,ram_tbre_i) begin
 		if (rst = RstEnable) then
-			mem_data_o<=ZeroData;
+			mem_data_o<=HighImpWord;
 			ram_en_o<='1';
 			ram_oe_o<='1';
 			ram_we_o<='1';
@@ -73,6 +77,7 @@ begin
 			case state is 
 				when PORT_READ =>
 					ram_data_bi<=HighImpWord;
+					ram_addr_o<="00" & ZeroData;
 					ram_en_o<='1';
 					ram_oe_o<='1';
 					ram_we_o<='1';
@@ -98,7 +103,7 @@ begin
 					ram_data_bi<=HighImpWord;
 					ram_addr_o<="00" & ZeroData;
 					ram_en_o<='0';
-					ram_oe_o<='1';
+					ram_oe_o<='0';
 					ram_we_o<=clk;
 					ram_rdn_o<='1';
 					ram_wrn_o<='1';

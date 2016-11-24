@@ -176,8 +176,8 @@ begin
 			--if (count>2211840) then --5hz
 			--if (count>1105920) then --10hz
 			--if (count>110592) then --100hz
-			--if (count>11059) then --1000hz
-			if (count>22120) then --500hz
+			if (count>11059) then --1000hz
+			--if (count>22120) then --500hz
 				count:=0;
 				clk<=not clk;
 			end if;
