@@ -216,5 +216,7 @@ constant OP3_OR	: OP3 := "01101" ;
 constant OP3_MFIH : OP3	:= "00000" ;
 constant OP3_MTIH : OP3 := "00001" ;
 
+constant AddrBase : DataAddrBus := "1000000000000000" ;
+
 end pack;
 
