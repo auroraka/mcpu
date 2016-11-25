@@ -111,11 +111,20 @@ NET "pc_test[2]" LOC = A11;
 NET "pc_test[1]" LOC = E10;
 NET "pc_test[0]" LOC = D10;
 
-#debug -> digit
-NET "clk_out" LOC = F8;
-NET "data_ready_out" LOC = C9;
-NET "tbre_out" LOC = B10;
-NET "tsre_out" LOC = F9;
+#debug -> digit left
+NET "clk_out" LOC = A8; #E
+NET "data_ready_out" LOC = C7;#A
+NET "tbre_out" LOC = F8;#G
+NET "tsre_out" LOC = F7;#D
+
+#debug -> digit right
+NET "ram1_data_out[0]" LOC = C9;
+NET "ram1_data_out[1]" LOC = D9;
+NET "ram1_data_out[2]" LOC = E9;
+NET "ram1_data_out[3]" LOC = F9;
+NET "ram1_data_out[4]" LOC = G9;
+NET "ram1_data_out[5]" LOC = A10;
+NET "ram1_data_out[6]" LOC = B10;
 
 #debug -> sw0
 NET "stall" LOC = T7;

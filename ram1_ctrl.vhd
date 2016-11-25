@@ -99,8 +99,6 @@ begin
 				tempRamData<=ZeroData;
 				data_flag<=ZeroData;
 				ram_data_bi<=ZeroData;
-				--据说应该改一下
-				
 				ram_oe_o<='1';
 				ram_en_o<=RamDisable;
 			end if ;

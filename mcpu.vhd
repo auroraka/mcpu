@@ -34,7 +34,8 @@ entity mcpu is
 		clk_out : out STD_LOGIC;
 		tbre_out: out STD_LOGIC;
 		tsre_out: out STD_LOGIC;
-		data_ready_out: out STD_LOGIC
+		data_ready_out: out STD_LOGIC;
+		ram1_data_out: out STD_LOGIC_VECTOR(6 downto 0)
 	) ;
 end mcpu ;
 
@@ -103,6 +104,14 @@ signal ram1_ce_i: STD_LOGIC := RamChipDisable;
 signal ram1_we_i: STD_LOGIC := RamWriteDisable;
 signal ram1_re_i: STD_LOGIC := RamReadDisable;
 
+component seg_displayer is
+	port(
+		isHex : in STD_LOGIC;
+		num : in STD_LOGIC_VECTOR(3 downto 0);
+		seg : out STD_LOGIC_VECTOR(6 downto 0)
+	) ;
+end component ;
+
 component id is
 	port(
 		rst : in STD_LOGIC ;
@@ -170,8 +179,10 @@ end component ;
 signal clk: STD_LOGIC:='0';
 signal clk_10: STD_LOGIC:='0';
 signal clk_100: STD_LOGIC:='0';
-signal clk_500: STD_LOGIC:='0';
 signal clk_1000: STD_LOGIC:='0';
+signal clk_10000: STD_LOGIC:='0';
+signal clk_100000: STD_LOGIC:='0';
+signal clk_1000000: STD_LOGIC:='0';
 
 begin
 	clk_out<=clk;
@@ -210,9 +221,9 @@ begin
 	begin
 		if (clk_11_in'event and clk_11_in='1') then
 			count:=count+1;
-			if (count>22120) then --500hz
+			if (count>11059) then --1000hz
 				count:=0;
-				clk_500<=not clk_500;
+				clk_1000<=not clk_1000;
 			end if;
 		end if;
 	end process;
@@ -222,12 +233,37 @@ begin
 	begin
 		if (clk_11_in'event and clk_11_in='1') then
 			count:=count+1;
-			if (count>11059) then --1000hz
+			if (count>1106) then --10000hz
 				count:=0;
-				clk_1000<=not clk_1000;
+				clk_10000<=not clk_10000;
 			end if;
 		end if;
 	end process;
+
+	process(clk_11_in)
+	variable count:integer:=0;
+	begin
+		if (clk_11_in'event and clk_11_in='1') then
+			count:=count+1;
+			if (count>110) then --100000hz
+				count:=0;
+				clk_100000<=not clk_100000;
+			end if;
+		end if;
+	end process;
+
+	process(clk_11_in)
+	variable count:integer:=0;
+	begin
+		if (clk_11_in'event and clk_11_in='1') then
+			count:=count+1;
+			if (count>11) then --1Mhz
+				count:=0;
+				clk_1000000<=not clk_1000000;
+			end if;
+		end if;
+	end process;
+
 
 	process (sw_clk) 
 	begin
@@ -240,16 +276,32 @@ begin
 			when "010" =>
 				clk<=clk_100;
 			when "011" =>
-				clk<=clk_500;
+				clk<=clk_1000;
 			when "100" =>
-				clk<=clk_1000;				
+				clk<=clk_10000;				
+			when "101" =>
+				clk<=clk_100000;				
+			when "110" =>
+				clk<=clk_1000000;				
+			when "111" =>
+				clk<=clk_11_in;				
 			when others =>
 				clk<='0';
 		end case ;
 	end process;
 
-	pc_test(7 downto 0) <= pc_inst(7 downto 0) ;
-	pc_test(15 downto 8)<= pc_data(15 downto 8);
+
+	seg_displayer0: seg_displayer port map(
+		isHex => '1',
+		num => ram1_data_o(3 downto 0),
+		seg => ram1_data_out
+	) ;
+	
+
+	pc_test(10 downto 0) <= pc_inst(10 downto 0) ;
+	pc_test(15 downto 11)<= pc_data(15 downto 11);
+	--pc_test(7 downto 0) <= pc_inst(7 downto 0) ;
+	--pc_test(15 downto 8)<= pc_data(15 downto 8);
 	--pc_test(15 downto 0)<=pc_data;
 
 	pc0:entity work.pc port map(
