@@ -28,7 +28,10 @@ entity mcpu is
 		dev_ram2_we_o :		out 	STD_LOGIC ;
 		dev_ram2_en_o :		out 	STD_LOGIC ;
 		
-		clk_out : out STD_LOGIC
+		clk_out : out STD_LOGIC;
+		tbre_out: out STD_LOGIC;
+		tsre_out: out STD_LOGIC;
+		data_ready_out: out STD_LOGIC
 
 	) ;
 end mcpu ;
@@ -166,6 +169,11 @@ signal clk: STD_LOGIC:='1';
 
 begin
 	clk_out<=clk;
+	tbre_out<=dev_ram1_tbre_i;
+	tsre_out<=dev_ram1_tsre_i;
+	data_ready_out<=dev_ram1_data_ready_i;
+
+	--clk<=clk_in; --By Hand
 
 	process(clk_in)
 	variable count:integer:=0;
@@ -175,8 +183,8 @@ begin
 			--if (count>11059200) then --1hz
 			--if (count>2211840) then --5hz
 			--if (count>1105920) then --10hz
-			--if (count>110592) then --100hz
-			if (count>11059) then --1000hz
+			if (count>110592) then --100hz
+			--if (count>11059) then --1000hz
 			--if (count>22120) then --500hz
 				count:=0;
 				clk<=not clk;
@@ -185,9 +193,10 @@ begin
 	end process;
 
 
-	pc_test(7 downto 0) <= pc_inst(7 downto 0) ;
-	pc_test(15 downto 8)<= pc_data(15 downto 8);
-	
+	--pc_test(7 downto 0) <= pc_inst(7 downto 0) ;
+	--pc_test(15 downto 8)<= pc_data(15 downto 8);
+	pc_test(15 downto 0)<=pc_data;
+
 	pc0:entity work.pc port map(
 		stall=>stall_pc, 
 		clk=>clk, 

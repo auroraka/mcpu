@@ -111,6 +111,9 @@ NET "pc_test[2]" LOC = A11;
 NET "pc_test[1]" LOC = E10;
 NET "pc_test[0]" LOC = D10;
 
-NET "clk_out" LOC = C7;
+NET "clk_out" LOC = F8;
+NET "data_ready_out" LOC = C9;
+NET "tbre_out" LOC = B10;
+NET "tsre_out" LOC = F9;
 
 NET "stall" LOC = T7;

@@ -102,7 +102,7 @@ begin
 				when MEM_READ =>
 					ram_data_bi<=HighImpWord;
 					ram_addr_o<="00" & ZeroData;
-					ram_en_o<='0';
+					ram_en_o<=clk;
 					ram_oe_o<='0';
 					ram_we_o<='1';
 					ram_rdn_o<='1';
@@ -110,9 +110,9 @@ begin
 				when MEM_WRITE =>
 					ram_data_bi<=mem_data_i;
 					ram_addr_o<="00" & mem_addr_i;
-					ram_en_o<='0';
+					ram_en_o<=clk;
 					ram_oe_o<='1';
-					ram_we_o<=clk;
+					ram_we_o<='0';
 					ram_rdn_o<='1';
 					ram_wrn_o<='1';
 				when IDLE =>
