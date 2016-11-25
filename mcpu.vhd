@@ -6,7 +6,10 @@ USE WORK.PACK.ALL ;
 entity mcpu is
 	Port(
 		rst: in STD_LOGIC ;
-		clk_in: in STD_LOGIC ;
+		clk_hand_in: in STD_LOGIC ;
+		clk_11_in: in STD_LOGIC ;
+		clk_50_in: in STD_LOGIC ;
+		sw_clk:in STD_LOGIC_VECTOR(2 downto 0);
 		stall: in STD_LOGIC ;
 		pc_test : out InstAddrBus;
 
@@ -32,7 +35,6 @@ entity mcpu is
 		tbre_out: out STD_LOGIC;
 		tsre_out: out STD_LOGIC;
 		data_ready_out: out STD_LOGIC
-
 	) ;
 end mcpu ;
 
@@ -165,7 +167,11 @@ component mem_wb is
 end component ;
 
 
-signal clk: STD_LOGIC:='1';
+signal clk: STD_LOGIC:='0';
+signal clk_10: STD_LOGIC:='0';
+signal clk_100: STD_LOGIC:='0';
+signal clk_500: STD_LOGIC:='0';
+signal clk_1000: STD_LOGIC:='0';
 
 begin
 	clk_out<=clk;
@@ -175,27 +181,76 @@ begin
 
 	--clk<=clk_in; --By Hand
 
-	process(clk_in)
+	process(clk_11_in)
 	variable count:integer:=0;
 	begin
-		if (clk_in'event and clk_in='1') then
+		if (clk_11_in'event and clk_11_in='1') then
 			count:=count+1;
-			--if (count>11059200) then --1hz
-			--if (count>2211840) then --5hz
-			--if (count>1105920) then --10hz
-			if (count>110592) then --100hz
-			--if (count>11059) then --1000hz
-			--if (count>22120) then --500hz
+			if (count>1105920) then --10hz
 				count:=0;
-				clk<=not clk;
+				clk_10<=not clk_10;
 			end if;
 		end if;
 	end process;
 
+	process(clk_11_in)
+	variable count:integer:=0;
+	begin
+		if (clk_11_in'event and clk_11_in='1') then
+			count:=count+1;
+			if (count>110592) then --100hz
+				count:=0;
+				clk_100<=not clk_100;
+			end if;
+		end if;
+	end process;
 
-	--pc_test(7 downto 0) <= pc_inst(7 downto 0) ;
-	--pc_test(15 downto 8)<= pc_data(15 downto 8);
-	pc_test(15 downto 0)<=pc_data;
+	process(clk_11_in)
+	variable count:integer:=0;
+	begin
+		if (clk_11_in'event and clk_11_in='1') then
+			count:=count+1;
+			if (count>22120) then --500hz
+				count:=0;
+				clk_500<=not clk_500;
+			end if;
+		end if;
+	end process;
+
+	process(clk_11_in)
+	variable count:integer:=0;
+	begin
+		if (clk_11_in'event and clk_11_in='1') then
+			count:=count+1;
+			if (count>11059) then --1000hz
+				count:=0;
+				clk_1000<=not clk_1000;
+			end if;
+		end if;
+	end process;
+
+	process (sw_clk) 
+	begin
+		case sw_clk is
+		
+			when "000" =>
+				clk<=clk_hand_in;
+			when "001" =>
+				clk<=clk_10;
+			when "010" =>
+				clk<=clk_100;
+			when "011" =>
+				clk<=clk_500;
+			when "100" =>
+				clk<=clk_1000;				
+			when others =>
+				clk<='0';
+		end case ;
+	end process;
+
+	pc_test(7 downto 0) <= pc_inst(7 downto 0) ;
+	pc_test(15 downto 8)<= pc_data(15 downto 8);
+	--pc_test(15 downto 0)<=pc_data;
 
 	pc0:entity work.pc port map(
 		stall=>stall_pc, 
@@ -221,7 +276,7 @@ begin
 		mem_we => ram2_we_i,
 		mem_ce => ram2_ce_i,
 
-		--ramn2
+		--ram2
 		ram_data => dev_ram2_data,
 		ram_addr_o => dev_ram2_addr_o,
 		ram_oe_o => dev_ram2_oe_o,
@@ -355,7 +410,7 @@ begin
 	
 	mem0: entity work.mem port map(
 		rst => rst ,
-		--寄存�		
+		--å¯„å­˜ï�	
 		we_i => we_mem_i,
 		waddr_i => waddr_mem_i,
 		wdata_i => wdata_mem_i,

@@ -88,9 +88,9 @@ NET "dev_ram2_data[2]" LOC = T15;
 NET "dev_ram2_data[1]" LOC = T16;
 NET "dev_ram2_data[0]" LOC = U13;
 
-#NET "clk_in" LOC = U9;#by hand
-NET "clk_in" LOC = B8; # 11Mhz
-#NET "clk_in" LOC = B9; # 50Mhz
+NET "clk_hand_in" LOC = U9;#by hand
+NET "clk_11_in" LOC = B8; # 11Mhz
+NET "clk_50_in" LOC = B9; # 50Mhz
 NET "rst" LOC = U10;
 
 #LED
@@ -111,9 +111,15 @@ NET "pc_test[2]" LOC = A11;
 NET "pc_test[1]" LOC = E10;
 NET "pc_test[0]" LOC = D10;
 
+#debug -> digit
 NET "clk_out" LOC = F8;
 NET "data_ready_out" LOC = C9;
 NET "tbre_out" LOC = B10;
 NET "tsre_out" LOC = F9;
 
+#debug -> sw0
 NET "stall" LOC = T7;
+NET "sw_clk[0]" LOC = R7;
+NET "sw_clk[1]" LOC = U8;
+NET "sw_clk[2]" LOC = V4;
+
