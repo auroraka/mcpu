@@ -6,8 +6,8 @@ USE IEEE.NUMERIC_STD.ALL ;
 USE WORK.PACK.ALL ;
 
 entity ram1_ctrl is port(
-	rst :       in STD_LOGIC;
 	clk :		in	STD_LOGIC;
+	rst : 		in STD_LOGIC;
 	--mem
 	mem_data_i : 	in 	DataBus ;
 	mem_data_o : 	out DataBus ;
@@ -32,106 +32,78 @@ entity ram1_ctrl is port(
 end ram1_ctrl ;
 
 architecture Behavioral of ram1_ctrl is
-	type STATUS is (PORT_READ, PORT_WRITE, PORT_CHECK, MEM_READ,MEM_WRITE, IDLE);
-	signal state : STATUS := IDLE;
+	signal flag: STD_LOGIC :='0';
+	signal data_flag: DataBus := (others => '0');
+	signal tempRamData: STD_LOGIC_VECTOR(15 downto 0) := (others => '0');
 begin
-	process (clk,rst,mem_addr_i,mem_data_i,mem_re,mem_we,mem_ce) begin
-		if (rst = RstEnable) then
-			state<=IDLE;
+	ram_addr_o(17 downto 16)<="00";
+	process(mem_addr_i)
+	begin
+		if(rst=RstDisable and mem_addr_i = "1011111100000000")then
+			flag<='1';
 		else
-			if (mem_ce = RamChipEnable) then
-				if (mem_addr_i = "1011111100000000") then
-					if (mem_re =  RamReadEnable) then
-						state<=PORT_READ;
-					elsif (mem_we = RamWriteEnable) then
-						state<=PORT_WRITE;
-					else 
-						state<=IDLE;
-					end if;
-				elsif (mem_addr_i = "1011111100000001") then
-					state<=PORT_CHECK;
-				else 
-					if (mem_re =  RamReadEnable) then
-						state<=MEM_READ;
-					elsif (mem_we = RamWriteEnable) then
-						state<=MEM_WRITE;
-					else
-						state<=IDLE;
-					end if;
-				end if;
-			else 
-				state<=IDLE;
-			end if;	
+			flag<='0';
 		end if;
 	end process;
-
-	process(clk,rst,state,mem_addr_i,mem_data_i,mem_re,mem_we,mem_ce,ram_data_bi,ram_data_ready_i,ram_tsre_i,ram_tbre_i) begin
-		if (rst = RstEnable) then
-			mem_data_o<=HighImpWord;
-			ram_en_o<='1';
+	ram_rdn_o<= not (flag and mem_re and not clk);
+	ram_wrn_o<= not (flag and mem_we and not clk);
+	ram_we_o<= not mem_we or clk or flag;
+	mem_data_o<= (not data_flag or ram_data_bi) and (data_flag or tempRamData);
+	process(mem_ce,mem_we,mem_re,mem_addr_i,mem_data_i)
+	begin
+		if rst = RstDisable and mem_ce = RamChipDisable then
+			tempRamData<=ZeroData;
+			ram_data_bi<=ZeroData;
+			data_flag<=ZeroData;
 			ram_oe_o<='1';
-			ram_we_o<='1';
-			ram_wrn_o<='1';
-			ram_rdn_o<='1';
+			ram_en_o<=RamDisable;
 		else
-			case state is 
-				when PORT_READ =>
+			if (mem_re = RamReadEnable) then
+				if (mem_addr_i = "1011111100000001") then --0xBF01
+					ram_oe_o<='1';
+					ram_en_o<=RamDisable;
+					ram_data_bi<=ZeroData;
+					tempRamData<="00000000000000" & ram_data_ready_i & ram_tsre_i;
+					data_flag<=ZeroData;
+				elsif (flag = '1') then --0xBF00
+					ram_oe_o<='1';
+					ram_en_o<=RamDisable;
 					ram_data_bi<=HighImpWord;
-					ram_addr_o<="00" & ZeroData;
-					ram_en_o<='1';
-					ram_oe_o<='1';
-					ram_we_o<='1';
-					ram_rdn_o<=clk;
-					ram_wrn_o<='1';
-				when PORT_WRITE =>
-					ram_data_bi<=mem_data_i;
-					ram_addr_o<="00" & ZeroData;
-					ram_en_o<='1';
-					ram_oe_o<='1';
-					ram_we_o<='1';
-					ram_rdn_o<='1';
-					ram_wrn_o<=clk;
-				when PORT_CHECK =>
-					ram_data_bi <= "00000000000000" & ram_data_ready_i & (ram_tbre_i and ram_tsre_i);
-					ram_addr_o <= "00" & ZeroData;
-					ram_en_o<='1';
-					ram_oe_o<='1';
-					ram_we_o<='1';	
-					ram_rdn_o<='1';
-					ram_wrn_o<='1';
-				when MEM_READ =>
-					ram_data_bi<=HighImpWord;
-					ram_addr_o<="00" & ZeroData;
-					ram_en_o<=clk;
+					data_flag<=(others => '1');
+				else -- ram Read
+					ram_en_o<=RamEnable;
 					ram_oe_o<='0';
-					ram_we_o<='1';
-					ram_rdn_o<='1';
-					ram_wrn_o<='1';
-				when MEM_WRITE =>
+					ram_addr_o(15 downto 0)<=mem_addr_i;
+					ram_data_bi<=HighImpWord;
+					data_flag<=(others => '1');
+				end if;	
+			elsif (mem_we = RamWriteEnable) then 
+				if (mem_addr_i = "1011111100000001") then --0xBF01
+					-- not enable to write 0xBF01
+					ram_data_bi<=ZeroData;
+					data_flag<=ZeroData;
+				elsif (flag = '1') then --0xBF00
+					ram_en_o<=RamDisable;
+					ram_oe_o<='1';
 					ram_data_bi<=mem_data_i;
-					ram_addr_o<="00" & mem_addr_i;
-					ram_en_o<=clk;
-					ram_oe_o<='1';
-					ram_we_o<='0';
-					ram_rdn_o<='1';
-					ram_wrn_o<='1';
-				when IDLE =>
-					ram_data_bi<=HighImpWord;
-					ram_addr_o<="00" & ZeroData;
-					ram_en_o<='1';
-					ram_oe_o<='1';
-					ram_we_o<='1';
-					ram_rdn_o<='1';
-					ram_wrn_o<='1';
-				when others =>
-					ram_data_bi<=HighImpWord;
-					ram_addr_o<="00" & ZeroData;
-					ram_en_o<='1';
-					ram_oe_o<='1';
-					ram_we_o<='1';
-					ram_rdn_o<='1';
-					ram_wrn_o<='1';				
-			end case;
+					ram_addr_o(15 downto 0)<=mem_addr_i;
+					data_flag<=ZeroData;
+				else -- ram write
+					ram_en_o<=RamEnable;
+					ram_oe_o<='0';
+					ram_addr_o(15 downto 0)<=mem_addr_i;
+					ram_data_bi<=mem_data_i;
+					data_flag<=ZeroData;
+				end if;
+			else
+				tempRamData<=ZeroData;
+				data_flag<=ZeroData;
+				ram_data_bi<=ZeroData;
+				--据说应该改一下
+				
+				ram_oe_o<='1';
+				ram_en_o<=RamDisable;
+			end if ;
 		end if;
 	end process;
 end Behavioral ;
