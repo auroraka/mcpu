@@ -1,4 +1,4 @@
--- mcpu,connect wire
+                                                                                                                                                                                                                                                                                                            -- mcpu,connect wire
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 USE WORK.PACK.ALL ;
