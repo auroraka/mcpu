@@ -57,6 +57,7 @@ begin
 			data_flag<=ZeroData;
 			ram_oe_o<='1';
 			ram_en_o<=RamDisable;
+			--ram_addr_o(15 downto 0)<=
 		else
 			if (mem_re = RamReadEnable) then
 				if (mem_addr_i = "1011111100000001") then --0xBF01
@@ -73,7 +74,8 @@ begin
 				else -- ram Read
 					ram_en_o<=RamEnable;
 					ram_oe_o<='0';
-					ram_addr_o(15 downto 0)<=mem_addr_i;
+					ram_addr_o(15)<='0';
+					ram_addr_o(14 downto 0)<=mem_addr_i(14 downto 0);
 					ram_data_bi<=HighImpWord;
 					data_flag<=(others => '1');
 				end if;	
@@ -91,7 +93,8 @@ begin
 				else -- ram write
 					ram_en_o<=RamEnable;
 					ram_oe_o<='0';
-					ram_addr_o(15 downto 0)<=mem_addr_i;
+					ram_addr_o(15)<='0';
+					ram_addr_o(14 downto 0)<=mem_addr_i(14 downto 0);
 					ram_data_bi<=mem_data_i;
 					data_flag<=ZeroData;
 				end if;
