@@ -177,12 +177,15 @@ end component ;
 
 
 signal clk: STD_LOGIC:='0';
-signal clk_10: STD_LOGIC:='0';
-signal clk_100: STD_LOGIC:='0';
-signal clk_1000: STD_LOGIC:='0';
-signal clk_10000: STD_LOGIC:='0';
+-- signal clk_10: STD_LOGIC:='0';
+-- signal clk_100: STD_LOGIC:='0';
+-- signal clk_1000 : STD_LOGIC:='0';
+-- signal clk_10000: STD_LOGIC:='0';
 signal clk_100000: STD_LOGIC:='0';
 signal clk_1000000: STD_LOGIC:='0';
+signal clk_50_4 : STD_LOGIC := '0' ;
+signal clk_50_3 : STD_LOGIC := '0' ;
+signal clk_50_2 : STD_LOGIC := '0' ;
 
 begin
 	clk_out<=clk;
@@ -192,53 +195,89 @@ begin
 
 	--clk<=clk_in; --By Hand
 
-	process(clk_11_in)
-	variable count:integer:=0;
-	begin
-		if (clk_11_in'event and clk_11_in='1') then
-			count:=count+1;
-			if (count>1105920) then --10hz
-				count:=0;
-				clk_10<=not clk_10;
-			end if;
-		end if;
-	end process;
+	-- process(clk_11_in)
+	-- variable count:integer:=0;
+	-- begin
+		-- if (clk_11_in'event and clk_11_in='1') then
+			-- count:=count+1;
+			-- if (count>1105920) then --10hz
+				-- count:=0;
+				-- clk_10<=not clk_10;
+			-- end if;
+		-- end if;
+	-- end process;
 
-	process(clk_11_in)
-	variable count:integer:=0;
-	begin
-		if (clk_11_in'event and clk_11_in='1') then
-			count:=count+1;
-			if (count>110592) then --100hz
-				count:=0;
-				clk_100<=not clk_100;
-			end if;
-		end if;
-	end process;
+	-- process(clk_11_in)
+	-- variable count:integer:=0;
+	-- begin
+		-- if (clk_11_in'event and clk_11_in='1') then
+			-- count:=count+1;
+			-- if (count>110592) then --100hz
+				-- count:=0;
+				-- clk_100<=not clk_100;
+			-- end if;
+		-- end if;
+	-- end process;
 
-	process(clk_11_in)
-	variable count:integer:=0;
+	-- process(clk_11_in)
+	-- variable count:integer:=0;
+	-- begin
+		-- if (clk_11_in'event and clk_11_in='1') then
+			-- count:=count+1;
+			-- if (count>11059) then --1000hz
+				-- count:=0;
+				-- clk_1000<=not clk_1000;
+			-- end if;
+		-- end if;
+	-- end process;
+	
+	process(clk_50_in)
+	variable count : integer := 0 ;
 	begin
-		if (clk_11_in'event and clk_11_in='1') then
-			count:=count+1;
-			if (count>11059) then --1000hz
-				count:=0;
-				clk_1000<=not clk_1000;
-			end if;
-		end if;
-	end process;
-
-	process(clk_11_in)
-	variable count:integer:=0;
+		if(clk_50_in'event and clk_50_in = '1') then
+			count := count + 1 ;
+			if(count > 3) then -- 12.5Mhz
+				count := 0 ;
+				clk_50_4 <= not clk_50_4 ;
+			end if ;
+		end if ;
+	end process ;
+	
+	process(clk_50_in)
+	variable count : integer := 0 ;
 	begin
-		if (clk_11_in'event and clk_11_in='1') then
-			count:=count+1;
-			if (count>1106) then --10000hz
-				count:=0;
-				clk_10000<=not clk_10000;
-			end if;
-		end if;
-	end process;
+		if(clk_50_in'event and clk_50_in = '1') then
+			count := count + 1 ;
+			if(count > 2) then -- 17.5Mhz
+				count := 0 ;
+				clk_50_3 <= not clk_50_3 ;
+			end if ;
+		end if ;
+	end process ;
+	
+	process(clk_50_in)
+	variable count : integer := 0 ;
+	begin
+		if(clk_50_in'event and clk_50_in = '1') then
+			count := count + 1 ;
+			if(count > 1) then -- 25Mhz
+				count := 0 ;
+				clk_50_2 <= not clk_50_2 ;
+			end if ;
+		end if ;
+	end process ;
+	
+	-- process(clk_11_in)
+	-- variable count:integer:=0;
+	-- begin
+		-- if (clk_11_in'event and clk_11_in='1') then
+			-- count:=count+1;
+			-- if (count>1106) then --10000hz
+				-- count:=0;
+				-- clk_10000<=not clk_10000;
+			-- end if;
+		-- end if;
+	-- end process;
 
 	process(clk_11_in)
 	variable count:integer:=0;
@@ -272,13 +311,17 @@ begin
 			when "000" =>
 				clk<=clk_hand_in;
 			when "001" =>
-				clk<=clk_10;
+				--clk<=clk_10;
+				clk <= clk_50_4 ;
 			when "010" =>
-				clk<=clk_100;
+				--clk<=clk_100;
+				clk <= clk_50_3 ;
 			when "011" =>
-				clk<=clk_1000;
+				--clk<=clk_1000;
+				clk <= clk_50_2 ;
 			when "100" =>
-				clk<=clk_10000;				
+				--clk<=clk_10000;
+				clk <= clk_50_in ;
 			when "101" =>
 				clk<=clk_100000;				
 			when "110" =>
