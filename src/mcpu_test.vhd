@@ -13,17 +13,17 @@ entity mcpu_test is
 		inst_test : out InstBus
 		
 
-		-- dev_ram1_data_ready_i	:	in STD_LOGIC;
-		-- dev_ram1_tbre_i			:	in STD_LOGIC;
-		-- dev_ram1_tsre_i			:	in STD_LOGIC;
-		-- dev_ram1_data_bi			:	inout DataBus;
+		dev_ram1_data_ready_i	:	in STD_LOGIC;
+		dev_ram1_tbre_i			:	in STD_LOGIC;
+		dev_ram1_tsre_i			:	in STD_LOGIC;
+		dev_ram1_data_bi			:	inout DataBus;
 
-		-- dev_ram1_oe_o			:	out STD_LOGIC;
-		-- dev_ram1_en_o			:	out STD_LOGIC;
-		-- dev_ram1_we_o			:	out STD_LOGIC;
-		-- dev_ram1_addr_o			: 	out RamAddrBus;
-		-- dev_ram1_wrn_o			:	out STD_LOGIC;
-		-- dev_ram1_rdn_o			:	out STD_LOGIC;
+		dev_ram1_oe_o			:	out STD_LOGIC;
+		dev_ram1_en_o			:	out STD_LOGIC;
+		dev_ram1_we_o			:	out STD_LOGIC;
+		dev_ram1_addr_o			: 	out RamAddrBus;
+		dev_ram1_wrn_o			:	out STD_LOGIC;
+		dev_ram1_rdn_o			:	out STD_LOGIC;
 
 		-- dev_ram2_data : 		inout 	DataBus ;
 		-- dev_ram2_addr_o : 	out 	RamAddrBus ;
@@ -375,38 +375,38 @@ begin
 		stall_ex => stall_ex
 	) ;
 	
-	-- ram1_ctrl0: entity work.ram1_ctrl port map(
-		-- clk => clk ,
-		-- --mem
-		-- mem_data_i => ram1_data_i,
-		-- mem_data_o => ram1_data_o,
-		-- mem_addr_i => ram1_addr_i,
-		-- mem_re => ram1_re_i,
-		-- mem_we => ram1_we_i,
-		-- mem_ce => ram1_ce_i,
-
-		-- --ram
-		-- ram_data_ready_i => dev_ram1_data_ready_i,
-		-- ram_tbre_i => dev_ram1_tbre_i,
-		-- ram_tsre_i => dev_ram1_tsre_i,
-		-- ram_data_bi => dev_ram1_data_bi,
-
-		-- ram_oe_o => dev_ram1_oe_o,
-		-- ram_en_o => dev_ram1_en_o,
-		-- ram_we_o => dev_ram1_we_o,
-		-- ram_addr_o => dev_ram1_addr_o,
-		-- ram_wrn_o => dev_ram1_wrn_o,
-		-- ram_rdn_o => dev_ram1_rdn_o
-	-- ) ;
-	
-	ram1_ctrl0 : entity work.ram1_fake port map(
+	ram1_ctrl0: entity work.ram1_ctrl port map(
 		clk => clk ,
-		-- --mem
+		--mem
 		mem_data_i => ram1_data_i,
 		mem_data_o => ram1_data_o,
 		mem_addr_i => ram1_addr_i,
 		mem_re => ram1_re_i,
 		mem_we => ram1_we_i,
-		mem_ce => ram1_ce_i
+		mem_ce => ram1_ce_i,
+
+		--ram
+		ram_data_ready_i => dev_ram1_data_ready_i,
+		ram_tbre_i => dev_ram1_tbre_i,
+		ram_tsre_i => dev_ram1_tsre_i,
+		ram_data_bi => dev_ram1_data_bi,
+
+		ram_oe_o => dev_ram1_oe_o,
+		ram_en_o => dev_ram1_en_o,
+		ram_we_o => dev_ram1_we_o,
+		ram_addr_o => dev_ram1_addr_o,
+		ram_wrn_o => dev_ram1_wrn_o,
+		ram_rdn_o => dev_ram1_rdn_o
 	) ;
+	
+	-- ram1_ctrl0 : entity work.ram1_fake port map(
+		-- clk => clk ,
+		-- -- --mem
+		-- mem_data_i => ram1_data_i,
+		-- mem_data_o => ram1_data_o,
+		-- mem_addr_i => ram1_addr_i,
+		-- mem_re => ram1_re_i,
+		-- mem_we => ram1_we_i,
+		-- mem_ce => ram1_ce_i
+	-- ) ;
 end Behavioral ;
