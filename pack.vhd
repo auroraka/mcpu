@@ -40,8 +40,8 @@ subtype DataAddrBus is STD_lOGIC_VECTOR (15 downto 0) ;
 subtype DataBus is STD_lOGIC_VECTOR(15 downto 0) ;
 constant ZeroData : DataBus := "0000000000000000" ;
 constant ZeroDataAddr : DataAddrBus := "0000000000000000" ;
-constant PORT1_ADDR_DATA : DataAddrBus := "1011111100000001"  ;
-constant PORT1_ADDR_EN : DataAddrBus := "1011111100000000" ;
+constant PORT1_ADDR_DATA : DataAddrBus := "1011111100000000"  ;
+constant PORT1_ADDR_EN : DataAddrBus := "1011111100000001" ;
 
 --inst_mem
 constant InstValid : STD_lOGIC := '0' ;
