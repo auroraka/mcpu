@@ -1,0 +1,31 @@
+nop	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0
+b	0	0	0	1	0	imm										
+beqz	0	0	1	0	0	rx			imm							
+bnez	0	0	1	0	1	rx			imm							
+sll	0	0	1	1	0	rx			ry			imm			0	0
+sra	0	0	1	1	0	rx			ry			imm			1	1
+srl	0	0	1	1	0	rx			ry			imm			1	0
+addiu3	0	1	0	0	0	rx			ry			0	imm			
+addiu	0	1	0	0	1	rx			imm							
+bteqz	0	1	1	0	0	0	0	0	imm							
+addsp	0	1	1	0	0	0	1	1	imm							
+mtsp	0	1	1	0	0	1	0	0	rx			0	0	0	0	0
+li	0	1	1	0	1	rx			imm							
+cmpi	0	1	1	1	0	rx			imm							
+move	0	1	1	1	1	rx			ry			0	0	0	0	0
+lw_sp	1	0	0	1	0	rx			imm							
+lw	1	0	0	1	1	rx			ry			imm				
+sw_sp	1	1	0	1	0	rx			imm							
+sw	1	1	0	1	1	rx			ry			imm				
+addu	1	1	1	0	0	rx			ry			rz			0	1
+subu	1	1	1	0	0	rx			ry			rz			1	1
+mfpc	1	1	1	0	1	rx			0	1	0	0	0	0	0	0
+jr	1	1	1	0	1	rx			0	0	0	0	0	0	0	0
+sllv	1	1	1	0	1		rx			ry		0	0	1	0	0
+cmp	1	1	1	0	1	rx			ry			0	1	0	1	0
+neg	1	1	1	0	1	rx			ry			0	1	0	1	1
+and	1	1	1	0	1	rx			ry			0	1	1	0	0
+or	1	1	1	0	1	rx			ry			0	1	1	0	1
+mfih	1	1	1	1	0	rx			0	0	0	0	0	0	0	0
+mtih	1	1	1	1	0	rx			0	0	0	0	0	0	0	1
+int	1	1	1	1	1	0	0	0	0	0	0	0	imm			

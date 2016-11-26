@@ -7,6 +7,7 @@ entity stall_ctrl is
 		rst : in STD_LOGIC ;
 		stallreq_id: in STD_LOGIC ;
 		stallreq_mem: in STD_LOGIC ;
+		stallreq_cpu: in STD_LOGIC;
 		
 		stall_pc: out STD_LOGIC ;
 		stall_id: out STD_LOGIC ;
@@ -34,6 +35,8 @@ begin
 				tmp_id := StallYes ;
 			elsif (stallreq_mem = StallYes) then
 				tmp_pc := StallYes ;
+			elsif (stallreq_cpu = StallYes) then
+				tmp_pc := StallYes;				
 			end if ;
 		end if ;
 		stall_pc <= tmp_pc ;

@@ -6,8 +6,11 @@ USE WORK.PACK.ALL ;
 entity mcpu is
 	Port(
 		rst: in STD_LOGIC ;
-		clk: in STD_LOGIC ;
-		--stall: in STD_LOGIC ;
+		clk_hand_in: in STD_LOGIC ;
+		clk_11_in: in STD_LOGIC ;
+		clk_50_in: in STD_LOGIC ;
+		sw_clk:in STD_LOGIC_VECTOR(2 downto 0);
+		stall: in STD_LOGIC ;
 		pc_test : out InstAddrBus;
 
 		dev_ram1_data_ready_i	:	in STD_LOGIC;
@@ -26,8 +29,13 @@ entity mcpu is
 		dev_ram2_addr_o : 	out 	RamAddrBus ;
 		dev_ram2_oe_o :		out 	STD_LOGIC ;
 		dev_ram2_we_o :		out 	STD_LOGIC ;
-		dev_ram2_en_o :		out 	STD_LOGIC 
-
+		dev_ram2_en_o :		out 	STD_LOGIC ;
+		
+		clk_out : out STD_LOGIC;
+		tbre_out: out STD_LOGIC;
+		tsre_out: out STD_LOGIC;
+		data_ready_out: out STD_LOGIC;
+		ram1_data_out: out STD_LOGIC_VECTOR(6 downto 0)
 	) ;
 end mcpu ;
 
@@ -96,6 +104,14 @@ signal ram1_ce_i: STD_LOGIC := RamChipDisable;
 signal ram1_we_i: STD_LOGIC := RamWriteDisable;
 signal ram1_re_i: STD_LOGIC := RamReadDisable;
 
+component seg_displayer is
+	port(
+		isHex : in STD_LOGIC;
+		num : in STD_LOGIC_VECTOR(3 downto 0);
+		seg : out STD_LOGIC_VECTOR(6 downto 0)
+	) ;
+end component ;
+
 component id is
 	port(
 		rst : in STD_LOGIC ;
@@ -159,9 +175,135 @@ component mem_wb is
 	) ;
 end component ;
 
+
+signal clk: STD_LOGIC:='0';
+signal clk_10: STD_LOGIC:='0';
+signal clk_100: STD_LOGIC:='0';
+signal clk_1000: STD_LOGIC:='0';
+signal clk_10000: STD_LOGIC:='0';
+signal clk_100000: STD_LOGIC:='0';
+signal clk_1000000: STD_LOGIC:='0';
+
 begin
-	pc_test(7 downto 0) <= pc_inst(7 downto 0) ;
-	pc_test(15 downto 8)<= pc_data(15 downto 8);
+	clk_out<=clk;
+	tbre_out<=dev_ram1_tbre_i;
+	tsre_out<=dev_ram1_tsre_i;
+	data_ready_out<=dev_ram1_data_ready_i;
+
+	--clk<=clk_in; --By Hand
+
+	process(clk_11_in)
+	variable count:integer:=0;
+	begin
+		if (clk_11_in'event and clk_11_in='1') then
+			count:=count+1;
+			if (count>1105920) then --10hz
+				count:=0;
+				clk_10<=not clk_10;
+			end if;
+		end if;
+	end process;
+
+	process(clk_11_in)
+	variable count:integer:=0;
+	begin
+		if (clk_11_in'event and clk_11_in='1') then
+			count:=count+1;
+			if (count>110592) then --100hz
+				count:=0;
+				clk_100<=not clk_100;
+			end if;
+		end if;
+	end process;
+
+	process(clk_11_in)
+	variable count:integer:=0;
+	begin
+		if (clk_11_in'event and clk_11_in='1') then
+			count:=count+1;
+			if (count>11059) then --1000hz
+				count:=0;
+				clk_1000<=not clk_1000;
+			end if;
+		end if;
+	end process;
+
+	process(clk_11_in)
+	variable count:integer:=0;
+	begin
+		if (clk_11_in'event and clk_11_in='1') then
+			count:=count+1;
+			if (count>1106) then --10000hz
+				count:=0;
+				clk_10000<=not clk_10000;
+			end if;
+		end if;
+	end process;
+
+	process(clk_11_in)
+	variable count:integer:=0;
+	begin
+		if (clk_11_in'event and clk_11_in='1') then
+			count:=count+1;
+			if (count>110) then --100000hz
+				count:=0;
+				clk_100000<=not clk_100000;
+			end if;
+		end if;
+	end process;
+
+	process(clk_11_in)
+	variable count:integer:=0;
+	begin
+		if (clk_11_in'event and clk_11_in='1') then
+			count:=count+1;
+			if (count>11) then --1Mhz
+				count:=0;
+				clk_1000000<=not clk_1000000;
+			end if;
+		end if;
+	end process;
+
+
+	process (sw_clk) 
+	begin
+		case sw_clk is
+		
+			when "000" =>
+				clk<=clk_hand_in;
+			when "001" =>
+				clk<=clk_10;
+			when "010" =>
+				clk<=clk_100;
+			when "011" =>
+				clk<=clk_1000;
+			when "100" =>
+				clk<=clk_10000;				
+			when "101" =>
+				clk<=clk_100000;				
+			when "110" =>
+				clk<=clk_1000000;				
+			when "111" =>
+				clk<=clk_11_in;				
+			when others =>
+				clk<='0';
+		end case ;
+	end process;
+
+
+	seg_displayer0: seg_displayer port map(
+		isHex => '1',
+		num => ram1_data_o(3 downto 0),
+		seg => ram1_data_out
+	) ;
+	
+
+	pc_test(10 downto 0) <= pc_inst(10 downto 0) ;
+	pc_test(15 downto 11)<= pc_data(15 downto 11);
+	--pc_test(7 downto 0) <= pc_inst(7 downto 0) ;
+	--pc_test(15 downto 8)<= pc_data(15 downto 8);
+	--pc_test(15 downto 0)<=pc_data;
+
 	pc0:entity work.pc port map(
 		stall=>stall_pc, 
 		clk=>clk, 
@@ -186,7 +328,7 @@ begin
 		mem_we => ram2_we_i,
 		mem_ce => ram2_ce_i,
 
-		--ramn2
+		--ram2
 		ram_data => dev_ram2_data,
 		ram_addr_o => dev_ram2_addr_o,
 		ram_oe_o => dev_ram2_oe_o,
@@ -320,7 +462,7 @@ begin
 	
 	mem0: entity work.mem port map(
 		rst => rst ,
-		--寄存�
+		--å¯„å­˜ï�	
 		we_i => we_mem_i,
 		waddr_i => waddr_mem_i,
 		wdata_i => wdata_mem_i,
@@ -353,6 +495,8 @@ begin
 		rst => rst ,
 		stallreq_id => stallreq_id_o, 
 		stallreq_mem => stallreq_mem_o,
+		--stallreq_cpu => StallNo,
+		stallreq_cpu => stall,
 		
 		stall_pc => stall_pc,
 		stall_id => stall_id, 
@@ -360,6 +504,7 @@ begin
 	) ;
 	
 	ram1_ctrl0: entity work.ram1_ctrl port map(
+		rst=>rst,
 		clk => clk ,
 		--mem
 		mem_data_i => ram1_data_i,

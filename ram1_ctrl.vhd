@@ -7,6 +7,7 @@ USE WORK.PACK.ALL ;
 
 entity ram1_ctrl is port(
 	clk :		in	STD_LOGIC;
+	rst : 		in STD_LOGIC;
 	--mem
 	mem_data_i : 	in 	DataBus ;
 	mem_data_o : 	out DataBus ;
@@ -38,7 +39,7 @@ begin
 	ram_addr_o(17 downto 16)<="00";
 	process(mem_addr_i)
 	begin
-		if(mem_addr_i = "1011111100000000")then
+		if(rst=RstDisable and mem_addr_i = "1011111100000000")then
 			flag<='1';
 		else
 			flag<='0';
@@ -50,10 +51,12 @@ begin
 	mem_data_o<= (not data_flag or ram_data_bi) and (data_flag or tempRamData);
 	process(mem_ce,mem_we,mem_re,mem_addr_i,mem_data_i)
 	begin
-		if mem_ce = RamChipDisable then
+		if rst = RstDisable and mem_ce = RamChipDisable then
 			tempRamData<=ZeroData;
 			ram_data_bi<=ZeroData;
 			data_flag<=ZeroData;
+			ram_oe_o<='1';
+			ram_en_o<=RamDisable;
 		else
 			if (mem_re = RamReadEnable) then
 				if (mem_addr_i = "1011111100000001") then --0xBF01
@@ -96,6 +99,8 @@ begin
 				tempRamData<=ZeroData;
 				data_flag<=ZeroData;
 				ram_data_bi<=ZeroData;
+				ram_oe_o<='1';
+				ram_en_o<=RamDisable;
 			end if ;
 		end if;
 	end process;

@@ -18,7 +18,6 @@ modelsim.ini
 **/*.ngd
 **/*.ngr
 **/*.bgn
-**/*.bit
 **/*.drc
 **/*.ut
 **/*.xst
