@@ -48,6 +48,7 @@ begin
 	ram_rdn_o<= not (flag and mem_re and not clk);
 	ram_wrn_o<= not (flag and mem_we and not clk);
 	ram_we_o<= not mem_we or clk or flag;
+	ram_oe_o<= not mem_re or clk or flag;
 	mem_data_o<= (not data_flag or ram_data_bi) and (data_flag or tempRamData);
 	process(mem_ce,mem_we,mem_re,mem_addr_i,mem_data_i)
 	begin
@@ -55,54 +56,64 @@ begin
 			tempRamData<=ZeroData;
 			ram_data_bi<=ZeroData;
 			data_flag<=ZeroData;
-			ram_oe_o<='1';
+--			ram_oe_o<='1';
 			ram_en_o<=RamDisable;
-			--ram_addr_o(15 downto 0)<=
+			ram_addr_o(15 downto 0)<=ZeroDataAddr(15 downto 0);
 		else
 			if (mem_re = RamReadEnable) then
 				if (mem_addr_i = "1011111100000001") then --0xBF01
-					ram_oe_o<='1';
+--					ram_oe_o<='1';
 					ram_en_o<=RamDisable;
 					ram_data_bi<=ZeroData;
+					ram_addr_o(15 downto 0)<=ZeroDataAddr(15 downto 0);
 					tempRamData<="00000000000000" & ram_data_ready_i & ram_tsre_i;
 					data_flag<=ZeroData;
 				elsif (flag = '1') then --0xBF00
-					ram_oe_o<='1';
+--					ram_oe_o<='1';
 					ram_en_o<=RamDisable;
 					ram_data_bi<=HighImpWord;
+					ram_addr_o(15 downto 0)<=ZeroDataAddr(15 downto 0);
+					tempRamData<=(others=>'0');
 					data_flag<=(others => '1');
 				else -- ram Read
 					ram_en_o<=RamEnable;
-					ram_oe_o<='0';
+--					ram_oe_o<='0';
 					ram_addr_o(15)<='0';
 					ram_addr_o(14 downto 0)<=mem_addr_i(14 downto 0);
 					ram_data_bi<=HighImpWord;
 					data_flag<=(others => '1');
+					tempRamData<=(others=>'0');
 				end if;	
 			elsif (mem_we = RamWriteEnable) then 
 				if (mem_addr_i = "1011111100000001") then --0xBF01
 					-- not enable to write 0xBF01
+					ram_en_o<=RamDisable;
+					ram_addr_o(15 downto 0)<=ZeroDataAddr(15 downto 0);
 					ram_data_bi<=ZeroData;
+					tempRamData<=(others=>'0');
 					data_flag<=ZeroData;
 				elsif (flag = '1') then --0xBF00
 					ram_en_o<=RamDisable;
-					ram_oe_o<='1';
+--					ram_oe_o<='1';
 					ram_data_bi<=mem_data_i;
 					ram_addr_o(15 downto 0)<=mem_addr_i;
 					data_flag<=ZeroData;
+					tempRamData<=(others=>'0');
 				else -- ram write
 					ram_en_o<=RamEnable;
-					ram_oe_o<='0';
+--					ram_oe_o<='0';
 					ram_addr_o(15)<='0';
 					ram_addr_o(14 downto 0)<=mem_addr_i(14 downto 0);
 					ram_data_bi<=mem_data_i;
 					data_flag<=ZeroData;
+					tempRamData<=(others=>'0');
 				end if;
 			else
+				ram_addr_o(15 downto 0)<=ZeroDataAddr(15 downto 0);
 				tempRamData<=ZeroData;
 				data_flag<=ZeroData;
 				ram_data_bi<=ZeroData;
-				ram_oe_o<='1';
+--				ram_oe_o<='1';
 				ram_en_o<=RamDisable;
 			end if ;
 		end if;
