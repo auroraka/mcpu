@@ -9,7 +9,8 @@ entity mcpu_test is
 		rst: in STD_LOGIC ;
 		clk: in STD_LOGIC ;
 		--stall: in STD_LOGIC ;
-		pc_test : out InstAddrBus 
+		pc_test : out InstAddrBus ;
+		inst_test : out InstBus
 		
 
 		-- dev_ram1_data_ready_i	:	in STD_LOGIC;
@@ -206,6 +207,8 @@ begin
 		mem_we => ram2_we_i,
 		mem_ce => ram2_ce_i
 	) ;
+	
+	inst_test <= pc_data ;
 	
 	if_id0: entity work.if_id port map(
 		rst => rst ,

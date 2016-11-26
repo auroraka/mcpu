@@ -19,7 +19,7 @@ entity ram1_ctrl is port(
 	ram_data_ready_i	:	in STD_LOGIC;
 	ram_tbre_i			:	in STD_LOGIC;
 	ram_tsre_i			:	in STD_LOGIC;
-	ram_data_bi			:	inout DataBus;
+	ram_data_i			:	inout DataBus;
 
 	ram_oe_o			:	out STD_LOGIC;
 	ram_en_o			:	out STD_LOGIC;
