@@ -10,7 +10,7 @@ B START ;#0000011
 NOP     ;#0000100
 
 DELINT:   ;中断处理程序
-	NOP
+	NOP ;#0000101
 	NOP
 	NOP
 	;保存用户程序现场

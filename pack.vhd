@@ -50,6 +50,7 @@ subtype InstAddrBus is STD_LOGIC_VECTOR (15 downto 0) ;
 subtype InstBus is STD_lOGIC_VECTOR (15 downto 0) ;
 constant ZeroInst : Word := "0000000000000000" ;
 constant NopInst: Word := "0000100000000000" ;
+constant IntInstAddr : DataAddrBus := "0000000000000101" ;
 constant ZeroInstAddr : Word := "0000000000000000" ;
 
 --regs 

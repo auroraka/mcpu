@@ -7,6 +7,7 @@ module mcpu_test_tb ;
 	//input
 	reg rst ;
 	reg clk ;
+	reg stallreq_cpu ;
 
 	//output
 	wire [15:0] pc_test ;
@@ -14,6 +15,7 @@ module mcpu_test_tb ;
 	mcpu_test mcpu0(
 		.rst(rst),
 		.clk(clk),
+		.stallreq_cpu(stallreq_cpu),
 		
 		.pc_test(pc_test)
 	) ;
@@ -25,8 +27,9 @@ module mcpu_test_tb ;
 	
 	initial begin
 		rst = `RstEnable ;
+		stallreq_cpu = `StallNo ;
 		
-		#30 ;
+		#20 ;
 		rst = `RstDisable ;
 		
 		#10000 $stop ;

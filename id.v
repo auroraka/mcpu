@@ -17,6 +17,9 @@ module id(
 	input wire mem_we_i,
 	input wire[`RegAddrBus] mem_waddr_i,
 	input wire[`DataBus] mem_wdata_i,
+	input wire int_state ,
+	
+	input wire[`MemRWBus] ex_mem_rw,
 
 	//input wire[`DataBus] reg0_data_i,
 	//input wire[`DataBus] reg1_data_i,
@@ -24,8 +27,8 @@ module id(
 
 	output reg[`AluSelBus] alusel_o,
 	output reg[`AluOpBus] aluop_o,
-	output reg[`DataBus] reg0_data_o,
-	output reg[`DataBus] reg1_data_o,
+	output reg[`DataBus] reg0_o,
+	output reg[`DataBus] reg1_o,
 	output reg reg0_re_o,
 	output reg reg1_re_o,
 	output reg[`RegAddrBus] reg0_addr_o,
@@ -39,8 +42,8 @@ module id(
 	output reg[`InstAddrBus] branch_addr_o
 );
 
-reg[`DataBus] reg0_o;
-reg[`DataBus] reg1_o;
+//reg[`DataBus] reg0_o;
+//reg[`DataBus] reg1_o;
 
 //more details see inst_list_types.pptx
 wire[4:0] op=inst_i[15:11];
@@ -73,7 +76,6 @@ wire[15:0] immint = {12'b0, inst_i[3:0]} ; //中断号
 
 reg [15:0]id_get_reg0;
 reg [15:0]id_get_reg1;
-reg int_state ; //int 处理状态机
 
 wire reg0_eq_zero = (id_get_reg0 == 16'b0);
 wire reg1_eq_zero = (id_get_reg1 == 16'b0);
@@ -93,12 +95,10 @@ always @ (*) begin
 		reg0_addr_o<=`ZeroRegAddr;
 		reg1_addr_o<=`ZeroRegAddr;
 		
-		stall_req<=`StallNo;
 		stall_req_int <= `StallNo ;
 		branch_flag_o<=`BranchFlagDown;
 		branch_addr_o<=`ZeroInstAddr;
-		
-		int_state <= 0 ;
+	
 
 	end else begin
 		//$display("op is %b",op);
@@ -113,9 +113,7 @@ always @ (*) begin
 		reg1_re_o<=`ReadDisable;
 		reg0_addr_o<=`ZeroRegAddr;
 		reg1_addr_o<=`ZeroRegAddr;
-		stall_req<=`StallNo;
 		stall_req_int <= `StallNo ;
-		stall_r
 		branch_flag_o<=`BranchFlagDown;
 		branch_addr_o<=`ZeroInstAddr;
 		case (op)
@@ -158,7 +156,7 @@ always @ (*) begin
 						aluop_o<=`EXE_OP_SLL;
 						we_o<=`WriteEnable;
 						waddr_o<=rx;
-						reg0_o<=reg0_data_i;
+						reg0_o<=id_get_reg0;
 						reg1_o<=immrz;
 						reg0_re_o<=`ReadEnable;
 						reg0_addr_o<=ry;
@@ -168,7 +166,7 @@ always @ (*) begin
 						aluop_o<=`EXE_OP_SRL;
 						we_o<=`WriteEnable;
 						waddr_o<=rx;
-						reg0_o<=reg0_data_i;
+						reg0_o<=id_get_reg0;
 						reg1_o<=immrz;
 						reg0_re_o<=`ReadEnable;
 						reg0_addr_o<=ry;
@@ -178,7 +176,7 @@ always @ (*) begin
 						aluop_o<=`EXE_OP_SRA;
 						we_o<=`WriteEnable;
 						waddr_o<=rx;
-						reg0_o<=reg0_data_i;
+						reg0_o<=id_get_reg0;
 						reg1_o<=immrz;
 						reg0_re_o<=`ReadEnable;
 						reg0_addr_o<=ry;
@@ -191,7 +189,7 @@ always @ (*) begin
 				aluop_o<=`EXE_OP_ADDIU3;
 				we_o<=`WriteEnable;
 				waddr_o<=ry;						
-				reg0_o<=reg0_data_i;
+				reg0_o<=id_get_reg0;
 				reg1_o<=imms;
 				reg0_re_o<=`ReadEnable;
 				reg0_addr_o<=rx;
@@ -202,7 +200,7 @@ always @ (*) begin
 				aluop_o<=`EXE_OP_ADDIU;
 				we_o<=`WriteEnable;
 				waddr_o<=rx;						
-				reg0_o<=reg0_data_i;
+				reg0_o<=id_get_reg0;
 				reg1_o<=imml;
 				reg0_re_o<=`ReadEnable;
 				reg0_addr_o<=rx;
@@ -232,7 +230,7 @@ always @ (*) begin
 						aluop_o<=`EXE_OP_ADDSP;
 						we_o<=`WriteEnable;
 						waddr_o<=rx;						
-						reg0_o<=reg0_data_i;
+						reg0_o<=id_get_reg0;
 						reg1_o<=imml;
 						reg0_re_o<=`ReadEnable;
 						reg0_addr_o<=`SP_Addr;
@@ -243,9 +241,9 @@ always @ (*) begin
 						aluop_o<=`EXE_OP_MTSP;
 						we_o<=`WriteEnable;
 						waddr_o<=`SP_Addr;
-						reg0_o<=reg0_data_i;
+						reg0_o<=id_get_reg0;
 						reg0_re_o<=`ReadEnable;
-						reg0_addr_o<=rx;
+						reg0_addr_o<=ry;
 					end
 				endcase
 			end
@@ -255,7 +253,6 @@ always @ (*) begin
 				aluop_o<=`EXE_OP_LI;
 				we_o<=`WriteEnable;
 				waddr_o<=rx;
-				//reg0_re_o<=`ReadEnable;
 				reg0_o<=immlu;
 			end
 			`OP_CMPI:begin
@@ -264,7 +261,7 @@ always @ (*) begin
 				aluop_o<=`EXE_OP_CMPI;
 				we_o<=`WriteEnable;
 				waddr_o<=`T_Addr;
-				reg0_o<=reg0_data_i;
+				reg0_o<=id_get_reg0;
 				reg1_o<=imml;
 				reg0_re_o<=`ReadEnable;
 				reg0_addr_o<=rx;
@@ -275,7 +272,7 @@ always @ (*) begin
 				aluop_o<=`EXE_OP_MOVE;
 				we_o<=`WriteEnable;
 				waddr_o<=rx;
-				reg0_o<=reg0_data_i;
+				reg0_o<=id_get_reg0;
 				reg0_re_o<=`ReadEnable;
 				reg0_addr_o<=ry;
 			end
@@ -285,7 +282,9 @@ always @ (*) begin
 				aluop_o<=`EXE_OP_LW_SP;
 				we_o<=`WriteEnable;
 				waddr_o<=rx;
-				reg0_o<=pc_i;
+				reg0_re_o <= `ReadEnable ;
+				reg0_addr_o <= `SP_Addr ;
+				reg0_o<=id_get_reg0;
 				reg1_o<=imml;
 			end
 			`OP_LW:begin
@@ -294,7 +293,7 @@ always @ (*) begin
 				aluop_o<=`EXE_OP_LW;
 				we_o<=`WriteEnable;
 				waddr_o<=ry;
-				reg0_o<=reg0_data_i;
+				reg0_o<=id_get_reg0;
 				reg1_o<=imms;
 				reg0_re_o<=`ReadEnable;
 				reg0_addr_o<=rx;
@@ -304,7 +303,7 @@ always @ (*) begin
 				alusel_o<=`EXE_SEL_LW;
 				aluop_o<=`EXE_OP_SW_SP;
 				reg0_o<=id_get_reg0+imml;
-				reg1_o<=reg1_data_i;
+				reg1_o<=id_get_reg1;
 				reg0_re_o<=`ReadEnable;
 				reg1_re_o<=`ReadEnable;
 				reg0_addr_o<=`SP_Addr;
@@ -315,7 +314,7 @@ always @ (*) begin
 				alusel_o<=`EXE_SEL_LW;
 				aluop_o<=`EXE_OP_SW;
 				reg0_o<=id_get_reg0+imms;
-				reg1_o<=reg1_data_i;
+				reg1_o<=id_get_reg1;
 				reg0_re_o<=`ReadEnable;
 				reg1_re_o<=`ReadEnable;
 				reg0_addr_o<=rx;
@@ -329,8 +328,8 @@ always @ (*) begin
 						aluop_o<=`EXE_OP_ADDU;
 						we_o<=`WriteEnable;
 						waddr_o<=rz;						
-						reg0_o<=reg0_data_i;
-						reg1_o<=reg1_data_i;
+						reg0_o<=id_get_reg0;
+						reg1_o<=id_get_reg1;
 						reg0_re_o<=`ReadEnable;
 						reg1_re_o<=`ReadEnable;
 						reg0_addr_o<=rx;
@@ -342,8 +341,8 @@ always @ (*) begin
 						aluop_o<=`EXE_OP_SUBU;
 						we_o<=`WriteEnable;
 						waddr_o<=rz;						
-						reg0_o<=reg0_data_i;
-						reg1_o<=reg1_data_i;
+						reg0_o<=id_get_reg0;
+						reg1_o<=id_get_reg1;
 						reg0_re_o<=`ReadEnable;
 						reg1_re_o<=`ReadEnable;
 						reg0_addr_o<=rx;
@@ -363,7 +362,7 @@ always @ (*) begin
 								aluop_o<=`EXE_OP_JR;
 								reg0_re_o<=`ReadEnable;
 								reg0_addr_o<=rx;
-								branch_addr_o<=reg0_data_i;
+								branch_addr_o<=id_get_reg0;
 								branch_flag_o<=`BranchFlagUp;	
 							end
 							`OP2_JRRA:begin
@@ -390,8 +389,8 @@ always @ (*) begin
 						aluop_o<=`EXE_OP_SLLV;
 						we_o<=`WriteEnable;
 						waddr_o<=ry;						
-						reg0_o<=reg0_data_i;
-						reg1_o<=reg1_data_i;
+						reg0_o<=id_get_reg0;
+						reg1_o<=id_get_reg1;
 						reg0_re_o<=`ReadEnable;
 						reg1_re_o<=`ReadEnable;
 						reg0_addr_o<=rx;
@@ -407,8 +406,8 @@ always @ (*) begin
 						aluop_o<=`EXE_OP_CMP;
 						we_o<=`WriteEnable;
 						waddr_o<=`T_Addr;
-						reg0_o<=reg0_data_i;
-						reg1_o<=reg1_data_i;
+						reg0_o<=id_get_reg0;
+						reg1_o<=id_get_reg1;
 						reg0_re_o<=`ReadEnable;
 						reg1_re_o<=`ReadEnable;
 						reg0_addr_o<=rx;
@@ -420,7 +419,7 @@ always @ (*) begin
 						aluop_o<=`EXE_OP_NEG;
 						we_o<=`WriteEnable;
 						waddr_o<=rx;
-						reg0_o<=reg0_data_i;
+						reg0_o<=id_get_reg0;
 						reg0_re_o<=`ReadEnable;
 						reg0_addr_o<=ry;
 					end
@@ -430,8 +429,8 @@ always @ (*) begin
 						aluop_o<=`EXE_OP_AND;
 						we_o<=`WriteEnable;
 						waddr_o<=rx;
-						reg0_o<=reg0_data_i;
-						reg1_o<=reg1_data_i;
+						reg0_o<=id_get_reg0;
+						reg1_o<=id_get_reg1;
 						reg0_re_o<=`ReadEnable;
 						reg1_re_o<=`ReadEnable;
 						reg0_addr_o<=rx;
@@ -443,8 +442,8 @@ always @ (*) begin
 						aluop_o<=`EXE_OP_OR;
 						we_o<=`WriteEnable;
 						waddr_o<=rx;	
-						reg0_o<=reg0_data_i;
-						reg1_o<=reg1_data_i;
+						reg0_o<=id_get_reg0;
+						reg1_o<=id_get_reg1;
 						reg0_re_o<=`ReadEnable;
 						reg1_re_o<=`ReadEnable;
 						reg0_addr_o<=rx;
@@ -466,7 +465,7 @@ always @ (*) begin
 						aluop_o<=`EXE_OP_MFIH;
 						we_o<=`WriteEnable;
 						waddr_o<=rx;
-						reg0_o<=reg0_data_i;
+						reg0_o<=id_get_reg0;
 						reg0_re_o<=`ReadEnable;
 						reg0_addr_o<=`IH_Addr;	
 					end
@@ -476,7 +475,7 @@ always @ (*) begin
 						aluop_o<=`EXE_OP_MTIH;
 						we_o<=`WriteEnable;
 						waddr_o<=`IH_Addr;
-						reg0_o<=reg0_data_i;
+						reg0_o<=id_get_reg0;
 						reg0_re_o<=`ReadEnable;
 						reg0_addr_o<=rx;	
 					end
@@ -491,38 +490,87 @@ always @ (*) begin
 					reg0_re_o <= `ReadEnable ;
 					reg0_addr_o <= `SP_Addr ;
 					stall_req_int <= `StallYes ;
-					int_state <= 1 ;
 				end
-				else begin //存入pc到sp+1
-					alusel_o <= `EXE_SEL_LW ;
-					aluop_o <= 	`EXE_OP_SW_SP ;	
+				 else begin //存入pc到sp+1
+					alusel_o <=`EXE_SEL_LW ;
+					aluop_o <= `EXE_OP_SW_SP ;	
 					reg0_o <= id_get_reg0 + 1 ;
 					reg1_o <= pc_i ;
 					reg0_re_o <= `ReadEnable ;
 					reg0_addr_o <= `SP_Addr ;	
 					stall_req_int <= `StallNo ;
-					int_state <= 0 ; 
+					branch_flag_o <= `BranchFlagUp ;
+					branch_addr_o <= `IntInstAddr ; 
+				end 
 			end
-
 		endcase
 		//$display("aluop is %b",aluop_o);
 		//$display("alusel is %b",alusel_o);
 	end
 end
 
-always @ (*) begin
+/* always @ (*) begin
 	if (rst ==`RstEnable) begin
 		id_get_reg0<=`ZeroData;
+		id_get_reg1 <= `ZeroData ;
+		stall_req <= `StallNo ;
 	end else if (reg0_re_o==`ReadEnable && ex_we_i == `WriteEnable && reg0_addr_o == ex_waddr_i) begin
-		id_get_reg0<=ex_wdata_i;
+		if(ex_mem_rw == `MemRW_Read) begin
+			id_get_reg0 <= ZeroData ;
+			stall_req <= `StallYes ;
+		end else begin
+			id_get_reg0<=ex_wdata_i;
+			stall_req <= `StallNo ;
+		end
 	end else if (reg0_re_o==`ReadEnable && mem_we_i == `WriteEnable && reg0_addr_o == mem_waddr_i) begin
 		id_get_reg0<=mem_wdata_i;
+		stall_req <= `StallNo ;
 	end else begin
 		id_get_reg0<=reg0_data_i;
+		stall_req <= `StallNo ;
+	end
+end */
+
+
+always @(*) begin
+	if(rst == `RstEnable) begin
+		id_get_reg0 <= `ZeroData ;
+		id_get_reg1 <= `ZeroData ;
+		stall_req <= `StallNo ;
+	end
+	else begin
+		stall_req <= `StallNo ;
+		if(reg0_re_o==`ReadEnable && ex_we_i == `WriteEnable && reg0_addr_o == ex_waddr_i) begin
+			if(ex_mem_rw == `MemRW_Read) begin
+				id_get_reg0 <= `ZeroData ;
+				stall_req <= `StallYes ;
+			end else begin
+				id_get_reg0 <= ex_wdata_i ;
+			end
+		end
+		else if(reg0_re_o==`ReadEnable && mem_we_i == `WriteEnable && reg0_addr_o == mem_waddr_i) begin
+			id_get_reg0 <= mem_wdata_i ;
+		end else begin
+			id_get_reg0 <= reg0_data_i ;
+		end
+		
+		if(reg1_re_o==`ReadEnable && ex_we_i == `WriteEnable && reg1_addr_o == ex_waddr_i) begin
+			if(ex_mem_rw == `MemRW_Read) begin
+				id_get_reg1 <= `ZeroData ;
+				stall_req <= `StallYes ;
+			end else begin
+				id_get_reg1 <= ex_wdata_i ;
+			end
+		end
+		else if(reg1_re_o==`ReadEnable && mem_we_i == `WriteEnable && reg1_addr_o == mem_waddr_i) begin
+			id_get_reg1 <= mem_wdata_i ;
+		end else begin
+			id_get_reg1 <= reg1_data_i ;
+		end
 	end
 end
 
-always @ (*) begin
+/* always @ (*) begin
 	if (rst ==`RstEnable) begin
 		id_get_reg1<=`ZeroData;
 	end else if (reg1_re_o==`ReadEnable && ex_we_i == `WriteEnable && reg1_addr_o == ex_waddr_i) begin
@@ -532,30 +580,7 @@ always @ (*) begin
 	end else begin
 		id_get_reg1<=reg1_data_i;
 	end
-end
+end */
 
-always @ (*) begin
-	if (rst ==`RstEnable) begin
-		reg0_data_o<=`ZeroWord;
-	end else if (reg0_re_o==`ReadEnable && ex_we_i == `WriteEnable && reg0_addr_o == ex_waddr_i) begin
-		reg0_data_o<=ex_wdata_i;
-	end else if (reg0_re_o==`ReadEnable && mem_we_i == `WriteEnable && reg0_addr_o == mem_waddr_i) begin
-		reg0_data_o<=mem_wdata_i;
-	end else begin
-		reg0_data_o<=reg0_o;
-	end
-end
-
-always @ (*) begin
-	if (rst ==`RstEnable) begin
-		reg1_data_o<=`ZeroWord;
-	end else if (reg1_re_o==`ReadEnable && ex_we_i == `WriteEnable && reg1_addr_o == ex_waddr_i) begin
-		reg1_data_o<=ex_wdata_i;
-	end else if (reg1_re_o==`ReadEnable && mem_we_i == `WriteEnable && reg1_addr_o == mem_waddr_i) begin
-		reg1_data_o<=mem_wdata_i;
-	end else begin
-		reg1_data_o<=reg1_o;
-	end
-end
 
 endmodule

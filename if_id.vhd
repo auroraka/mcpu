@@ -15,6 +15,7 @@ entity if_id is
 		if_inst: in InstBus ;
 		
 		id_pc: out InstAddrBus ;
+		int_state : out STD_LOGIC ;
 		id_inst: out InstBus 
 	) ;
 end if_id ;
@@ -30,18 +31,26 @@ begin
 			tmp_inst := ZeroInst ;
 			id_pc <= tmp_pc ;
 			id_inst <= tmp_inst ;
+			int_state <= '0' ;
 		elsif(clk'event and clk = '1') then
-			if(stall_id = StallYes) then -- load add confilct, or int
+			if(stall_ex = StallYes) then --int_state
+				id_pc <= tmp_pc ;
+				id_inst <= tmp_inst ;
+				int_state <= '1' ;
+			elsif(stall_id = StallYes) then -- load add confilct
 				id_pc <= tmp_pc ;
 				id_inst <= tmp_inst ; -- hold the origial inst ;
+				int_state <= '0' ;
 			elsif(stall_pc = StallYes) then -- pc mem confilct
 				id_pc <= if_pc ;
 				id_inst <= NopInst ; -- insert a nop ;
+				int_state <= '0' ;
 			else -- narmal flow
 				tmp_pc := if_pc ;
 				tmp_inst := if_inst ;
 				id_pc <= tmp_pc ;
 				id_inst <= tmp_inst ;
+				int_state <= '0' ;
 			end if ;
 		end if ;
 	end process ;

@@ -43,7 +43,7 @@ begin
 				ex_alusel <= id_alusel ;
 				ex_aluop <= id_aluop ;
 				ex_reg0 <= id_reg0 ;
-				ex_reg1 <= if_reg1 ;
+				ex_reg1 <= id_reg1 ;
 				ex_waddr <= id_waddr ;
 				ex_we <= id_we ;
 			elsif(stall_id = StallYes) then -- load add conflict, insert a nop in exe

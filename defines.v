@@ -35,6 +35,7 @@
 `define InstBus `WordBus
 `define ZeroInst `ZeroWord
 `define ZeroInstAddr `ZeroWord
+`define IntInstAddr 16'b0000000000000101
 `define NopInst 16'b0000100000000000
 
 //regs 
