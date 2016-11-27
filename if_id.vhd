@@ -31,7 +31,7 @@ begin
 			id_pc <= tmp_pc ;
 			id_inst <= tmp_inst ;
 		elsif(clk'event and clk = '1') then
-			if(stall_id = StallYes) then -- load add confilct
+			if(stall_id = StallYes) then -- load add confilct, or int
 				id_pc <= tmp_pc ;
 				id_inst <= tmp_inst ; -- hold the origial inst ;
 			elsif(stall_pc = StallYes) then -- pc mem confilct

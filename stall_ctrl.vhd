@@ -7,6 +7,7 @@ entity stall_ctrl is
 		rst : in STD_LOGIC ;
 		stallreq_id: in STD_LOGIC ;
 		stallreq_mem: in STD_LOGIC ;
+		stallreq_int : in STD_LOGIC ;
 		stallreq_cpu: in STD_LOGIC;
 		
 		stall_pc: out STD_LOGIC ;
@@ -19,7 +20,7 @@ end stall_ctrl ;
 architecture Behavioral of stall_ctrl is
 
 begin
-	process(rst, stallreq_id, stallreq_mem)
+	process(rst, stallreq_id, stallreq_mem, stallreq_int)
 	variable tmp_pc : STD_LOGIC := StallNo ;
 	variable tmp_id : STD_LOGIC := StallNo ;
 	variable tmp_ex : STD_LOGIC := StallNo ;
@@ -30,7 +31,11 @@ begin
 		tmp_ex := StallNo ;
 		--tmp_mem := StallNo ;
 		if(rst = RstDisable) then
-			if(stallreq_id = StallYes) then
+			if(stallreq_int = StallYes) then
+				tmp_ex := StallYes ;
+				tmp_id := StallYes ;
+				tmp_pc := StallYes ;
+			elsif(stallreq_id = StallYes) then
 				tmp_pc := StallYes ;
 				tmp_id := StallYes ;
 			elsif (stallreq_mem = StallYes) then

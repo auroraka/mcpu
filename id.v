@@ -34,6 +34,7 @@ module id(
 	output reg[`RegAddrBus] waddr_o,	
 
 	output reg stall_req,
+	output reg stall_req_int,
 	output reg branch_flag_o,
 	output reg[`InstAddrBus] branch_addr_o
 );
@@ -67,10 +68,16 @@ wire[15:0] imms=op3[4]? {11'b11111111111, op3}:{11'b0 , op3};
 
 //inst[10:0] -> b imm
 wire[15:0] immb = inst_i[10]? {5'b11111, inst_i[10:0]}:{5'b0 , inst_i[10:0]};
+
+wire[15:0] immint = {12'b0, inst_i[3:0]} ; //中断号
+
 reg [15:0]id_get_reg0;
 reg [15:0]id_get_reg1;
+reg int_state ; //int 处理状态机
+
 wire reg0_eq_zero = (id_get_reg0 == 16'b0);
 wire reg1_eq_zero = (id_get_reg1 == 16'b0);
+ 
 
 always @ (*) begin
 	if (rst == `RstEnable) begin
@@ -87,8 +94,11 @@ always @ (*) begin
 		reg1_addr_o<=`ZeroRegAddr;
 		
 		stall_req<=`StallNo;
+		stall_req_int <= `StallNo ;
 		branch_flag_o<=`BranchFlagDown;
 		branch_addr_o<=`ZeroInstAddr;
+		
+		int_state <= 0 ;
 
 	end else begin
 		//$display("op is %b",op);
@@ -103,8 +113,9 @@ always @ (*) begin
 		reg1_re_o<=`ReadDisable;
 		reg0_addr_o<=`ZeroRegAddr;
 		reg1_addr_o<=`ZeroRegAddr;
-		
 		stall_req<=`StallNo;
+		stall_req_int <= `StallNo ;
+		stall_r
 		branch_flag_o<=`BranchFlagDown;
 		branch_addr_o<=`ZeroInstAddr;
 		case (op)
@@ -472,7 +483,25 @@ always @ (*) begin
 				endcase	
 			end	
 			`OP_INT:begin
-				//not finished
+				if(int_state == 0) begin //存入中断号到sp, 相当于一个sw_sp指令
+					alusel_o <= `EXE_SEL_LW ;
+					aluop_o <= `EXE_OP_SW_SP ;
+					reg0_o <= id_get_reg0 ;
+					reg1_o <= immint ;
+					reg0_re_o <= `ReadEnable ;
+					reg0_addr_o <= `SP_Addr ;
+					stall_req_int <= `StallYes ;
+					int_state <= 1 ;
+				end
+				else begin //存入pc到sp+1
+					alusel_o <= `EXE_SEL_LW ;
+					aluop_o <= 	`EXE_OP_SW_SP ;	
+					reg0_o <= id_get_reg0 + 1 ;
+					reg1_o <= pc_i ;
+					reg0_re_o <= `ReadEnable ;
+					reg0_addr_o <= `SP_Addr ;	
+					stall_req_int <= `StallNo ;
+					int_state <= 0 ; 
 			end
 
 		endcase

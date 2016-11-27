@@ -39,7 +39,14 @@ begin
 			ex_waddr <= ZeroRegAddr ;
 			ex_we <= WriteDisable ;
 		elsif(clk'event and clk = '1') then
-			if(stall_id = StallYes) then -- load add conflict, insert a nop in exe
+			if(stall_ex = StallYes) then -- int stall, ex run
+				ex_alusel <= id_alusel ;
+				ex_aluop <= id_aluop ;
+				ex_reg0 <= id_reg0 ;
+				ex_reg1 <= if_reg1 ;
+				ex_waddr <= id_waddr ;
+				ex_we <= id_we ;
+			elsif(stall_id = StallYes) then -- load add conflict, insert a nop in exe
 				ex_alusel <= EXE_SEL_SPECIAL ;
 				ex_aluop <= EXE_OP_NOP ;
 				ex_reg0 <= ZeroData ;
