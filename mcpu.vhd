@@ -45,11 +45,13 @@ signal branch_addr_o : InstAddrBus := ZeroInstAddr ;
 signal pc : InstAddrBus := ZeroInstAddr ;
 signal pc_inst : InstAddrBus := ZeroInstAddr ;
 signal pc_data : InstBus := NopInst;
+signal int_state : STD_LOGIC := '0' ;
 signal stall_pc : STD_LOGIC := StallNo ;
 signal stall_id : STD_LOGIC := StallNo;
 signal stall_ex : STD_LOGIC := StallNo ;
 signal stallreq_id_o : STD_LOGIC := StallNo;
 signal stallreq_mem_o: STD_LOGIC := StallNo;
+signal stallreq_int_o : STD_LOGIC := StallNo ;
 signal pc_id_i : InstAddrBus := ZeroInstAddr;
 signal inst_id_i: InstBus := NopInst;
 signal reg0_data_id_i : DataBus := ZeroData;
@@ -125,6 +127,8 @@ component id is
 		mem_we_i : in STD_LOGIC ;
 		mem_waddr_i : in RegAddrBus ;
 		mem_wdata_i : in DataBus ;
+		int_state : in STD_LOGIC ;
+		ex_mem_rw : in MemRWBus ;
 		
 		alusel_o: out AluSelBus ;
 		aluop_o: out AluOpBus ;
@@ -137,6 +141,7 @@ component id is
 		we_o : out STD_LOGIC ;
 		waddr_o: out RegAddrBus ;
 		stall_req: out STD_LOGIC ;
+		stall_req_int : out STD_LOGIC ;
 		branch_flag_o: out STD_LOGIC ;
 		branch_addr_o: out InstAddrBus 
 	) ;
@@ -236,7 +241,7 @@ begin
 	begin
 		if(clk_50_in'event and clk_50_in = '1') then
 			count := count + 1 ;
-			if(count > 3) then -- 12.5Mhz
+			if(count > 3) then -- 50/6 10M
 				count := 0 ;
 				clk_50_4 <= not clk_50_4 ;
 			end if ;
@@ -248,7 +253,7 @@ begin
 	begin
 		if(clk_50_in'event and clk_50_in = '1') then
 			count := count + 1 ;
-			if(count > 2) then -- 17.5Mhz
+			if(count > 2) then -- 12.5Mhz
 				count := 0 ;
 				clk_50_3 <= not clk_50_3 ;
 			end if ;
@@ -388,6 +393,7 @@ begin
 		if_pc => pc ,
 		if_inst =>  pc_data ,
 		id_pc => pc_id_i, 
+		int_state => int_state ,
 		id_inst => inst_id_i
 	) ;
 	
@@ -403,6 +409,8 @@ begin
 		mem_waddr_i => waddr_mem_o,
 		mem_we_i => we_mem_o,
 		mem_wdata_i => wdata_mem_o,
+		int_state => int_state ,
+		ex_mem_rw => memrw_ex_o ,
 		
 		alusel_o => alusel_id_o,
 		aluop_o => aluop_id_o,
@@ -415,6 +423,7 @@ begin
 		we_o => we_id_o,
 		waddr_o => waddr_id_o,
 		stall_req => stallreq_id_o,
+		stall_req_int => stallreq_int_o ,
 		branch_flag_o => branch_flag_o, 
 		branch_addr_o => branch_addr_o
 	) ;
@@ -537,6 +546,7 @@ begin
 	stall_ctrl0: entity work.stall_ctrl port map(
 		rst => rst ,
 		stallreq_id => stallreq_id_o, 
+		stallreq_int => stallreq_int_o ,
 		stallreq_mem => stallreq_mem_o,
 		--stallreq_cpu => StallNo,
 		stallreq_cpu => stall,

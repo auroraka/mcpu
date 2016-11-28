@@ -79,6 +79,9 @@ reg [15:0]id_get_reg1;
 
 wire reg0_eq_zero = (id_get_reg0 == 16'b0);
 wire reg1_eq_zero = (id_get_reg1 == 16'b0);
+
+reg reg0_stall_req ;
+reg reg1_stall_req ;
  
 
 always @ (*) begin
@@ -509,30 +512,7 @@ always @ (*) begin
 	end
 end
 
-/* always @ (*) begin
-	if (rst ==`RstEnable) begin
-		id_get_reg0<=`ZeroData;
-		id_get_reg1 <= `ZeroData ;
-		stall_req <= `StallNo ;
-	end else if (reg0_re_o==`ReadEnable && ex_we_i == `WriteEnable && reg0_addr_o == ex_waddr_i) begin
-		if(ex_mem_rw == `MemRW_Read) begin
-			id_get_reg0 <= ZeroData ;
-			stall_req <= `StallYes ;
-		end else begin
-			id_get_reg0<=ex_wdata_i;
-			stall_req <= `StallNo ;
-		end
-	end else if (reg0_re_o==`ReadEnable && mem_we_i == `WriteEnable && reg0_addr_o == mem_waddr_i) begin
-		id_get_reg0<=mem_wdata_i;
-		stall_req <= `StallNo ;
-	end else begin
-		id_get_reg0<=reg0_data_i;
-		stall_req <= `StallNo ;
-	end
-end */
-
-
-always @(*) begin
+/* always @(*) begin
 	if(rst == `RstEnable) begin
 		id_get_reg0 <= `ZeroData ;
 		id_get_reg1 <= `ZeroData ;
@@ -568,19 +548,56 @@ always @(*) begin
 			id_get_reg1 <= reg1_data_i ;
 		end
 	end
-end
-
-/* always @ (*) begin
-	if (rst ==`RstEnable) begin
-		id_get_reg1<=`ZeroData;
-	end else if (reg1_re_o==`ReadEnable && ex_we_i == `WriteEnable && reg1_addr_o == ex_waddr_i) begin
-		id_get_reg1<=ex_wdata_i;
-	end else if (reg1_re_o==`ReadEnable && mem_we_i == `WriteEnable && reg1_addr_o == mem_waddr_i) begin
-		id_get_reg1<=mem_wdata_i;
-	end else begin
-		id_get_reg1<=reg1_data_i;
-	end
 end */
 
+always @(rst, reg0_re_o, reg0_addr_o, ex_mem_rw, ex_we_i, ex_waddr_i,ex_wdata_i, reg0_data_i, mem_waddr_i, mem_wdata_i, mem_we_i) begin
+	if(rst == `RstEnable) begin
+		id_get_reg0 <= `ZeroData ;
+		reg0_stall_req <= `StallNo ;
+	end
+	else begin
+		reg0_stall_req <= `StallNo ;
+		if(reg0_re_o==`ReadEnable && ex_we_i == `WriteEnable && reg0_addr_o == ex_waddr_i) begin
+			if(ex_mem_rw == `MemRW_Read) begin
+				id_get_reg0 <= `ZeroData ;
+				reg0_stall_req <= `StallYes ;
+			end else begin
+				id_get_reg0 <= ex_wdata_i ;
+			end
+		end
+		else if(reg0_re_o==`ReadEnable && mem_we_i == `WriteEnable && reg0_addr_o == mem_waddr_i) begin
+			id_get_reg0 <= mem_wdata_i ;
+		end else begin
+			id_get_reg0 <= reg0_data_i ;
+		end
+	end
+end
+
+always @(rst, reg1_re_o, reg1_addr_o, ex_mem_rw, ex_we_i, ex_waddr_i,ex_wdata_i, reg1_data_i, mem_waddr_i, mem_wdata_i, mem_we_i) begin
+	if(rst == `RstEnable) begin
+		id_get_reg1 <= `ZeroData ;
+		reg1_stall_req <= `StallNo ;
+	end
+	else begin
+		reg1_stall_req <= `StallNo ;
+		if(reg1_re_o==`ReadEnable && ex_we_i == `WriteEnable && reg1_addr_o == ex_waddr_i) begin
+			if(ex_mem_rw == `MemRW_Read) begin
+				id_get_reg1 <= `ZeroData ;
+				reg1_stall_req <= `StallYes ;
+			end else begin
+				id_get_reg1 <= ex_wdata_i ;
+			end
+		end
+		else if(reg1_re_o==`ReadEnable && mem_we_i == `WriteEnable && reg1_addr_o == mem_waddr_i) begin
+			id_get_reg1 <= mem_wdata_i ;
+		end else begin
+			id_get_reg1 <= reg1_data_i ;
+		end
+	end
+end
+
+always @(reg0_stall_req, reg1_stall_req) begin
+	stall_req <= reg0_stall_req & reg1_stall_req ;
+end
 
 endmodule
