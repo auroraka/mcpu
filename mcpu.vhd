@@ -132,8 +132,8 @@ component id is
 		
 		alusel_o: out AluSelBus ;
 		aluop_o: out AluOpBus ;
-		reg0_data_o : out DataBus ;
-		reg1_data_o : out DataBus ;
+		reg0_o : out DataBus ;
+		reg1_o : out DataBus ;
 		reg0_re_o: out STD_LOGIC ;
 		reg1_re_o: out STD_LOGIC ;
 		reg0_addr_o: out RegAddrBus ;
@@ -414,8 +414,8 @@ begin
 		
 		alusel_o => alusel_id_o,
 		aluop_o => aluop_id_o,
-		reg0_data_o => reg0_data_id_o,
-		reg1_data_o => reg1_data_id_o,
+		reg0_o => reg0_data_id_o,
+		reg1_o => reg1_data_id_o,
 		reg0_re_o => reg0_re_id_o,
 		reg1_re_o => reg1_re_id_o,
 		reg0_addr_o => reg0_addr_id_o,
