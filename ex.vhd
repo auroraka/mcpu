@@ -37,13 +37,13 @@ begin
 	variable rw : MemRWBus := MemRW_Idle ;
 	variable memaddr : DataAddrBus := ZeroDataAddr ;
 	variable memdata : DataBus := ZeroData ;
-	variable stall : STD_LOGIC := StallNo ;
+	--variable stall : STD_LOGIC := StallNo ;
 	begin
 		ans := ZeroData ;
 		rw := MemRW_Idle ;
 		memaddr := ZeroDataAddr ;
 		memdata := ZeroData ;
-		stall := StallNo ;
+		--stall := StallNo ;
 		if(rst = RstDisable) then
 			case alusel_i is 
 				when EXE_SEL_ARITH =>
@@ -144,6 +144,21 @@ begin
 							rw := MemRW_Write ;
 						when EXE_OP_SW_SP => 
 							memaddr := reg0_i ;
+							memdata := reg1_i ;
+							rw := MemRW_Write ;
+						when others =>
+							null ;
+					end case ;
+				when EXE_SEL_SPECIAL => 
+					case aluop_i is 
+						when EXE_OP_INT1 => 
+							ans := reg0_i + FFFFData ;
+							memaddr := ans ;
+							memdata := reg1_i ;
+							rw := MemRW_Write ;
+						when EXE_OP_INT2 => 
+							ans := reg0_i + FFFFData ;
+							memaddr := ans ;
 							memdata := reg1_i ;
 							rw := MemRW_Write ;
 						when others =>

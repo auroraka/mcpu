@@ -39,6 +39,7 @@ constant HighImpWord : Word := "ZZZZZZZZZZZZZZZZ" ;
 subtype DataAddrBus is STD_lOGIC_VECTOR (15 downto 0) ;
 subtype DataBus is STD_lOGIC_VECTOR(15 downto 0) ;
 constant ZeroData : DataBus := "0000000000000000" ;
+constant FFFFData : DataBus := "1111111111111111" ;
 constant ZeroDataAddr : DataAddrBus := "0000000000000000" ;
 constant PORT1_ADDR_DATA : DataAddrBus := "1011111100000000"  ;
 constant PORT1_ADDR_EN : DataAddrBus := "1011111100000001" ;
@@ -51,6 +52,7 @@ subtype InstBus is STD_lOGIC_VECTOR (15 downto 0) ;
 constant ZeroInst : Word := "0000000000000000" ;
 constant NopInst: Word := "0000100000000000" ;
 constant IntInstAddr : DataAddrBus := "0000000000000101" ;
+--constant IntInstAddr : DataAddrBus := "0000000000001010" ;
 constant ZeroInstAddr : Word := "0000000000000000" ;
 
 --regs 
@@ -97,7 +99,8 @@ subtype AluSelBus is STD_lOGIC_VECTOR(2 downto 0) ;
 --subtype AluOpBus is STD_lOGIC_VECTOR(2 downto 0) ;
 --special
 constant EXE_OP_NOP	: AluOpBus := "000" ;
-constant EXE_OP_INT	: AluOpBus := "001" ;
+constant EXE_OP_INT1	: AluOpBus := "001" ;
+constant EXE_OP_INT2 : AluOpBus := "010" ;
 
 --reg
 constant EXE_OP_LI	: AluOpBus := "000" ;

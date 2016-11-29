@@ -485,25 +485,28 @@ always @ (*) begin
 				endcase	
 			end	
 			`OP_INT:begin
-				if(int_state == 0) begin //存入中断号到sp, 相当于一个sw_sp指令
-					alusel_o <= `EXE_SEL_LW ;
-					aluop_o <= `EXE_OP_SW_SP ;
-					reg0_o <= id_get_reg0 ;
-					reg1_o <= immint ;
-					reg0_re_o <= `ReadEnable ;
+				if(int_state == 0) begin //ADDSP FF, SW_SP PC 0
+					alusel_o <= `EXE_SEL_SPECIAL ;
+					aluop_o <= `EXE_OP_INT1 ;
 					reg0_addr_o <= `SP_Addr ;
+					reg0_re_o <= `ReadEnable ;
+					reg0_o <= id_get_reg0 ;
+					we_o <= `WriteEnable ;
+					waddr_o <= `SP_Addr ;
+					reg1_o <= pc_i ;
 					stall_req_int <= `StallYes ;
 				end
-				 else begin //存入pc到sp+1
-					alusel_o <=`EXE_SEL_LW ;
-					aluop_o <= `EXE_OP_SW_SP ;	
-					reg0_o <= id_get_reg0 + 1 ;
-					reg1_o <= pc_i ;
+				 else begin //ADDSP FF, SW_SP immint 0
+					alusel_o <= `EXE_SEL_SPECIAL ;
+					aluop_o <= `EXE_OP_INT2 ;
+					reg0_addr_o <= `SP_Addr ;
 					reg0_re_o <= `ReadEnable ;
-					reg0_addr_o <= `SP_Addr ;	
-					stall_req_int <= `StallNo ;
+					reg0_o <= id_get_reg0 ;
+					we_o <= `WriteEnable ;
+					waddr_o <= `SP_Addr ;
+					reg1_o <= immint ;
 					branch_flag_o <= `BranchFlagUp ;
-					branch_addr_o <= `IntInstAddr ; 
+					branch_addr_o <= `IntInstAddr ;
 				end 
 			end
 		endcase
@@ -512,43 +515,6 @@ always @ (*) begin
 	end
 end
 
-/* always @(*) begin
-	if(rst == `RstEnable) begin
-		id_get_reg0 <= `ZeroData ;
-		id_get_reg1 <= `ZeroData ;
-		stall_req <= `StallNo ;
-	end
-	else begin
-		stall_req <= `StallNo ;
-		if(reg0_re_o==`ReadEnable && ex_we_i == `WriteEnable && reg0_addr_o == ex_waddr_i) begin
-			if(ex_mem_rw == `MemRW_Read) begin
-				id_get_reg0 <= `ZeroData ;
-				stall_req <= `StallYes ;
-			end else begin
-				id_get_reg0 <= ex_wdata_i ;
-			end
-		end
-		else if(reg0_re_o==`ReadEnable && mem_we_i == `WriteEnable && reg0_addr_o == mem_waddr_i) begin
-			id_get_reg0 <= mem_wdata_i ;
-		end else begin
-			id_get_reg0 <= reg0_data_i ;
-		end
-		
-		if(reg1_re_o==`ReadEnable && ex_we_i == `WriteEnable && reg1_addr_o == ex_waddr_i) begin
-			if(ex_mem_rw == `MemRW_Read) begin
-				id_get_reg1 <= `ZeroData ;
-				stall_req <= `StallYes ;
-			end else begin
-				id_get_reg1 <= ex_wdata_i ;
-			end
-		end
-		else if(reg1_re_o==`ReadEnable && mem_we_i == `WriteEnable && reg1_addr_o == mem_waddr_i) begin
-			id_get_reg1 <= mem_wdata_i ;
-		end else begin
-			id_get_reg1 <= reg1_data_i ;
-		end
-	end
-end */
 
 always @(rst, reg0_re_o, reg0_addr_o, ex_mem_rw, ex_we_i, ex_waddr_i,ex_wdata_i, reg0_data_i, mem_waddr_i, mem_wdata_i, mem_we_i) begin
 	if(rst == `RstEnable) begin

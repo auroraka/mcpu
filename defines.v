@@ -26,6 +26,7 @@
 `define DataAddrBus `WordBus
 `define DataBus `WordBus
 `define ZeroData `ZeroWord
+`define FFFFData 16'b1111111111111111
 `define ZeroDataAddr `ZeroWord
 
 //inst_mem
@@ -36,6 +37,7 @@
 `define ZeroInst `ZeroWord
 `define ZeroInstAddr `ZeroWord
 `define IntInstAddr 16'b0000000000000101
+//`define IntInstAddr 16'b0000000000001010
 `define NopInst 16'b0000100000000000
 
 //regs 
@@ -87,7 +89,8 @@
 `define AluSelBus 2:0 
 //nop
 `define EXE_OP_NOP		3'b000
-`define EXE_OP_INT		3'b001
+`define EXE_OP_INT1		3'b001
+`define EXE_OP_INT2     3'b010	
 //reg
 `define EXE_OP_LI		3'b000
 `define EXE_OP_MFIH		3'b001
