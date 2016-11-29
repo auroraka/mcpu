@@ -197,44 +197,6 @@ begin
 	tbre_out<=dev_ram1_tbre_i;
 	tsre_out<=dev_ram1_tsre_i;
 	data_ready_out<=dev_ram1_data_ready_i;
-
-	--clk<=clk_in; --By Hand
-
-	-- process(clk_11_in)
-	-- variable count:integer:=0;
-	-- begin
-		-- if (clk_11_in'event and clk_11_in='1') then
-			-- count:=count+1;
-			-- if (count>1105920) then --10hz
-				-- count:=0;
-				-- clk_10<=not clk_10;
-			-- end if;
-		-- end if;
-	-- end process;
-
-	-- process(clk_11_in)
-	-- variable count:integer:=0;
-	-- begin
-		-- if (clk_11_in'event and clk_11_in='1') then
-			-- count:=count+1;
-			-- if (count>110592) then --100hz
-				-- count:=0;
-				-- clk_100<=not clk_100;
-			-- end if;
-		-- end if;
-	-- end process;
-
-	-- process(clk_11_in)
-	-- variable count:integer:=0;
-	-- begin
-		-- if (clk_11_in'event and clk_11_in='1') then
-			-- count:=count+1;
-			-- if (count>11059) then --1000hz
-				-- count:=0;
-				-- clk_1000<=not clk_1000;
-			-- end if;
-		-- end if;
-	-- end process;
 	
 	process(clk_50_in)
 	variable count : integer := 0 ;
@@ -253,7 +215,7 @@ begin
 	begin
 		if(clk_50_in'event and clk_50_in = '1') then
 			count := count + 1 ;
-			if(count > 2) then -- 12.5Mhz
+			if(count > 1) then -- 12.5Mhz
 				count := 0 ;
 				clk_50_3 <= not clk_50_3 ;
 			end if ;
@@ -264,11 +226,7 @@ begin
 	variable count : integer := 0 ;
 	begin
 		if(clk_50_in'event and clk_50_in = '1') then
-			count := count + 1 ;
-			if(count > 1) then -- 25Mhz
-				count := 0 ;
-				clk_50_2 <= not clk_50_2 ;
-			end if ;
+			clk_50_2 <= not clk_50_2 ;
 		end if ;
 	end process ;
 	
@@ -318,12 +276,12 @@ begin
 			when "001" =>
 				--clk<=clk_10;
 				clk <= clk_50_4 ;
-			when "010" =>
+			when "010" => -- 12.5M
 				--clk<=clk_100;
 				clk <= clk_50_3 ;
 			when "011" =>
 				--clk<=clk_1000;
-				clk <= clk_50_2 ;
+				clk <= clk_50_2 ; -- 25M
 			when "100" =>
 				--clk<=clk_10000;
 				clk <= clk_50_in ;
@@ -514,7 +472,7 @@ begin
 	
 	mem0: entity work.mem port map(
 		rst => rst ,
-		--å¯„å­˜ï�	
+		--å¯„å­˜ï�	
 		we_i => we_mem_i,
 		waddr_i => waddr_mem_i,
 		wdata_i => wdata_mem_i,

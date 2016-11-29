@@ -232,7 +232,7 @@ always @ (*) begin
 						alusel_o<=`EXE_SEL_ARITH;
 						aluop_o<=`EXE_OP_ADDSP;
 						we_o<=`WriteEnable;
-						waddr_o<=rx;						
+						waddr_o<=`SP_Addr;						
 						reg0_o<=id_get_reg0;
 						reg1_o<=imml;
 						reg0_re_o<=`ReadEnable;
