@@ -435,12 +435,12 @@ begin
 		pc_addr => pc_inst ,
 		inst => pc_data ,
 		--mem
-		mem_data_i => ram2_data_i,
+		mem_data_i => ram2_data_m,
 		mem_data_o => ram2_data_o,
-		mem_addr => ram2_addr_i,
+		mem_addr => ram2_addr_m,
 		mem_re => ram2_re_i,
-		mem_we => ram2_we_i,
-		mem_ce => ram2_ce_i,
+		mem_we => ram2_we_m,
+		mem_ce => ram2_ce_m,
 
 		--ram2
 		ram_data => dev_ram2_data,
