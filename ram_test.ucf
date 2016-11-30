@@ -88,50 +88,50 @@ NET "dev_ram2_data[2]" LOC = T15;
 NET "dev_ram2_data[1]" LOC = T16;
 NET "dev_ram2_data[0]" LOC = U13;
 
-NET "clk_hand_in" LOC = U9;#by hand
-NET "clk_11_in" LOC = B8; # 11Mhz
+#NET "clk_hand_in" LOC = U9;#by hand
+#NET "clk_11_in" LOC = B8; # 11Mhz
 NET "clk_50_in" LOC = B9; # 50Mhz
-NET "rst" LOC = U10;
+NET "rst_in" LOC = U10;
 
 #LED
-NET "pc_test[15]" LOC = A14;
-NET "pc_test[14]" LOC = E13;
-NET "pc_test[13]" LOC = D13;
-NET "pc_test[12]" LOC = B13;
-NET "pc_test[11]" LOC = A13;
-NET "pc_test[10]" LOC = F12;
-NET "pc_test[9]" LOC = E12;
-NET "pc_test[8]" LOC = A12;
-NET "pc_test[7]" LOC = F11;
-NET "pc_test[6]" LOC = E11;
-NET "pc_test[5]" LOC = D11;
-NET "pc_test[4]" LOC = C11;
-NET "pc_test[3]" LOC = B11;
-NET "pc_test[2]" LOC = A11;
-NET "pc_test[1]" LOC = E10;
-NET "pc_test[0]" LOC = D10;
+#NET "pc_test[15]" LOC = A14;
+#NET "pc_test[14]" LOC = E13;
+#NET "pc_test[13]" LOC = D13;
+#NET "pc_test[12]" LOC = B13;
+#NET "pc_test[11]" LOC = A13;
+#NET "pc_test[10]" LOC = F12;
+#NET "pc_test[9]" LOC = E12;
+#NET "pc_test[8]" LOC = A12;
+#NET "pc_test[7]" LOC = F11;
+#NET "pc_test[6]" LOC = E11;
+#NET "pc_test[5]" LOC = D11;
+#NET "pc_test[4]" LOC = C11;
+#NET "pc_test[3]" LOC = B11;
+#NET "pc_test[2]" LOC = A11;
+#NET "pc_test[1]" LOC = E10;
+#NET "pc_test[0]" LOC = D10;
 
 #debug -> digit left
-NET "clk_out" LOC = A8; #E
-NET "data_ready_out" LOC = C7;#A
-NET "tbre_out" LOC = F8;#G
-NET "tsre_out" LOC = F7;#D
+#NET "clk_out" LOC = A8; #E
+#NET "data_ready_out" LOC = C7;#A
+#NET "tbre_out" LOC = F8;#G
+#NET "tsre_out" LOC = F7;#D
 
 #debug -> digit right
-NET "ram1_data_out[0]" LOC = C9;
-NET "ram1_data_out[1]" LOC = D9;
-NET "ram1_data_out[2]" LOC = E9;
-NET "ram1_data_out[3]" LOC = F9;
-NET "ram1_data_out[4]" LOC = G9;
-NET "ram1_data_out[5]" LOC = A10;
-NET "ram1_data_out[6]" LOC = B10;
+#NET "ram1_data_out[0]" LOC = C9;
+#NET "ram1_data_out[1]" LOC = D9;
+#NET "ram1_data_out[2]" LOC = E9;
+#NET "ram1_data_out[3]" LOC = F9;
+#NET "ram1_data_out[4]" LOC = G9;
+#NET "ram1_data_out[5]" LOC = A10;
+#NET "ram1_data_out[6]" LOC = B10;
 
 #debug -> sw0
-NET "stall" LOC = T7;
-NET "sw_clk[0]" LOC = R7;
-NET "sw_clk[1]" LOC = U8;
-NET "sw_clk[2]" LOC = V4;
-NET "sw_clk[3]" LOC = V3 ;
+#NET "stall" LOC = T7;
+#NET "sw_clk[0]" LOC = R7;
+#NET "sw_clk[1]" LOC = U8;
+#NET "sw_clk[2]" LOC = V4;
+#NET "sw_clk[3]" LOC = V3 ;
 
 NET "flash_byte" LOC = C1;
 NET "flash_vpen" LOC = C2;
@@ -180,4 +180,4 @@ NET "flash_addr[20]" LOC = K6;
 NET "flash_addr[21]" LOC = K5;
 NET "flash_addr[22]" LOC = K4;
 
-NET "booting_out" LOC = E8;
+#NET "booting_out" LOC = E8;
