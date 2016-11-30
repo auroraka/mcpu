@@ -5,12 +5,7 @@ USE WORK.PACK.ALL ;
 entity mcpu is
 	Port(
 		rst_in: in STD_LOGIC ;
-		--clk_hand_in: in STD_LOGIC ;
-		--clk_11_in: in STD_LOGIC ;
 		clk_50_in: in STD_LOGIC ;
-		--sw_clk:in STD_LOGIC; -- debug
-		--stall: in STD_LOGIC ;
-		--pc_test : out InstAddrBus;
 
 		dev_ram1_data_ready_i	:	in STD_LOGIC;
 		dev_ram1_tbre_i			:	in STD_LOGIC;
@@ -40,13 +35,6 @@ entity mcpu is
 		flash_addr : out std_logic_vector(22 downto 1);
 		flash_data : inout std_logic_vector(15 downto 0)
 		
-		--clk_out : out STD_LOGIC;
-		--tbre_out: out STD_LOGIC;
-		--tsre_out: out STD_LOGIC;
-		--data_ready_out: out STD_LOGIC;
-		--booting_out: out STD_LOGIC; --debug
-		--seg0: out STD_LOGIC_VECTOR(6 downto 0) ; --debug
-		--ram1_data_out: out STD_LOGIC_VECTOR(6 downto 0)
 	) ;
 end mcpu ;
 
@@ -118,13 +106,6 @@ signal ram1_we_i: STD_LOGIC := RamWriteDisable;
 signal ram1_re_i: STD_LOGIC := RamReadDisable;
 signal rst : STD_LOGIC := RstEnable ;
 
--- component seg_displayer is
-	-- port(
-		-- isHex : in STD_LOGIC;
-		-- num : in STD_LOGIC_VECTOR(3 downto 0);
-		-- seg : out STD_LOGIC_VECTOR(6 downto 0)
-	-- ) ;
--- end component ;
 
 component id is
 	port(
@@ -193,29 +174,8 @@ component mem_wb is
 end component ;
 
 
-signal clk: STD_LOGIC:='0';
--- signal clk_10: STD_LOGIC:='0';
--- signal clk_100: STD_LOGIC:='0';
--- signal clk_1000 : STD_LOGIC:='0';
--- signal clk_10000: STD_LOGIC:='0';
--- signal clk_100000: STD_LOGIC:='0';
--- signal clk_1000000: STD_LOGIC:='0';
--- signal clk_50_4 : STD_LOGIC := '0' ;
--- signal clk_50_3 : STD_LOGIC := '0' ;
--- signal clk_50_2 : STD_LOGIC := '0' ;
-
--- signal clk_1: std_logic:='0';
--- signal clk_2: std_logic:='0';
--- signal clk_10: std_logic:='0';
--- signal clk_0_01M: STD_LOGIC:='0';
--- signal clk_0_1M: STD_LOGIC:='0';
 signal clk_1M: STD_LOGIC:='0';
--- signal clk_11M: STD_LOGIC:='0';
-signal clk_12_5M : STD_LOGIC := '0' ;
--- signal clk_25M : STD_LOGIC := '0' ;
--- signal clk_50M : STD_LOGIC := '0' ;
-signal flash_clk: STD_LOGIC := '0' ;
---signal org_clk: STD_LOGIC := '0' ;
+signal clk : STD_LOGIC := '0' ; -- 12.5M
 
 --flash
 signal booting : STD_LOGIC;
@@ -229,79 +189,7 @@ signal ram2_addr_m : DataAddrBus;
 signal ram2_data_m : DataBus;
 
 begin
-	--debug
-	-- booting_out<=booting;
-	-- clk_out<=clk;
-	-- tbre_out<=dev_ram1_tbre_i;
-	-- tsre_out<=dev_ram1_tsre_i;
-	-- data_ready_out<=dev_ram1_data_ready_i;
-	
-	flash_clk<=clk_1M;
-	
-	-- 1Hz
-	-- process(clk_50_in)
-	-- variable count:integer:=0;
-	-- begin
-		-- if (rising_edge(clk_50_in)) then
-			-- count:=count+1;
-			-- if (count>25000000) then
-				-- count:=0;
-				-- clk_1<=not clk_1;
-			-- end if;
-		-- end if;
-	-- end process;
 
-	-- 2Hz
-	-- process(clk_50_in)
-	-- variable count:integer:=0;
-	-- begin
-		-- if (rising_edge(clk_50_in)) then
-			-- count:=count+1;
-			-- if (count>12500000) then
-				-- count:=0;
-				-- clk_2<=not clk_2;
-			-- end if;
-		-- end if;
-	-- end process;
-	
-	-- 10Hz
-	-- process(clk_50_in)
-	-- variable count:integer:=0;
-	-- begin
-		-- if (rising_edge(clk_50_in)) then
-			-- count:=count+1;
-			-- if (count>2500000) then
-				-- count:=0;
-				-- clk_10<=not clk_10;
-			-- end if;
-		-- end if;
-	-- end process;
-
-	-- 0.01MHz
-	-- process(clk_50_in)
-	-- variable count:integer:=0;
-	-- begin
-		-- if (rising_edge(clk_50_in)) then
-			-- count:=count+1;
-			-- if (count>2500) then
-				-- count:=0;
-				-- clk_0_01M<=not clk_0_01M;
-			-- end if;
-		-- end if;
-	-- end process;
-
-	-- 0.1MHz
-	-- process(clk_50_in)
-	-- variable count:integer:=0;
-	-- begin
-		-- if (rising_edge(clk_50_in)) then
-			-- count:=count+1;
-			-- if (count>250) then
-				-- count:=0;
-				-- clk_0_1M<=not clk_0_1M;
-			-- end if;
-		-- end if;
-	-- end process;
 
 	-- 1MHz
 	process(clk_50_in)
@@ -316,8 +204,6 @@ begin
 		end if;
 	end process;
 
-	-- 11Mhz
-	-- clk_11M<=clk_11_in;
 
 	--12.5MHz
 	process(clk_50_in)
@@ -327,64 +213,11 @@ begin
 			count:=count+1;
 			if (count>1) then
 				count:=0;
-				clk_12_5M<=not clk_12_5M;
+				clk<=not clk;
 			end if;
 		end if;
 	end process;
-
-	-- 25MHz
-	-- process(clk_50_in)
-	-- variable count:integer:=0;
-	-- begin
-		-- if (rising_edge(clk_50_in)) then
-			-- clk_25M<=not clk_25M;
-		-- end if;
-	-- end process;
-
-	-- 50Mhz
-	-- clk_50M<=clk_50_in;
-
-
-	-- process (sw_clk) 
-	-- begin
-		-- case sw_clk is
-		
-			-- when "0000" =>
-				-- org_clk<=clk_hand_in;
-			-- when "0001" =>
-				-- org_clk <= clk_1;
-			-- when "0010" =>
-				-- org_clk <= clk_2;
-			-- when "0011" =>
-				-- org_clk <= clk_10;
-			-- when "0100" =>
-				-- org_clk <= clk_0_01M;
-			-- when "0101" =>
-				-- org_clk <= clk_0_1M;
-			-- when "0110" =>
-				-- org_clk<=clk_1M;				
-			-- when "0111" =>
-				-- org_clk<=clk_11M;
-			-- when "1000" =>
-				-- org_clk<=clk_12_5M;
-			-- when "1001" =>
-				-- org_clk<=clk_25M;
-			-- when "1010" =>
-				-- org_clk<=clk_50M;
-			-- when others =>
-				-- org_clk<='0';
-		-- end case ;
-	-- end process;
 	
-	-- org_clk<=clk_12_5M;
-	clk <= clk_12_5M ;
-	-- seg_displayer0: seg_displayer port map(
-		-- isHex => '1',
-		-- num => ram1_data_o(3 downto 0),
-		-- seg => ram1_data_out
-	-- ) ;
-	
-	--clk <= org_clk and booting;
 	rst <= rst_in and booting ;
 	
 	ram2_we_m <= ram2_we_i or not booting;
@@ -399,11 +232,6 @@ begin
 		end if;
 	end process;
 
-	-- pc_test(10 downto 0) <= pc_inst(10 downto 0) ;
-	-- pc_test(15 downto 11)<= pc_data(15 downto 11);
-	--pc_test(7 downto 0) <= pc_inst(7 downto 0) ;
-	--pc_test(15 downto 8)<= pc_data(15 downto 8);
-	--pc_test(15 downto 0)<=pc_data;
 
 	pc0:entity work.pc port map(
 		stall=>stall_pc, 
@@ -419,7 +247,7 @@ begin
 	  data_out =>data_out,
 	  addr_out => addr_out,
 	  booting => booting,
-	  clk => flash_clk,
+	  clk => clk_1M,
 	  reset =>rst_in,
 	  
 	  flash_byte =>flash_byte,
@@ -428,7 +256,6 @@ begin
 	  flash_oe =>flash_oe,
 	  flash_we =>flash_we,
 	  flash_rp =>flash_rp,
-	  --flash_sts : in std_logic,
 	  flash_addr =>flash_addr,
 	  flash_data =>flash_data
 	);
@@ -548,7 +375,6 @@ begin
 		memdata_o => memdata_ex_o ,
 		we_o => we_ex_o,
 		waddr_o => waddr_ex_o,
-		--stallreq => stallreq_ex_o,
 		wdata_o => wdata_ex_o
 	) ;
 	
@@ -618,8 +444,6 @@ begin
 		stallreq_id => stallreq_id_o, 
 		stallreq_int => stallreq_int_o ,
 		stallreq_mem => stallreq_mem_o,
-		--stallreq_cpu => StallNo,
-		-- stallreq_cpu => stall,
 		
 		stall_pc => stall_pc,
 		stall_id => stall_id, 
