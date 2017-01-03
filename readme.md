@@ -5,7 +5,7 @@ The awesome CPU made by FPGA
 
  - 王倩 
  - 邵韵秋
- - 杨天龙
+ - 杨天龙([github](https://github.com/auroraka/mcpu))
  
 ### 流水线结构
 PC -> ID -> EX -> MEM -> WB
